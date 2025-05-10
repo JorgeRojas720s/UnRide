@@ -43,4 +43,10 @@ class AuthenticationBloc
         ? AuthenticationState.authenticated(event.user)
         : const AuthenticationState.unauthenticated();
   }
+
+  @override
+  Future<void> close() {
+    _userSubscription.cancel();
+    return super.close();
+  }
 }
