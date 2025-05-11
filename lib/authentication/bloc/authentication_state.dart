@@ -26,5 +26,5 @@ class AuthenticationState extends Equatable {
       ); //! Constructor para el estado no autenticado
 
   @override
-  List<Object?> get props => throw UnimplementedError();
+  List<Object?> get props => [status, user]; // Implementación de props
 }

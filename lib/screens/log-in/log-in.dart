@@ -4,6 +4,12 @@ import '../Widgets/text_unride.dart';
 class LoginNinePage extends StatelessWidget {
   const LoginNinePage({Key? key}) : super(key: key);
 
+  static Route route() {
+    return MaterialPageRoute(
+      builder: (_) => const LoginNinePage(),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
