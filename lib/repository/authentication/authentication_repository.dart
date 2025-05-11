@@ -29,18 +29,29 @@ class AuthenticationRepository {
   }
 
   //!Registro a un usuario con email y password
-  Future<void> signUp({required String email, required String password}) async {
+  //! Quiza deberia de retornar el user
+  Future<User> signUp({required String email, required String password}) async {
     try {
-      await _firebaseAuth.createUserWithEmailAndPassword(
+      final result = await _firebaseAuth.createUserWithEmailAndPassword(
         email: email,
         password: password,
       );
+      print("🫏🫏🫏 $result");
+      final user = result.user;
+      print("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa $user");
+      //!Revisar luego si no me chingue cone esto
+      if (user != null) {
+        return user.toUser;
+      } else {
+        throw Exception("Usuario no autenticado");
+      }
     } on Exception {
       throw SignUpFailure();
     }
   }
 
   //!Iniciar sesion con email y password
+  //! Quiza deberia de retornar el user
   Future<void> logInWithEmailAndPassword({
     required String email,
     required String password,
@@ -58,10 +69,7 @@ class AuthenticationRepository {
   //!Cerrar sesion
   Future<void> logOut() async {
     try {
-      await Future.wait([
-        _firebaseAuth.signOut(),
-        _googleSignIn.signOut(),
-      ]);
+      await Future.wait([_firebaseAuth.signOut(), _googleSignIn.signOut()]);
     } on Exception {
       throw LogOutFailure();
     }

@@ -17,3 +17,18 @@ class AuthenticationUserChanged extends AuthenticationEvent {
 }
 
 class AuthenticationLogoutRequested extends AuthenticationEvent {}
+
+
+class AuthenticationUserRegister extends AuthenticationEvent {
+  final String email;
+  final String password;
+
+  AuthenticationUserRegister({
+    required this.email,
+    required this.password,
+  });
+
+  @override
+  List<Object> get props => [];
+
+}

@@ -13,16 +13,17 @@ class AuthenticationBloc
 
   AuthenticationBloc({
     required AuthenticationRepository authenticationRepository,
-  })  : _authenticationRepository = authenticationRepository,
-        super(const AuthenticationState.unknown()) {
-
+  }) : _authenticationRepository = authenticationRepository,
+       super(const AuthenticationState.unknown()) {
     _userSubscription = _authenticationRepository.user.listen(
-      (user) => add(AuthenticationUserChanged(user)), 
+      (user) => add(AuthenticationUserChanged(user)),
     );
 
-    //!Aqui se maneja el evento de la autenticacion
-    on<AuthenticationUserChanged>((event, emit) async{
-      await Future.delayed(const Duration(seconds: 5));//! Simula un retaro pa ver el spalsh
+    //!Aqui se maneja el evento de cambio de estado del user
+    on<AuthenticationUserChanged>((event, emit) async {
+      await Future.delayed(
+        const Duration(seconds: 5),
+      ); //! Simula un retaro pa ver el spalsh
       emit(_mapAuthenticationUserChangedToState(event));
     });
 
@@ -31,7 +32,22 @@ class AuthenticationBloc
       await _authenticationRepository.logOut();
       emit(const AuthenticationState.unauthenticated());
     });
-  }
+
+    //!Manejar la autentication del usuario que se registre
+    on<AuthenticationUserRegister>((event, emit) async {
+      try {
+        // Registra el usuario
+        final user = await _authenticationRepository.signUp(
+          email: event.email,
+          password: event.password,
+        );
+
+        emit(AuthenticationState.authenticated(user));
+      } catch (e) {
+        emit(const AuthenticationState.unauthenticated());
+      }
+    });
+  } //?Fin del constructor
 
   AuthenticationState _mapAuthenticationUserChangedToState(
     AuthenticationUserChanged event,
