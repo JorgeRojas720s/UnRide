@@ -2,7 +2,6 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:un_ride/repository/repository.dart';
-import 'package:meta/meta.dart';
 
 part 'authentication_state.dart';
 part 'authentication_event.dart';
@@ -16,20 +15,24 @@ class AuthenticationBloc
     required AuthenticationRepository authenticationRepository,
   })  : _authenticationRepository = authenticationRepository,
         super(const AuthenticationState.unknown()) {
+
     _userSubscription = _authenticationRepository.user.listen(
-      (user) => add(AuthenticationUserChanged(user)),
+      (user) => add(AuthenticationUserChanged(user)), 
     );
-    // Usa `on<EventType>` para manejar los eventos
-    on<AuthenticationUserChanged>((event, emit) {
+
+    //!Aqui se maneja el evento de la autenticacion
+    on<AuthenticationUserChanged>((event, emit) async{
+      await Future.delayed(const Duration(seconds: 5));//! Simula un retaro pa ver el spalsh
       emit(_mapAuthenticationUserChangedToState(event));
     });
+
+    //! Aqui se maneja el evento de logout
     on<AuthenticationLogoutRequested>((event, emit) async {
       await _authenticationRepository.logOut();
       emit(const AuthenticationState.unauthenticated());
     });
   }
 
-  // Aquí es donde mapeas el evento a un nuevo estado
   AuthenticationState _mapAuthenticationUserChangedToState(
     AuthenticationUserChanged event,
   ) {

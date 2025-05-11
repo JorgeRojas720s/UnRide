@@ -3,11 +3,11 @@ import 'package:flutter/material.dart';
 class RolePage extends StatelessWidget {
   const RolePage({super.key});
 
-  static Route route() {
-    return MaterialPageRoute(
-      builder: (_) => const RolePage(),
-    );
-  }
+  // static Route route() {
+  //   return MaterialPageRoute(
+  //     builder: (_) => const RolePage(),
+  //   );
+  // }
 
   @override
   Widget build(BuildContext context) {

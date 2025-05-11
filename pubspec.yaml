@@ -41,6 +41,7 @@ dependencies:
   bloc: ^9.0.0
   flutter_bloc: ^9.1.1
   formz: ^0.8.0
+  lottie: ^3.3.1
 
 
 dev_dependencies:
@@ -71,6 +72,7 @@ flutter:
   #   - images/a_dot_ham.jpeg
   assets:
     - assets/
+    - assets/animations/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images

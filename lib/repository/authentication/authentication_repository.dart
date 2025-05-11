@@ -1,9 +1,9 @@
 import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart' as firebase_auth;
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:meta/meta.dart';
 import 'package:un_ride/repository/authentication/models/user.dart';
 
+//!Luego meto todos estos posibles fallos en un archivo de errores
 class SignUpFailure implements Exception {}
 
 class LoginWithEmailAndPasswordFailure implements Exception {}
