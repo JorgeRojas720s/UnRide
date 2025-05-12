@@ -52,20 +52,14 @@ class _AppViewState extends State<AppView> {
         return BlocListener<AuthenticationBloc, AuthenticationState>(
           listener: (context, state) {
             switch (state.status) {
-              // case AuthenticationStatus.authenticated:
-              //   _navigatorKey.currentState?.pushAndRemoveUntil<void> (
-              //     // '/role', //!Ahora coloco estas rutas en lo de rutas, y ver si dejo ese /
-              //     RolePage.route(),
-              //     (route) => false,
-              //   );
-              //   break;
-              //   case AuthenticationStatus.unauthenticated:
-              //   _navigatorKey.curr entState?.pushAndRemoveUntil<void> (
-              //     // '/role', //!Ahora coloco estas rutas en lo de rutas, y ver si dejo ese /
-              //     LoginNinePage.route(),
-              //     (route) => false,
-              //   );
-              //   break;
+
+             case AuthenticationStatus.authenticated:
+                _navigatorKey.currentState?.pushNamedAndRemoveUntil(
+                  '/role',
+                  (route) => false,
+                );
+                break;
+
               case AuthenticationStatus.unauthenticated:
                 _navigatorKey.currentState?.pushNamedAndRemoveUntil(
                   '/logIn',
@@ -85,7 +79,6 @@ class _AppViewState extends State<AppView> {
           child: child,
         );
       },
-      // onGenerateRoute: (_) => SplashPage.route(),
     );
   }
 }
