@@ -7,7 +7,6 @@ import 'package:un_ride/repository/authentication/authentication_repository.dart
 import 'package:un_ride/simple_bloc_observer.dart';
 import 'package:un_ride/app.dart';
 
-
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
