@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart' as firebase_auth;
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:un_ride/repository/authentication/models/user.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 //!Luego meto todos estos posibles fallos en un archivo de errores
 class SignUpFailure implements Exception {}
@@ -30,18 +31,42 @@ class AuthenticationRepository {
 
   //!Registro a un usuario con email y password
   //! Quiza deberia de retornar el user
-  Future<User> signUp({required String email, required String password}) async {
+  Future<User> signUp({
+    required String identification,
+    required String name,
+    required String surname,
+    required String phone,
+    required String email,
+    required String password,
+  }) async {
     try {
       final result = await _firebaseAuth.createUserWithEmailAndPassword(
         email: email,
         password: password,
       );
       print("🫏🫏🫏 $result");
-      final user = result.user;
+      final firebaseUser = result.user;
+
+      if (firebaseUser == null) {
+        throw Exception("Usuario no autenticado");
+      }
       print("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa $user");
+
+      await FirebaseFirestore.instance
+          .collection('users')
+          .doc(firebaseUser.uid)
+          .set({
+            'identification': identification,
+            'name': name,
+            'surname': surname,
+            'email': email,
+            'phoneNumber': phone,
+            'profilePictureUrl': firebaseUser.photoURL ?? '',
+          });
+
       //!Revisar luego si no me chingue cone esto
-      if (user != null) {
-        return user.toUser;
+      if (firebaseUser != null) {
+        return firebaseUser.toUser;
       } else {
         throw Exception("Usuario no autenticado");
       }
@@ -98,8 +123,7 @@ extension on firebase_auth.User {
       id: uid,
       name: displayName ?? '',
       email: email ?? '',
-      // phoneNumber: phoneNumber ?? '',
-      // address: address ?? '',
+      phoneNumber: phoneNumber ?? '',
       profilePictureUrl: photoURL ?? '',
     );
   }

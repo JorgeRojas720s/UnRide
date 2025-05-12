@@ -5,16 +5,14 @@ class User extends Equatable {
   final String? id;
   final String name;
   final String email;
-  // final String phoneNumber;
-  // final String address;
+  final String phoneNumber;
   final String profilePictureUrl;
 
   const User({
     required this.id,
     required this.name,
     required this.email,
-    // required this.phoneNumber,
-    // required this.address,
+    required this.phoneNumber,
     required this.profilePictureUrl,
   }) : assert(id != null);
 
@@ -22,16 +20,13 @@ class User extends Equatable {
     id: '',
     name: '',
     email: '',
-    // phoneNumber: '',
-    // address: '',
+    phoneNumber: '',
     profilePictureUrl: '',
   );
 
-  // @override
-  // List<Object?> get props => [id, name, email, phoneNumber, address, profilePictureUrl];
 
   @override
-  List<Object?> get props => [id, name, email, profilePictureUrl];
+  List<Object?> get props => [id, name, email, phoneNumber, profilePictureUrl];
 
   @override
   bool get stringify => true;

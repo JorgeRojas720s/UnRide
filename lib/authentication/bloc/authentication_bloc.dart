@@ -38,6 +38,10 @@ class AuthenticationBloc
       try {
         // Registra el usuario
         final user = await _authenticationRepository.signUp(
+          identification: event.identification,
+          name: event.name,
+          surname: event.surname,
+          phone: event.phone,
           email: event.email,
           password: event.password,
         );
@@ -47,6 +51,22 @@ class AuthenticationBloc
         emit(const AuthenticationState.unauthenticated());
       }
     });
+
+
+    //   on<UserRegister>((event, emit) async {
+    //   try {
+     
+    //     final user = await _authenticationRepository.signUp(
+    //       identification: event.identification,
+    //       email: event.email,
+    //       password: event.password,
+    //     );
+
+    //     emit(AuthenticationState.authenticated(user));
+    //   } catch (e) {
+    //     emit(const AuthenticationState.unauthenticated());
+    //   }
+    // });
   } //?Fin del constructor
 
   AuthenticationState _mapAuthenticationUserChangedToState(
