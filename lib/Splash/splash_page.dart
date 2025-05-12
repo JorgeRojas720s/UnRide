@@ -4,12 +4,6 @@ import 'package:lottie/lottie.dart';
 class SplashPage extends StatelessWidget {
   const SplashPage({super.key});
 
-  // static Route route() {
-  //   return MaterialPageRoute(
-  //     builder: (_) => const SplashPage(),
-  //   );
-  // }
-
   Widget build(BuildContext context) {
     print("🐕🐕🐕🐕");
 
@@ -17,7 +11,7 @@ class SplashPage extends StatelessWidget {
       body: Center(
         key: const Key('splash_bloc_image'),
         child: Lottie.asset(
-          "assets/animations/AnimationRick.json",
+          "assets/animations/rick.json",
           fit: BoxFit.cover,
           width: 300,
           height: 300,
