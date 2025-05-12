@@ -25,7 +25,7 @@ class App extends StatelessWidget {
             ),
         child: AppView(),
       ),
-    ); 
+    );
   }
 }
 
@@ -47,13 +47,12 @@ class _AppViewState extends State<AppView> {
       theme: theme,
       navigatorKey: _navigatorKey,
       initialRoute: '/splash',
-      routes:routes,
+      routes: routes,
       builder: (context, child) {
         return BlocListener<AuthenticationBloc, AuthenticationState>(
           listener: (context, state) {
             switch (state.status) {
-
-             case AuthenticationStatus.authenticated:
+              case AuthenticationStatus.authenticated:
                 _navigatorKey.currentState?.pushNamedAndRemoveUntil(
                   '/role',
                   (route) => false,
@@ -62,15 +61,15 @@ class _AppViewState extends State<AppView> {
 
               case AuthenticationStatus.unauthenticated:
                 _navigatorKey.currentState?.pushNamedAndRemoveUntil(
-                  '/logIn',
+                  '/signUp',
                   (route) => false,
                 );
                 break;
               case AuthenticationStatus.unknown:
-                _navigatorKey.currentState?.pushNamedAndRemoveUntil(
-                  '/splash',
-                  (route) => false,
-                );
+                //_navigatorKey.currentState?.pushNamedAndRemoveUntil(
+                // '/splash',
+                // (route) => false,
+                //);
                 break;
               default:
                 break;
