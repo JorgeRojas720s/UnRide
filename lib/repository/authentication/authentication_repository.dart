@@ -16,6 +16,7 @@ class LogOutFailure implements Exception {}
 class AuthenticationRepository {
   final firebase_auth.FirebaseAuth _firebaseAuth;
   final GoogleSignIn _googleSignIn;
+  
 
   AuthenticationRepository({
     firebase_auth.FirebaseAuth? firebaseAuth,
@@ -28,6 +29,8 @@ class AuthenticationRepository {
       return firebaseUser == null ? User.empty : firebaseUser.toUser;
     });
   }
+
+  firebase_auth.User? get currentUser => _firebaseAuth.currentUser;
 
   //!Registro a un usuario con email y password
   //! Quiza deberia de retornar el user
@@ -50,9 +53,15 @@ class AuthenticationRepository {
       if (firebaseUser == null) {
         throw Exception("Usuario no autenticado");
       }
-      print("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa $user");
+      print("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa $firebaseUser");
 
-      await FirebaseFirestore.instance
+    print("✅ $identification");
+     print("✅ $name");
+      print("✅ $surname");
+       print("✅ $phone");
+        print("✅ $name");
+
+       await FirebaseFirestore.instance
           .collection('users')
           .doc(firebaseUser.uid)
           .set({
@@ -61,8 +70,9 @@ class AuthenticationRepository {
             'surname': surname,
             'email': email,
             'phoneNumber': phone,
-            'profilePictureUrl': firebaseUser.photoURL ?? '',
+            // 'profilePictureUrl': photoURL ?? '',
           });
+          print("📍📍📍📍 ");
 
       //!Revisar luego si no me chingue cone esto
       if (firebaseUser != null) {
@@ -71,6 +81,7 @@ class AuthenticationRepository {
         throw Exception("Usuario no autenticado");
       }
     } on Exception {
+      print("No sirvio el registro: ❌❌❌❌❌");
       throw SignUpFailure();
     }
   }

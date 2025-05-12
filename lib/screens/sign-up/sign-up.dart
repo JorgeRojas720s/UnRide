@@ -49,6 +49,7 @@ class _SignUpFormState extends State<SignUpForm> {
           identification: _idNumberController.text.trim(),
           name: _firstNameController.text.trim(),
           surname: _lastNameController.text.trim(),
+          phone: _phoneController.text.trim(),
           email: _emailController.text.trim(),
           password: _passwordController.text,
           photoURL: '',

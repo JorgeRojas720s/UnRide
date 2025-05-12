@@ -25,6 +25,27 @@ class AuthenticationBloc
         const Duration(seconds: 5),
       ); //! Simula un retaro pa ver el spalsh
       emit(_mapAuthenticationUserChangedToState(event));
+
+
+      //!Esto me lo dio gepeto para eliminar el user de fireAuth
+      try {
+        final currentUser = _authenticationRepository.currentUser;
+
+        await currentUser?.reload(); // Fuerza la recarga desde Firebase
+
+        final refreshedUser = _authenticationRepository.currentUser;
+
+        if (refreshedUser == null) {
+          // El usuario fue eliminado de FirebaseAuth
+          emit(const AuthenticationState.unauthenticated());
+        } else {
+          await Future.delayed(const Duration(seconds: 5)); // Simula splash
+          emit(_mapAuthenticationUserChangedToState(event));
+        }
+      } catch (_) {
+        emit(const AuthenticationState.unauthenticated());
+      }
+       //!Hasta aqui
     });
 
     //! Aqui se maneja el evento de logout
@@ -36,6 +57,7 @@ class AuthenticationBloc
     //!Manejar la autentication del usuario que se registre
     on<AuthenticationUserRegister>((event, emit) async {
       try {
+        print("😏😏😏😏😏😏😏😏😏😏");
         // Registra el usuario
         final user = await _authenticationRepository.signUp(
           identification: event.identification,
@@ -45,17 +67,16 @@ class AuthenticationBloc
           email: event.email,
           password: event.password,
         );
-
+        print("💐💐💐💐💐");
         emit(AuthenticationState.authenticated(user));
       } catch (e) {
         emit(const AuthenticationState.unauthenticated());
       }
     });
 
-
     //   on<UserRegister>((event, emit) async {
     //   try {
-     
+
     //     final user = await _authenticationRepository.signUp(
     //       identification: event.identification,
     //       email: event.email,

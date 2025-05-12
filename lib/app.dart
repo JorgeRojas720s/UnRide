@@ -61,7 +61,7 @@ class _AppViewState extends State<AppView> {
 
               case AuthenticationStatus.unauthenticated:
                 _navigatorKey.currentState?.pushNamedAndRemoveUntil(
-                  '/signUp',
+                  '/signUp', //!Aquiva login y que desde login se acceda al sign Up
                   (route) => false,
                 );
                 break;
