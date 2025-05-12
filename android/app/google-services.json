@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "66119765221",
+    "project_id": "unride-63b26",
+    "storage_bucket": "unride-63b26.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:66119765221:android:44323b7ce45ff4eb10980c",
+        "android_client_info": {
+          "package_name": "com.example.un_ride"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBn5Tg4SiIehr4wWGnw7-FOdkLAAXOXDB4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
