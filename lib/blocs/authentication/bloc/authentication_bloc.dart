@@ -57,8 +57,6 @@ class AuthenticationBloc
     //!Manejar la autentication del usuario que se registre
     on<AuthenticationUserRegister>((event, emit) async {
       try {
-        print("😏😏😏😏😏😏😏😏😏😏");
-        // Registra el usuario
         final user = await _authenticationRepository.signUp(
           identification: event.identification,
           name: event.name,
@@ -73,16 +71,17 @@ class AuthenticationBloc
           year: event.year,
           color: event.color,
           model: event.model,
-          vehicleType: event.vehicleType
+          vehicleType: event.vehicleType,
         );
-        print("💐💐💐💐💐");
-        emit(AuthenticationState.authenticated(user));
+        if (event.hasVehicle) {
+          emit(AuthenticationState.authenticatedWithVehicle(user));
+        } else {
+          emit(AuthenticationState.authenticated(user));
+        }
       } catch (e) {
         emit(const AuthenticationState.unauthenticated());
       }
     });
-
-
   } //?Fin del constructor
 
   AuthenticationState _mapAuthenticationUserChangedToState(
