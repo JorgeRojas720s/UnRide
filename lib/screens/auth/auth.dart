@@ -589,6 +589,27 @@ class _SignUpFormState extends State<SignUpForm> with TickerProviderStateMixin {
   final _makeController = TextEditingController();
   final _modelController = TextEditingController();
   final _yearController = TextEditingController();
+  String _selectedVehicleType = 'Automobile';
+  String _selectedVehicleColor = 'Black';
+  final List<String> _vehicleTypes = [
+    'Automobile',
+    'Motorcycle',
+    'SUV',
+    'Truck',
+    'Van',
+  ];
+  final List<String> _vehicleColors = [
+    'Black',
+    'White',
+    'Silver',
+    'Gray',
+    'Red',
+    'Blue',
+    'Green',
+    'Yellow',
+    'Orange',
+    'Brown',
+  ];
 
   bool _isLoading = false;
   bool _isPasswordVisible = false;
@@ -674,26 +695,49 @@ class _SignUpFormState extends State<SignUpForm> with TickerProviderStateMixin {
         _isLoading = true;
       });
 
-      String userRole = 'client';
+      bool hasVehicle = false;
       if (_showVehicleRegistration &&
           _licensePlateController.text.isNotEmpty &&
           _makeController.text.isNotEmpty &&
           _modelController.text.isNotEmpty &&
-          _yearController.text.isNotEmpty) {
-        userRole = 'client_driver';
+          _yearController.text.isNotEmpty &&
+          _selectedVehicleType.isNotEmpty &&
+          _selectedVehicleColor.isNotEmpty) {
+        hasVehicle = true;
       }
 
-      context.read<AuthenticationBloc>().add(
-        AuthenticationUserRegister(
-          identification: _idNumberController.text.trim(),
-          name: _firstNameController.text.trim(),
-          surname: _lastNameController.text.trim(),
-          phone: _phoneController.text.trim(),
-          email: _emailController.text.trim(),
-          password: _passwordController.text,
-          profilePictureUrl: '',
-        ),
-      );
+      if (hasVehicle) {
+        context.read<AuthenticationBloc>().add(
+          AuthenticationUserRegister(
+            identification: _idNumberController.text.trim(),
+            name: _firstNameController.text.trim(),
+            surname: _lastNameController.text.trim(),
+            email: _emailController.text.trim(),
+            phone: _phoneController.text.trim(),
+            password: _passwordController.text,
+            profilePictureUrl: '',
+            hasVehicle: hasVehicle,
+            licensePlate: _licensePlateController.text.trim(),
+            make: _makeController.text.trim(),
+            year: _yearController.text.trim(),
+            color: _selectedVehicleColor,
+            model: _modelController.text.trim(),
+            vehicleType: _selectedVehicleType,
+          ),
+        );
+      } else {
+        context.read<AuthenticationBloc>().add(
+          AuthenticationUserRegister(
+            identification: _idNumberController.text.trim(),
+            name: _firstNameController.text.trim(),
+            surname: _lastNameController.text.trim(),
+            phone: _phoneController.text.trim(),
+            email: _emailController.text.trim(),
+            password: _passwordController.text,
+            profilePictureUrl: '',
+          ),
+        );
+      }
     }
   }
 
@@ -1187,6 +1231,116 @@ class _SignUpFormState extends State<SignUpForm> with TickerProviderStateMixin {
                                       Icons.calendar_today_outlined,
                                       color: Colors.white70,
                                     ),
+                                  ),
+                                  const SizedBox(height: 16),
+
+                                  DropdownButtonFormField<String>(
+                                    value: _selectedVehicleColor,
+                                    dropdownColor: Colors.black87,
+                                    style: const TextStyle(color: Colors.white),
+                                    decoration: InputDecoration(
+                                      labelText: 'Vehicle Color',
+                                      labelStyle: TextStyle(
+                                        color: Colors.white.withOpacity(0.7),
+                                      ),
+                                      fillColor: Colors.white.withOpacity(0.05),
+                                      filled: true,
+                                      contentPadding:
+                                          const EdgeInsets.symmetric(
+                                            vertical: 16,
+                                            horizontal: 12,
+                                          ),
+                                      border: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(10),
+                                        borderSide: BorderSide.none,
+                                      ),
+                                      enabledBorder: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(10),
+                                        borderSide: BorderSide.none,
+                                      ),
+                                      focusedBorder: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(10),
+                                        borderSide: BorderSide(
+                                          color: Colors.indigo.shade200,
+                                          width: 1,
+                                        ),
+                                      ),
+                                      prefixIcon: const Icon(
+                                        Icons.color_lens_outlined,
+                                        color: Colors.white70,
+                                      ),
+                                    ),
+                                    items:
+                                        _vehicleColors
+                                            .map<DropdownMenuItem<String>>((
+                                              String value,
+                                            ) {
+                                              return DropdownMenuItem<String>(
+                                                value: value,
+                                                child: Text(value),
+                                              );
+                                            })
+                                            .toList(),
+                                    onChanged: (String? newValue) {
+                                      setState(() {
+                                        _selectedVehicleColor = newValue!;
+                                      });
+                                    },
+                                  ),
+                                  const SizedBox(height: 16),
+
+                                  DropdownButtonFormField<String>(
+                                    value: _selectedVehicleType,
+                                    dropdownColor: Colors.black87,
+                                    style: const TextStyle(color: Colors.white),
+                                    decoration: InputDecoration(
+                                      labelText: 'Vehicle Type',
+                                      labelStyle: TextStyle(
+                                        color: Colors.white.withOpacity(0.7),
+                                      ),
+                                      fillColor: Colors.white.withOpacity(0.05),
+                                      filled: true,
+                                      contentPadding:
+                                          const EdgeInsets.symmetric(
+                                            vertical: 16,
+                                            horizontal: 12,
+                                          ),
+                                      border: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(10),
+                                        borderSide: BorderSide.none,
+                                      ),
+                                      enabledBorder: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(10),
+                                        borderSide: BorderSide.none,
+                                      ),
+                                      focusedBorder: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(10),
+                                        borderSide: BorderSide(
+                                          color: Colors.indigo.shade200,
+                                          width: 1,
+                                        ),
+                                      ),
+                                      prefixIcon: const Icon(
+                                        Icons.directions_car_outlined,
+                                        color: Colors.white70,
+                                      ),
+                                    ),
+                                    items:
+                                        _vehicleTypes
+                                            .map<DropdownMenuItem<String>>((
+                                              String value,
+                                            ) {
+                                              return DropdownMenuItem<String>(
+                                                value: value,
+                                                child: Text(value),
+                                              );
+                                            })
+                                            .toList(),
+                                    onChanged: (String? newValue) {
+                                      setState(() {
+                                        _selectedVehicleType = newValue!;
+                                      });
+                                    },
                                   ),
                                 ],
                               ),
