@@ -24,7 +24,6 @@ class AuthenticationUserRegister extends AuthenticationEvent {
   final String email;
   final String phone;
   final String password;
-  final String photoURL;
   final String profilePictureUrl;
   final bool hasVehicle;
   final String licensePlate;
@@ -41,7 +40,6 @@ class AuthenticationUserRegister extends AuthenticationEvent {
     required this.email,
     required this.phone,
     required this.password,
-    required this.photoURL,
     required this.profilePictureUrl,
     required this.hasVehicle,
     this.licensePlate = "",
