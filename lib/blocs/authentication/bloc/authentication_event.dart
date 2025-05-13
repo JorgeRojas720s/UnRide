@@ -16,50 +16,44 @@ class AuthenticationUserChanged extends AuthenticationEvent {
   List<Object> get props => [user]; //!Aqui esta user, tons 2 eventos con distointos user no serán iguales
 }
 
-class AuthenticationLogoutRequested extends AuthenticationEvent {}
-
 //!Registrar al user normal
 class AuthenticationUserRegister extends AuthenticationEvent {
   final String identification;
   final String name;
   final String surname;
-  final String phone;
   final String email;
+  final String phone;
   final String password;
   final String photoURL;
+  final String profilePictureUrl;
+  final bool hasVehicle;
+  final String licensePlate;
+  final String make;
+  final String model;
+  final String year;
+  final String color;
+  final String vehicleType;
 
   AuthenticationUserRegister({
     required this.identification,
     required this.name,
     required this.surname,
-    required this.phone,
     required this.email,
+    required this.phone,
     required this.password,
     required this.photoURL,
+    required this.profilePictureUrl,
+    required this.hasVehicle,
+    this.licensePlate = "",
+    this.make = "",
+    this.year = "",
+    this.color = "",
+    this.model = "",
+    this.vehicleType = "",
   });
 
   @override
   List<Object> get props => [];
 }
 
-// //!Registrar al user normal
-// class UserRegister extends AuthenticationEvent {
-//   final String identification;
-//   final String name;
-//   final String surname;
-//   final String email;
-//   final String password;
-//   final String photoURL;
-
-//   UserRegister({
-//     required this.identification,
-//     required this.name,
-//     required this.surname,
-//     required this.email,
-//     required this.password,
-//     required this.photoURL,
-//   });
-
-//   @override
-//   List<Object> get props => [];
-// }
+class AuthenticationLogoutRequested extends AuthenticationEvent {}

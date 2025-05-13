@@ -691,7 +691,7 @@ class _SignUpFormState extends State<SignUpForm> with TickerProviderStateMixin {
           phone: _phoneController.text.trim(),
           email: _emailController.text.trim(),
           password: _passwordController.text,
-          photoURL: '',
+          profilePictureUrl: '',
         ),
       );
     }

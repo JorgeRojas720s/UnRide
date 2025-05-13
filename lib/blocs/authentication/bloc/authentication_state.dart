@@ -1,6 +1,6 @@
 part of 'authentication_bloc.dart';
 
-enum AuthenticationStatus { authenticated, unauthenticated, unknown }
+enum AuthenticationStatus { authenticated, authenticatedWithVehicle, unauthenticated, unknown }
 
 class AuthenticationState extends Equatable {
   final AuthenticationStatus status;
@@ -11,8 +11,7 @@ class AuthenticationState extends Equatable {
     this.user = User.empty,
   });
 
-  //!Segun el estado de la autenticacion, se le asigna un valor al constructor
-  const AuthenticationState.unknown() : this(); //! esto Constructor por defecto
+  const AuthenticationState.unknown() : this(); 
 
   const AuthenticationState.authenticated(User user)
     : this(
@@ -24,6 +23,12 @@ class AuthenticationState extends Equatable {
     : this(
         status: AuthenticationStatus.unauthenticated,
       ); 
+
+  const AuthenticationState.authenticatedWithVehicle(User user) : this(
+    status: AuthenticationStatus.authenticatedWithVehicle,
+      user: user,
+      );
+  
 
   @override
   List<Object?> get props => [status, user]; // Implementación de props

@@ -16,7 +16,6 @@ class LogOutFailure implements Exception {}
 class AuthenticationRepository {
   final firebase_auth.FirebaseAuth _firebaseAuth;
   final GoogleSignIn _googleSignIn;
-  
 
   AuthenticationRepository({
     firebase_auth.FirebaseAuth? firebaseAuth,
@@ -30,11 +29,10 @@ class AuthenticationRepository {
     });
   }
 
-//!Lo dio gepeto para quitar el cuando se quita de fireAuth
+  //!Lo dio gepeto para quitar el cuando se quita de fireAuth
   firebase_auth.User? get currentUser => _firebaseAuth.currentUser;
 
-  //!Registro a un usuario con email y password
-  //! Quiza deberia de retornar el user
+  //!Registro de user normal
   Future<User> signUp({
     required String identification,
     required String name,
@@ -42,6 +40,14 @@ class AuthenticationRepository {
     required String phone,
     required String email,
     required String password,
+    required String profilePictureUrl,
+    required bool hasVehicle,
+    required String licensePlate,
+    required String make,
+    required String year,
+    required String color,
+    required String model,
+    required String vehicleType,
   }) async {
     try {
       final result = await _firebaseAuth.createUserWithEmailAndPassword(
@@ -54,15 +60,17 @@ class AuthenticationRepository {
       if (firebaseUser == null) {
         throw Exception("Usuario no autenticado");
       }
-      print("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa $firebaseUser");
+      print(
+        "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa $firebaseUser",
+      );
 
-    print("✅ $identification");
-     print("✅ $name");
+      print("✅ $identification");
+      print("✅ $name");
       print("✅ $surname");
-       print("✅ $phone");
-        print("✅ $name");
+      print("✅ $phone");
+      print("✅ $name");
 
-       await FirebaseFirestore.instance
+      await FirebaseFirestore.instance
           .collection('users')
           .doc(firebaseUser.uid)
           .set({
@@ -71,9 +79,10 @@ class AuthenticationRepository {
             'surname': surname,
             'email': email,
             'phoneNumber': phone,
-            // 'profilePictureUrl': photoURL ?? '',
+            'profilePictureUrl': profilePictureUrl,
+            // 'hasVehicle': hasVehicle,
           });
-          print("📍📍📍📍 ");
+      print("📍📍📍📍 ");
 
       //!Revisar luego si no me chingue cone esto
       if (firebaseUser != null) {
@@ -86,6 +95,8 @@ class AuthenticationRepository {
       throw SignUpFailure();
     }
   }
+
+
 
   //!Iniciar sesion con email y password
   //! Quiza deberia de retornar el user

@@ -7,7 +7,6 @@ import 'package:un_ride/theme.dart';
 import 'package:un_ride/Routes/routes.dart';
 import 'package:un_ride/screens/Widgets/widgets.dart';
 
-
 class App extends StatelessWidget {
   final AuthenticationRepository authenticationRepository;
   const App({super.key, required this.authenticationRepository})
@@ -64,15 +63,21 @@ class _AppViewState extends State<AppView> {
             return BlocListener<AuthenticationBloc, AuthenticationState>(
               listener: (context, state) {
                 switch (state.status) {
-                  case AuthenticationStatus.authenticated:
+                  case AuthenticationStatus.unauthenticated:
+                    _navigatorKey.currentState?.pushNamedAndRemoveUntil(
+                      '/auth',
+                      (route) => false,
+                    );
+                    break;
+                  case AuthenticationStatus.authenticatedWithVehicle:
                     _navigatorKey.currentState?.pushNamedAndRemoveUntil(
                       '/role',
                       (route) => false,
                     );
                     break;
-                  case AuthenticationStatus.unauthenticated:
+                  case AuthenticationStatus.authenticated:
                     _navigatorKey.currentState?.pushNamedAndRemoveUntil(
-                      '/auth',
+                      '/clients_home',
                       (route) => false,
                     );
                     break;
@@ -88,4 +93,3 @@ class _AppViewState extends State<AppView> {
     );
   }
 }
-

@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter/widgets.dart';
 import 'package:un_ride/repository/repository.dart';
 
 part 'authentication_state.dart';
@@ -26,7 +27,6 @@ class AuthenticationBloc
       // ); //! Simula un retaro pa ver el spalsh
       emit(_mapAuthenticationUserChangedToState(event));
 
-
       //!Esto me lo dio gepeto para eliminar el user de fireAuth//////////////
       try {
         final currentUser = _authenticationRepository.currentUser;
@@ -45,7 +45,7 @@ class AuthenticationBloc
       } catch (_) {
         emit(const AuthenticationState.unauthenticated());
       }
-       //!Hasta aqui/////////////////////////////////////////////////////
+      //!Hasta aqui/////////////////////////////////////////////////////
     });
 
     //! Aqui se maneja el evento de logout
@@ -66,6 +66,14 @@ class AuthenticationBloc
           phone: event.phone,
           email: event.email,
           password: event.password,
+          profilePictureUrl: event.profilePictureUrl,
+          hasVehicle: event.hasVehicle,
+          licensePlate: event.licensePlate,
+          make: event.make,
+          year: event.year,
+          color: event.color,
+          model: event.model,
+          vehicleType: event.vehicleType
         );
         print("💐💐💐💐💐");
         emit(AuthenticationState.authenticated(user));
@@ -74,21 +82,7 @@ class AuthenticationBloc
       }
     });
 
-    //!Aqui hacer el de registrarse con vehiculo
-    //   on<UserRegister>((event, emit) async {
-    //   try {
 
-    //     final user = await _authenticationRepository.signUp(
-    //       identification: event.identification,
-    //       email: event.email,
-    //       password: event.password,
-    //     );
-
-    //     emit(AuthenticationState.authenticated(user));
-    //   } catch (e) {
-    //     emit(const AuthenticationState.unauthenticated());
-    //   }
-    // });
   } //?Fin del constructor
 
   AuthenticationState _mapAuthenticationUserChangedToState(
@@ -105,4 +99,3 @@ class AuthenticationBloc
     return super.close();
   }
 }
-
