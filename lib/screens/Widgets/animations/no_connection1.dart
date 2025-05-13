@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
-import 'package:un_ride/bloc/connectivity/bloc/connectivity_bloc.dart';
+import 'package:un_ride/bloc/connectivity/connectivity.dart';
 
 
 class NoConnection1 extends StatelessWidget {
