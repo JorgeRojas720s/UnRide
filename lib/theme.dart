@@ -9,7 +9,7 @@ final theme = ThemeData(
   primaryColor: const Color(0xFF00BCD4),
   scaffoldBackgroundColor: const Color(0xFFE0F2F1),
   //!Va hacer que todos lo input tengan ese borde
-  inputDecorationTheme: InputDecorationTheme( 
+  inputDecorationTheme: InputDecorationTheme(
     border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
   ),
 );
