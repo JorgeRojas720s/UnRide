@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:form_field_validator/form_field_validator.dart';
-import 'package:un_ride/authentication/authentication.dart';
-import 'package:un_ride/repository/repository.dart';
+import 'package:un_ride/blocs/authentication/authentication.dart';
 
 class SignUpForm extends StatefulWidget {
   const SignUpForm({Key? key}) : super(key: key);

@@ -30,6 +30,7 @@ class AuthenticationRepository {
     });
   }
 
+//!Lo dio gepeto para quitar el cuando se quita de fireAuth
   firebase_auth.User? get currentUser => _firebaseAuth.currentUser;
 
   //!Registro a un usuario con email y password
