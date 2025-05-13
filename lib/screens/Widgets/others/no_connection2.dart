@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:un_ride/bloc/connectivity/bloc/connectivity_bloc.dart';
+import 'package:un_ride/blocs/connectivity/bloc/connectivity_bloc.dart';
 
 class NoConnection extends StatelessWidget {
   final ConnectivityState connectivityState;
