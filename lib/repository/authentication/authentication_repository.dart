@@ -50,51 +50,100 @@ class AuthenticationRepository {
     required String vehicleType,
   }) async {
     try {
-      final result = await _firebaseAuth.createUserWithEmailAndPassword(
-        email: email,
-        password: password,
-      );
-      print("🫏🫏🫏 $result");
-      final firebaseUser = result.user;
+      firebase_auth.UserCredential result = await registerAuthUser(email, password);
 
-      if (firebaseUser == null) {
+      final authUser = result.user;
+
+      if (authUser == null) {
         throw Exception("Usuario no autenticado");
       }
-      print(
-        "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa $firebaseUser",
+
+      await registerUser(
+        authUser,
+        identification,
+        name,
+        surname,
+        email,
+        phone,
+        profilePictureUrl,
+        hasVehicle,
       );
 
-      print("✅ $identification");
-      print("✅ $name");
-      print("✅ $surname");
-      print("✅ $phone");
-      print("✅ $name");
-
-      await FirebaseFirestore.instance
-          .collection('users')
-          .doc(firebaseUser.uid)
-          .set({
-            'identification': identification,
-            'name': name,
-            'surname': surname,
-            'email': email,
-            'phoneNumber': phone,
-            'profilePictureUrl': profilePictureUrl,
-            // 'hasVehicle': hasVehicle,
-          });
-      print("📍📍📍📍 ");
-
-      //!Revisar luego si no me chingue cone esto
-      if (firebaseUser != null) {
-        return firebaseUser.toUser;
-      } else {
-        throw Exception("Usuario no autenticado");
+      if (hasVehicle) {
+        await registerVehicle(
+          authUser,
+          licensePlate,
+          make,
+          year,
+          color,
+          model,
+          vehicleType,
+        );
       }
+
+      return authUser.toUser;
     } on Exception {
       print("No sirvio el registro: ❌❌❌❌❌");
       throw SignUpFailure();
     }
   }
+
+  Future<firebase_auth.UserCredential> registerAuthUser(String email, String password) async {
+    return await _firebaseAuth.createUserWithEmailAndPassword(
+      email: email,
+      password: password,
+    );
+  }
+
+  Future<void> registerVehicle(
+    firebase_auth.User authUser,
+    String licensePlate,
+    String make,
+    String year,
+    String color,
+    String model,
+    String vehicleType,
+  ) async {
+    await FirebaseFirestore.instance
+        .collection('vehicles')
+        .doc(authUser.uid)
+        .set({
+          'licensePlate': licensePlate,
+          'make': make,
+          'year': year,
+          'color': color,
+          'model': model,
+          'vehicleType': vehicleType,
+        });
+  }
+
+  Future<void> registerUser(
+    firebase_auth.User firebaseUser,
+    String identification,
+    String name,
+    String surname,
+    String email,
+    String phone,
+    String profilePictureUrl,
+    bool hasVehicle,
+  ) async {
+    await FirebaseFirestore.instance
+        .collection('users')
+        .doc(firebaseUser.uid)
+        .set({
+          'identification': identification,
+          'name': name,
+          'surname': surname,
+          'email': email,
+          'phoneNumber': phone,
+          'profilePictureUrl': profilePictureUrl,
+          'hasVehicle': hasVehicle,
+        });
+    print("📍📍📍📍 ");
+  }
+
+
+
 
 
 

@@ -11,7 +11,6 @@ Map<String, Widget Function(BuildContext)> routes = {
   '/logIn': (_) => LoginNinePage(),
   '/splash': (_) => SplashPage(),
   '/role': (_) => RolePage(),
-  //'/signUp': (_) => SignUpForm(),
   '/clients_home': (_) => ClientsHome(),
   //'/signUp': (_) => SignUpForm(),
   '/auth': (_) => AuthScreen(),
