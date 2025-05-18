@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 
-
 class ClientsHome extends StatefulWidget {
-  const ClientsHome({super.key});
+  final Function? onMenuPressed;
+
+  const ClientsHome({super.key, this.onMenuPressed});
 
   @override
   State<ClientsHome> createState() => _ClientsHomeState();
@@ -12,22 +13,40 @@ class _ClientsHomeState extends State<ClientsHome> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.black,
       appBar: AppBar(
-        title: const Text('Clients Home'),
+        backgroundColor: Colors.black,
+        elevation: 0,
+        title: const Text(
+          'Clients Home',
+          style: TextStyle(color: Colors.white),
+        ),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.menu, color: Colors.white),
+            onPressed:
+                () =>
+                    widget.onMenuPressed != null
+                        ? widget.onMenuPressed!()
+                        : Navigator.pushNamed(context, '/drawer'),
+          ),
+        ],
       ),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
+          children: [
             const Text(
-              'Clients Home',
+              'Clients Home Content',
+              style: TextStyle(color: Colors.white, fontSize: 22),
             ),
-            // ElevatedButton(
-            //   onPressed: () {
-            //     Navigator.pushNamed(context, '/clients');
-            //   },
-            //   child: const Text('Go to Clients'),
-            // ),
+            const SizedBox(height: 20),
+            ElevatedButton(
+              onPressed: () {
+                // You can add navigation or specific client-related actions here
+              },
+              child: const Text('Client Actions'),
+            ),
           ],
         ),
       ),

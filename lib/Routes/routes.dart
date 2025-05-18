@@ -6,6 +6,7 @@ import 'package:un_ride/screens/sign-up/sign-up.dart';
 import 'package:un_ride/screens/clients/clients_home.dart';
 //import 'package:un_ride/screens/sign-up/sign-up.dart';
 import 'package:un_ride/screens/auth/auth.dart';
+import 'package:un_ride/screens/drawer/custom-drawer.dart';
 
 Map<String, Widget Function(BuildContext)> routes = {
   '/logIn': (_) => LoginNinePage(),
@@ -15,4 +16,5 @@ Map<String, Widget Function(BuildContext)> routes = {
   '/clients_home': (_) => ClientsHome(),
   //'/signUp': (_) => SignUpForm(),
   '/auth': (_) => AuthScreen(),
+  '/drawer': (_) => CustomDrawer(),
 };
