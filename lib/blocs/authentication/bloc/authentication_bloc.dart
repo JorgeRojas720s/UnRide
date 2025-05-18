@@ -79,6 +79,11 @@ class AuthenticationBloc
         } else {
           emit(AuthenticationState.authenticated(user));
         }
+        if (event.hasVehicle) {
+          emit(AuthenticationState.authenticatedWithVehicle(user));
+        } else {
+          emit(AuthenticationState.authenticated(user));
+        }
       } catch (e) {
         emit(const AuthenticationState.unauthenticated());
       }
