@@ -10,6 +10,7 @@ export 'animations/splash_page.dart';
 //!inputs
 
 //!layaout
+export 'layaout/navBar/navBar.dart';
 
 //!others
 export 'others/no_connection2.dart';

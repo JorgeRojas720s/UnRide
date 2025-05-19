@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:un_ride/appColors.dart';
+import 'package:un_ride/screens/Widgets/widgets.dart';
 
 class ClientsHome extends StatefulWidget {
   final Function? onMenuPressed;
@@ -13,7 +15,7 @@ class _ClientsHomeState extends State<ClientsHome> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black,
+      backgroundColor: AppColors.scaffoldBackground,
       appBar: AppBar(
         backgroundColor: Colors.black,
         elevation: 0,
@@ -41,15 +43,16 @@ class _ClientsHomeState extends State<ClientsHome> {
               style: TextStyle(color: Colors.white, fontSize: 22),
             ),
             const SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: () {
-                // You can add navigation or specific client-related actions here
-              },
-              child: const Text('Client Actions'),
-            ),
+            // ElevatedButton(
+            //   onPressed: () {
+            //     // You can add navigation or specific client-related actions here
+            //   },
+            //   child: const Text('Client Actions'),
+            // ),
           ],
         ),
       ),
+      bottomNavigationBar: NavBar(),
     );
   }
 }
