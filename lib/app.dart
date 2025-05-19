@@ -66,7 +66,7 @@ class _AppViewState extends State<AppView> {
                 switch (state.status) {
                   case AuthenticationStatus.unauthenticated:
                     _navigatorKey.currentState?.pushNamedAndRemoveUntil(
-                      '/drawer',
+                      '/auth',
                       (route) => false,
                     );
                     break;

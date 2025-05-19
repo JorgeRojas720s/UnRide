@@ -1,7 +1,6 @@
 //!Animaciones
 
 export 'animations/no_connection1.dart';
-export 'animations/splash_page.dart';
 
 //!buttons
 
@@ -11,6 +10,9 @@ export 'animations/splash_page.dart';
 
 //!layaout
 export 'layaout/navBar/navBar.dart';
+
+//!loaders
+export 'loaders/splash_page.dart';
 
 //!others
 export 'others/no_connection2.dart';

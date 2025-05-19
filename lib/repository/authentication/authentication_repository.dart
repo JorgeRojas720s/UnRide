@@ -29,6 +29,22 @@ class AuthenticationRepository {
     });
   }
 
+  //!Probar luego, es para que al entrar a la app vaya detenctando si tiene vehicle
+  //  Future<User> get user async {
+  //     return _firebaseAuth.authStateChanges().map((firebaseUser) {
+
+  //       if(firebaseUser == null){
+  //         return User.empty;
+  //       }
+
+  //        Map<String, dynamic> userData = await getUserDataFromFirestore(
+  //         authUser.uid,
+  //       );
+
+  //       : firebaseUser.toUser;
+  //     });
+  //   }
+
   //!Lo dio gepeto para quitar el cuando se quita de fireAuth
   firebase_auth.User? get currentUser => _firebaseAuth.currentUser;
 
@@ -50,7 +66,10 @@ class AuthenticationRepository {
     required String vehicleType,
   }) async {
     try {
-      firebase_auth.UserCredential result = await registerAuthUser(email, password);
+      firebase_auth.UserCredential result = await registerAuthUser(
+        email,
+        password,
+      );
 
       final authUser = result.user;
 
@@ -88,7 +107,10 @@ class AuthenticationRepository {
     }
   }
 
-  Future<firebase_auth.UserCredential> registerAuthUser(String email, String password) async {
+  Future<firebase_auth.UserCredential> registerAuthUser(
+    String email,
+    String password,
+  ) async {
     return await _firebaseAuth.createUserWithEmailAndPassword(
       email: email,
       password: password,
@@ -142,24 +164,40 @@ class AuthenticationRepository {
     print("📍📍📍📍 ");
   }
 
-
-
-
-
-
   //!Iniciar sesion con email y password
   //! Quiza deberia de retornar el user
-  Future<void> logInWithEmailAndPassword({
+  Future<User> logInWithEmailAndPassword({
     required String email,
     required String password,
   }) async {
     try {
-      await _firebaseAuth.signInWithEmailAndPassword(
-        email: email,
-        password: password,
+      firebase_auth.UserCredential result = await _firebaseAuth
+          .signInWithEmailAndPassword(email: email, password: password);
+
+      final authUser = result.user;
+
+      if (authUser == null) {
+        throw Exception("Usuario no autenticado");
+      }
+
+      Map<String, dynamic> userData = await getUserDataFromFirestore(
+        authUser.uid,
       );
+
+      return userData.toUser(authUser.uid);
     } on Exception {
       throw LoginWithEmailAndPasswordFailure();
+    }
+  }
+
+  Future<Map<String, dynamic>> getUserDataFromFirestore(String uid) async {
+    DocumentSnapshot<Map<String, dynamic>> snapshot =
+        await FirebaseFirestore.instance.collection('users').doc(uid).get();
+
+    if (snapshot.exists) {
+      return snapshot.data()!;
+    } else {
+      throw Exception("No se encontraron datos para el usuario.");
     }
   }
 
@@ -168,6 +206,7 @@ class AuthenticationRepository {
     try {
       await Future.wait([_firebaseAuth.signOut(), _googleSignIn.signOut()]);
     } on Exception {
+      print("Fallo el logout");
       throw LogOutFailure();
     }
   }
@@ -197,6 +236,20 @@ extension on firebase_auth.User {
       email: email ?? '',
       phoneNumber: phoneNumber ?? '',
       profilePictureUrl: photoURL ?? '',
+      hasVehicle: false,
+    );
+  }
+}
+
+extension UserFromMap on Map<String, dynamic> {
+  User toUser(String uid) {
+    return User(
+      id: uid,
+      name: this['name'] ?? '',
+      email: this['email'] ?? '',
+      phoneNumber: this['phoneNumber'] ?? '',
+      profilePictureUrl: this['profilePictureUrl'] ?? '',
+      hasVehicle: this['hasVehicle'] ?? false,
     );
   }
 }

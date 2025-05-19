@@ -9,22 +9,26 @@ part 'connectivity_state.dart';
 class ConnectivityBloc extends Bloc<ConnectivityEvent, ConnectivityState> {
   late StreamSubscription<List<ConnectivityResult>> _connectivitySubscription;
 
-  ConnectivityBloc() : super(const ConnectivityState.unknown()) {
-    
-    _connectivitySubscription = Connectivity().onConnectivityChanged.listen((List<ConnectivityResult> results){
-        final isConnected = results.contains(ConnectivityResult.mobile) || results.contains(ConnectivityResult.wifi) || results.contains(ConnectivityResult.ethernet);
+  // ConnectivityBloc() : super(const ConnectivityState.unknown()) {
+  ConnectivityBloc() : super(const ConnectivityState.connected()) {
+    _connectivitySubscription = Connectivity().onConnectivityChanged.listen((
+      List<ConnectivityResult> results,
+    ) {
+      final isConnected =
+          results.contains(ConnectivityResult.mobile) ||
+          results.contains(ConnectivityResult.wifi) ||
+          results.contains(ConnectivityResult.ethernet);
 
-        add(ConnectivityChanged(isConnected));
+      add(ConnectivityChanged(isConnected));
     });
- 
-      on<ConnectivityChanged>((event, emit){
-        if(event.isConnected){
-          emit(ConnectivityState.connected());
-        }else{
-          emit(ConnectivityState.disconnected());
-        }
-      } );
 
+    on<ConnectivityChanged>((event, emit) {
+      if (event.isConnected) {
+        emit(ConnectivityState.connected());
+      } else {
+        emit(ConnectivityState.disconnected());
+      }
+    });
   }
   @override
   Future<void> close() {

@@ -20,7 +20,6 @@ class AuthenticationBloc
       (user) => add(AuthenticationUserChanged(user)),
     );
 
-    //!Aqui se maneja el evento de cambio de estado del user
     on<AuthenticationUserChanged>((event, emit) async {
       // await Future.delayed(
       //   const Duration(seconds: 5),
@@ -48,6 +47,23 @@ class AuthenticationBloc
       //!Hasta aqui/////////////////////////////////////////////////////
     });
 
+    on<AuthenticationUserSignIn>((event, emit) async {
+      final user = await _authenticationRepository.logInWithEmailAndPassword(
+        email: event.email,
+        password: event.password,
+      );
+      print("✅✅✅✅✅✅✅✅✅✅");
+      print(user);
+
+      if (user.hasVehicle) {
+        emit(AuthenticationState.authenticatedWithVehicle(user));
+      } else if (!user.hasVehicle) {
+        emit(AuthenticationState.unauthenticated());
+      } else {
+        emit(AuthenticationState.unauthenticated());
+      }
+    });
+
     //! Aqui se maneja el evento de logout
     on<AuthenticationLogoutRequested>((event, emit) async {
       await _authenticationRepository.logOut();
@@ -73,12 +89,7 @@ class AuthenticationBloc
           model: event.model,
           vehicleType: event.vehicleType,
         );
-        
-        if (event.hasVehicle) {
-          emit(AuthenticationState.authenticatedWithVehicle(user));
-        } else {
-          emit(AuthenticationState.authenticated(user));
-        }
+
         if (event.hasVehicle) {
           emit(AuthenticationState.authenticatedWithVehicle(user));
         } else {
@@ -93,6 +104,9 @@ class AuthenticationBloc
   AuthenticationState _mapAuthenticationUserChangedToState(
     AuthenticationUserChanged event,
   ) {
+    print(event.user);
+    print("💐💐💐💐💐");
+
     return event.user != User.empty
         ? AuthenticationState.authenticated(event.user)
         : const AuthenticationState.unauthenticated();

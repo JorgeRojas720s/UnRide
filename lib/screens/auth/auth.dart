@@ -308,7 +308,12 @@ class _SignInFormState extends State<SignInForm>
         _isLoading = true;
       });
 
-      // Logica de autenticacion
+      context.read<AuthenticationBloc>().add(
+        AuthenticationUserSignIn(
+          email: _emailController.text.trim(),
+          password: _passwordController.text.trim(),
+        ),
+      );
 
       Future.delayed(const Duration(seconds: 2), () {
         if (mounted) {

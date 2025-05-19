@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:un_ride/appColors.dart';
+import 'package:un_ride/blocs/authentication/authentication.dart';
 import 'package:un_ride/screens/Widgets/buttons/AnimatedIconButton.dart';
 
 class NavBar extends StatefulWidget {
@@ -12,6 +14,32 @@ class NavBar extends StatefulWidget {
 class _NavBarState extends State<NavBar> {
   double iconsButtonsSize =
       25; //!Porque solo se ve el cambio cuando compilo de 0?
+
+  int selectedIndex = 0; // Por defecto, el primero está seleccionado
+
+  void onIconPressed(int index) {
+    setState(() {
+      selectedIndex = index;
+    });
+
+    switch (index) {
+      case 0:
+        print("Homeeeeeeee");
+        break;
+      case 1:
+        print("Noseeeeeeeeeeeeeeeeeeeeee");
+        break;
+      case 2:
+        context.read<AuthenticationBloc>().add(AuthenticationLogoutRequested());
+        Navigator.of(
+          context,
+        ).pushNamedAndRemoveUntil('/auth', (route) => false);
+        break;
+      case 3:
+        print("Holaaaaaaaaaaaaaaaaaaaaaaaa");
+        break;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -62,12 +90,14 @@ class _NavBarState extends State<NavBar> {
               AnimatedIconButton(
                 size: iconsButtonsSize,
                 icon: Icons.home_rounded,
-                onPressed: () => {print("Homeeeeeeee")},
+                isSelected: selectedIndex == 0,
+                onPressed: () => onIconPressed(0),
               ),
               AnimatedIconButton(
                 size: iconsButtonsSize,
                 icon: Icons.push_pin_rounded,
-                onPressed: () => {print("Noseeeeeeeeeeeeeeeeeeeeee")},
+                isSelected: selectedIndex == 1,
+                onPressed: () => onIconPressed(1),
               ),
               Column(
                 mainAxisSize: MainAxisSize.min,
@@ -93,12 +123,14 @@ class _NavBarState extends State<NavBar> {
               AnimatedIconButton(
                 size: iconsButtonsSize,
                 icon: Icons.favorite_rounded,
-                onPressed: () => {print("Adioooooooooooos")},
+                isSelected: selectedIndex == 2,
+                onPressed: () => onIconPressed(2),
               ),
               AnimatedIconButton(
                 size: iconsButtonsSize,
                 icon: Icons.person,
-                onPressed: () => {print("Holaaaaaaaaaaaaaaaaaaaaaaaa")},
+                isSelected: selectedIndex == 3,
+                onPressed: () => onIconPressed(3),
               ),
             ],
           ),

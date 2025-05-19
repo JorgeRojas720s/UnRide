@@ -54,4 +54,15 @@ class AuthenticationUserRegister extends AuthenticationEvent {
   List<Object> get props => [];
 }
 
+class AuthenticationUserSignIn extends AuthenticationEvent {
+  final String email;
+
+  final String password;
+
+  AuthenticationUserSignIn({required this.email, required this.password});
+
+  @override
+  List<Object> get props => [];
+}
+
 class AuthenticationLogoutRequested extends AuthenticationEvent {}
