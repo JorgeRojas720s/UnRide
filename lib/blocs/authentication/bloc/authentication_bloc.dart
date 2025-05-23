@@ -89,10 +89,15 @@ class AuthenticationBloc
           model: event.model,
           vehicleType: event.vehicleType,
         );
-
+        print("☁️☁️☁️☁️☁️☁️");
+        print(event.hasVehicle);
         if (event.hasVehicle) {
+          print("☁️☁️☁️☁️☁️☁️");
           emit(AuthenticationState.authenticatedWithVehicle(user));
         } else {
+          print(
+            ".aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          );
           emit(AuthenticationState.authenticated(user));
         }
       } catch (e) {

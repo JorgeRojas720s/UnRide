@@ -753,6 +753,11 @@ class _SignUpFormState extends State<SignUpForm> with TickerProviderStateMixin {
 
     return BlocListener<AuthenticationBloc, AuthenticationState>(
       listener: (context, state) {
+        // if (state.status == AuthenticationStatus.authenticatedWithVehicle) {
+        //   setState(() {
+        //     _isLoading = false;
+        //   });
+        // } else
         if (state.status == AuthenticationStatus.authenticated) {
           setState(() {
             _isLoading = false;

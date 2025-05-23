@@ -45,25 +45,24 @@ class RolePage extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               children: [
                 ElevatedButton(
-                  onPressed: () {
-                    Navigator.of(context).pushNamedAndRemoveUntil(
-                      //!Qiza mejor deajr el pushNamed para que conserve la ruta del role
-                      '/clients_home',
-                      (route) => false,
-                    );
-                  },
+                  onPressed:
+                      () => Navigator.of(context).pushNamedAndRemoveUntil(
+                        //!Qiza mejor deajr el pushNamed para que conserve la ruta del role
+                        '/clients_home',
+                        (route) => false,
+                      ),
                   child: Text('Client'),
                 ),
                 SizedBox(height: 16),
-                ElevatedButton(
-                  onPressed: () {
-                    Navigator.of(context).pushNamedAndRemoveUntil(
-                      '/clients_home',
-                      (route) => false,
-                    );
-                  },
-                  child: Text('Driver'),
-                ),
+                // ElevatedButton(
+                //   onPressed: () {
+                //     Navigator.of(context).pushNamedAndRemoveUntil(
+                //       '/clients_home',
+                //       (route) => false,
+                //     );
+                //   },
+                //   child: Text('Driver'),
+                // ),
               ],
             ),
           ),

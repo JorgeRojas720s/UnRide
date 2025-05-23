@@ -52,7 +52,7 @@ class _AppViewState extends State<AppView> {
       debugShowCheckedModeBanner: false,
       theme: theme,
       navigatorKey: _navigatorKey,
-      initialRoute: '/splash',
+      initialRoute: '/auth',
       routes: routes,
       builder: (context, child) {
         return BlocBuilder<ConnectivityBloc, ConnectivityState>(
@@ -70,15 +70,21 @@ class _AppViewState extends State<AppView> {
                       (route) => false,
                     );
                     break;
-                  case AuthenticationStatus.authenticatedWithVehicle:
-                    _navigatorKey.currentState?.pushNamedAndRemoveUntil(
-                      '/role',
-                      (route) => false,
-                    );
-                    break;
+                  // case AuthenticationStatus.authenticatedWithVehicle:
+                  //   _navigatorKey.currentState?.pushNamedAndRemoveUntil(
+                  //     '/role',
+                  //     (route) => false,
+                  //   );
+                  //break;
                   case AuthenticationStatus.authenticated:
                     _navigatorKey.currentState?.pushNamedAndRemoveUntil(
                       '/clients_home',
+                      (route) => false,
+                    );
+                    break;
+                  case AuthenticationStatus.unknown:
+                    _navigatorKey.currentState?.pushNamedAndRemoveUntil(
+                      '/splash',
                       (route) => false,
                     );
                     break;

@@ -15,42 +15,33 @@ class _ClientsHomeState extends State<ClientsHome> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.scaffoldBackground,
+      // backgroundColor: AppColors.scaffoldBackground,
       appBar: AppBar(
-        backgroundColor: Colors.black,
-        elevation: 0,
-        title: const Text(
-          'Clients Home',
-          style: TextStyle(color: Colors.white),
-        ),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.menu, color: Colors.white),
-            onPressed:
-                () =>
-                    widget.onMenuPressed != null
-                        ? widget.onMenuPressed!()
-                        : Navigator.pushNamed(context, '/drawer'),
+        title: Text("Un Ride", style: TextStyle(color: Colors.white)),
+        backgroundColor: const Color.fromARGB(255, 93, 1, 1),
+      ),
+      body: Stack(
+        children: [
+          PublicationCard(
+            oigin: "Canollas",
+            destination: "Pz",
+            description: "Mamahuevaso",
+          ),
+          Positioned(
+            top: 25,
+            right: 16,
+            child: FloatingActionButton(
+              mini: true,
+              backgroundColor: Colors.black,
+              child: const Icon(Icons.menu, color: Colors.white),
+              onPressed: () {
+                widget.onMenuPressed != null
+                    ? widget.onMenuPressed!()
+                    : Navigator.pushNamed(context, '/drawer');
+              },
+            ),
           ),
         ],
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Text(
-              'Clients Home Content',
-              style: TextStyle(color: Colors.white, fontSize: 22),
-            ),
-            const SizedBox(height: 20),
-            // ElevatedButton(
-            //   onPressed: () {
-            //     // You can add navigation or specific client-related actions here
-            //   },
-            //   child: const Text('Client Actions'),
-            // ),
-          ],
-        ),
       ),
       bottomNavigationBar: NavBar(),
     );
