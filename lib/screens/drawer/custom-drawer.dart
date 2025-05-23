@@ -15,7 +15,6 @@ class _CustomDrawerState extends State<CustomDrawer>
   late Animation<double> _fadeAnimation;
 
   bool _isDrawerOpen = false;
-
   String _currentScreen = 'clients';
 
   @override
@@ -53,10 +52,12 @@ class _CustomDrawerState extends State<CustomDrawer>
   }
 
   void _navigateTo(String screen) {
-    setState(() {
-      _currentScreen = screen;
-      _toggleDrawer();
-    });
+    if (_currentScreen != screen) {
+      setState(() {
+        _currentScreen = screen;
+      });
+    }
+    _toggleDrawer();
   }
 
   Widget _getCurrentScreen() {
@@ -87,7 +88,7 @@ class _CustomDrawerState extends State<CustomDrawer>
         return _buildGenericScreen('Close Friends', Icons.star_border);
       case 'home':
       default:
-        return _buildGenericScreen('Main App Content', Icons.home);
+        return ClientsHome(onMenuPressed: _toggleDrawer);
     }
   }
 

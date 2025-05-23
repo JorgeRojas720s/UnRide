@@ -1,8 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:form_field_validator/form_field_validator.dart';
-import 'package:un_ride/blocs/authentication/authentication.dart';
-import 'package:un_ride/repository/repository.dart';
 import 'package:flutter/services.dart';
 import 'package:un_ride/screens/auth/sign-in-form.dart';
 import 'package:un_ride/screens/auth/sign-up-form.dart';

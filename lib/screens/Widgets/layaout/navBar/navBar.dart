@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:un_ride/appColors.dart';
 import 'package:un_ride/blocs/authentication/authentication.dart';
 import 'package:un_ride/screens/Widgets/buttons/AnimatedIconButton.dart';
+import 'package:un_ride/screens/clients/create-client-ride.dart';
 
 class NavBar extends StatefulWidget {
   const NavBar({super.key});
@@ -12,10 +13,9 @@ class NavBar extends StatefulWidget {
 }
 
 class _NavBarState extends State<NavBar> {
-  double iconsButtonsSize =
-      25; //!Porque solo se ve el cambio cuando compilo de 0?
-
-  int selectedIndex = 0; // Por defecto, el primero está seleccionado
+  double iconsButtonsSize = 25;
+  int selectedIndex = 0;
+  bool _isCreateRideOpen = false;
 
   void onIconPressed(int index) {
     setState(() {
@@ -39,6 +39,18 @@ class _NavBarState extends State<NavBar> {
         print("Holaaaaaaaaaaaaaaaaaaaaaaaa");
         break;
     }
+  }
+
+  void _openCreateRide() {
+    setState(() {
+      _isCreateRideOpen = true;
+    });
+  }
+
+  void _closeCreateRide() {
+    setState(() {
+      _isCreateRideOpen = false;
+    });
   }
 
   @override
@@ -106,7 +118,17 @@ class _NavBarState extends State<NavBar> {
                   Padding(
                     padding: const EdgeInsets.only(bottom: 10),
                     child: RawMaterialButton(
-                      onPressed: () => print('Middle button pressed'),
+                      onPressed: () {
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder:
+                                (context) => CreateRideScreen(
+                                  onClose: () => Navigator.of(context).pop(),
+                                ),
+                            fullscreenDialog: true,
+                          ),
+                        );
+                      },
                       elevation: 2.0,
                       fillColor: AppColors.iconsNavBarColor,
                       child: const Icon(
