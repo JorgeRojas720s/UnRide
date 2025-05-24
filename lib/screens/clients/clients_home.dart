@@ -11,15 +11,15 @@ class ClientsHome extends StatefulWidget {
 }
 
 class _ClientsHomeState extends State<ClientsHome> {
-  bool _isDrawerOpen = false;
+  // bool _isDrawerOpen = false;
   bool _isDriverMode = false;
   bool _canSwitchToDriver = true;
 
-  void _toggleDrawer() {
-    setState(() {
-      _isDrawerOpen = !_isDrawerOpen;
-    });
-  }
+  // void _toggleDrawer() {
+  //   setState(() {
+  //     _isDrawerOpen = !_isDrawerOpen;
+  //   });
+  // }
 
   void _toggleRole(bool isDriver) {
     setState(() {
@@ -32,7 +32,7 @@ class _ClientsHomeState extends State<ClientsHome> {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Un Ride", style: TextStyle(color: Colors.white)),
-        backgroundColor: const Color.fromARGB(255, 93, 1, 1),
+        backgroundColor: AppColors.scaffoldBackground,
         actions: [
           Padding(
             padding: const EdgeInsets.only(right: 16.0),
@@ -56,16 +56,16 @@ class _ClientsHomeState extends State<ClientsHome> {
                       destination: "Pz",
                       description: "Mamahuevaso",
                     ),
-                    Positioned(
-                      top: 25,
-                      right: 16,
-                      child: FloatingActionButton(
-                        mini: true,
-                        backgroundColor: Colors.black,
-                        child: const Icon(Icons.menu, color: Colors.white),
-                        onPressed: _toggleDrawer,
-                      ),
-                    ),
+                    // Positioned(
+                    //   top: 25,
+                    //   right: 16,
+                    //   child: FloatingActionButton(
+                    //     mini: true,
+                    //     backgroundColor: Colors.black,
+                    //     child: const Icon(Icons.menu, color: Colors.white),
+                    //     onPressed: _toggleDrawer,
+                    //   ),
+                    // ),
                   ],
                 ),
               ),
@@ -73,16 +73,16 @@ class _ClientsHomeState extends State<ClientsHome> {
             ],
           ),
 
-          if (_isDrawerOpen)
-            CustomDrawer(
-              onClose: _toggleDrawer,
-              onItemSelected: (screen) {
-                _toggleDrawer();
-                if (screen != 'clients') {
-                  // Navegar a otra pantalla
-                }
-              },
-            ),
+          // if (_isDrawerOpen)
+          //   CustomDrawer(
+          //     onClose: _toggleDrawer,
+          //     onItemSelected: (screen) {
+          //       _toggleDrawer();
+          //       if (screen != 'clients') {
+          //         // Navegar a otra pantalla
+          //       }
+          //     },
+          //   ),
         ],
       ),
     );
