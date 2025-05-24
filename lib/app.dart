@@ -31,7 +31,7 @@ class App extends StatelessWidget {
           BlocProvider(
             create:
                 (_) => ClientPostBloc(
-                  publication_repository: ClientPostRepository(),
+                  clientPostRepository: ClientPostRepository(),
                 ),
           ),
         ],

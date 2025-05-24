@@ -7,15 +7,15 @@ part 'client_post_event.dart';
 part 'client_post_state.dart';
 
 class ClientPostBloc extends Bloc<ClientPostEvent, ClientPostState> {
-  final ClientPostRepository _publicationRepository;
+  final ClientPostRepository _clientPostRepository;
 
-  ClientPostBloc({required ClientPostRepository publication_repository})
-    : _publicationRepository = publication_repository,
+  ClientPostBloc({required ClientPostRepository clientPostRepository})
+    : _clientPostRepository = clientPostRepository,
       super(const ClientPostState.unknown()) {
     //!Aqi los envents
     on<ClientPostRegister>((event, emit) async {
       try {
-        await _publicationRepository.savePost(
+        await _clientPostRepository.createClientPost(
           user: event.user,
           origin: event.origin,
           destination: event.destination,
@@ -30,7 +30,14 @@ class ClientPostBloc extends Bloc<ClientPostEvent, ClientPostState> {
         emit(const ClientPostState.published());
       } catch (e) {
         print(e);
-        print("No se publico");
+        print("Desde Bloc no se pudo registrar el post ❌❌❌");
+      }
+    });
+
+    on<updateClientPost>((event, emit) async {
+      try {} catch (e) {
+        print(e);
+        print("Desde Bloc no se pudo editar el post ❌❌❌");
       }
     });
   }

@@ -4,7 +4,7 @@ import 'package:un_ride/repository/repository.dart';
 class ClientPostRepository {
   ClientPostRepository();
 
-  Future<void> savePost({
+  Future<void> createClientPost({
     required User user,
     required String origin,
     required String destination,
@@ -28,10 +28,29 @@ class ClientPostRepository {
       print("Se guardo el post  ✅✅✅");
     } catch (e) {
       print(e);
-      print("Error, save publication ❌❌❌");
+      print("En repository no se registro el post del cliente ❌❌❌");
     }
   }
 
-  Future<void> editPublication() async {}
-  Future<void> deletePublication() async {}
+  Future<void> updateClientPost({
+    required User user,
+    required String origin,
+    required String destination,
+    String? description,
+    required passengers,
+    required double suggestedAmount,
+    required DateTime? travelDate,
+    required String? travelTime,
+  }) async {
+    try {
+      //!Ocupo recibir el uid del post
+
+      print("Se actualizó el post  ✅✅✅");
+    } catch (e) {
+      print(e);
+      print("En repository no se actualizo el post de cliente ❌❌❌");
+    }
+  }
+
+  Future<void> deleteClientPost() async {}
 }
