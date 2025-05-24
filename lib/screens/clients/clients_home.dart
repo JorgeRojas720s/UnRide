@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:un_ride/appColors.dart';
 import 'package:un_ride/screens/Widgets/widgets.dart';
-import 'package:un_ride/screens/drawer/custom-drawer.dart';
+import 'package:un_ride/screens/drawer/custom_drawer.dart';
 
 class ClientsHome extends StatefulWidget {
   const ClientsHome({super.key});
@@ -12,10 +12,18 @@ class ClientsHome extends StatefulWidget {
 
 class _ClientsHomeState extends State<ClientsHome> {
   bool _isDrawerOpen = false;
+  bool _isDriverMode = false;
+  bool _canSwitchToDriver = true;
 
   void _toggleDrawer() {
     setState(() {
       _isDrawerOpen = !_isDrawerOpen;
+    });
+  }
+
+  void _toggleRole(bool isDriver) {
+    setState(() {
+      _isDriverMode = isDriver;
     });
   }
 
@@ -25,10 +33,19 @@ class _ClientsHomeState extends State<ClientsHome> {
       appBar: AppBar(
         title: const Text("Un Ride", style: TextStyle(color: Colors.white)),
         backgroundColor: const Color.fromARGB(255, 93, 1, 1),
+        actions: [
+          Padding(
+            padding: const EdgeInsets.only(right: 16.0),
+            child: RoleSwitchButton(
+              isDriverMode: _isDriverMode,
+              onChanged: _toggleRole,
+              canSwitchToDriver: _canSwitchToDriver,
+            ),
+          ),
+        ],
       ),
       body: Stack(
         children: [
-          // Contenido principal
           Column(
             children: [
               Expanded(

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:un_ride/blocs/authentication/authentication.dart';
-import 'package:un_ride/screens/Widgets/buttons/sign-in-submit.dart';
-import 'package:un_ride/screens/Widgets/inputs/sign-in-text-field.dart';
+import 'package:un_ride/screens/Widgets/buttons/sign_in_submit.dart';
+import 'package:un_ride/screens/Widgets/inputs/sign_in_text_field.dart';
 
 class SignInForm extends StatefulWidget {
   const SignInForm({Key? key}) : super(key: key);

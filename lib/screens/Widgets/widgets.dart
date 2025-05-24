@@ -3,14 +3,15 @@
 export 'animations/no_connection1.dart';
 
 //!buttons
-export 'buttons/sign-in-submit.dart';
+export 'buttons/sign_in_submit.dart';
+export 'buttons/role_button.dart';
 
 //!cards
-export 'cards/card-client.dart';
+export 'cards/card_client.dart';
 
 //!inputs
-export 'inputs/sign-in-text-field.dart';
-export 'inputs/sign-up-text-field.dart';
+export 'inputs/sign_in_text_field.dart';
+export 'inputs/sign_up_text_field.dart';
 
 //!layaout
 export 'layaout/navBar/navBar.dart';
