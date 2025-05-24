@@ -16,7 +16,8 @@ class ClientPostRepository {
     required String? travelTime,
   }) async {
     try {
-      await FirebaseFirestore.instance.collection('posts').doc(user.id).set({
+      await FirebaseFirestore.instance.collection('posts').add({
+        'userId': user.id,
         'origin': origin,
         'destination': destination,
         'description': description,
@@ -24,9 +25,10 @@ class ClientPostRepository {
         'postDate': postDate,
         'suggestedAmount': suggestedAmount,
       });
+      print("Se guardo el post  ✅✅✅");
     } catch (e) {
       print(e);
-      print("Error, save publication");
+      print("Error, save publication ❌❌❌");
     }
   }
 

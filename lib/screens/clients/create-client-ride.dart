@@ -127,15 +127,14 @@ class _CreateRideScreenState extends State<CreateRideScreen>
       }
 
       //!LLAMADO DEL BLOC
-      saveClientPost(); //!Que devuelva algo de que se realizo para mostrar eso de abajo, luego lo hago
+      await saveClientPost(); //!Que devuelva algo de que se realizo para mostrar eso de abajo
 
-      if (context.read())
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('¡Publicación creada exitosamente!'),
-            backgroundColor: Colors.green,
-          ),
-        );
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('¡Publicación creada exitosamente!'),
+          backgroundColor: Colors.green,
+        ),
+      );
 
       _closeScreen();
     }
