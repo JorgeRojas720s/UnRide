@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:un_ride/appColors.dart';
 
-class PublicationCard extends StatefulWidget {
+class ClientPostCard extends StatefulWidget {
   final String oigin;
   final String destination;
   final String description;
 
-  const PublicationCard({
+  const ClientPostCard({
     super.key,
     required this.oigin,
     required this.destination,
@@ -14,10 +14,10 @@ class PublicationCard extends StatefulWidget {
   });
 
   @override
-  State<PublicationCard> createState() => _PublicationCardState();
+  State<ClientPostCard> createState() => _ClientPostCardState();
 }
 
-class _PublicationCardState extends State<PublicationCard> {
+class _ClientPostCardState extends State<ClientPostCard> {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -28,9 +28,10 @@ class _PublicationCardState extends State<PublicationCard> {
             Padding(
               padding: const EdgeInsets.all(10.0),
               child: Card(
-                color: const Color.fromARGB(255, 69, 67, 129),
+                // color: const Color.fromARGB(255, 69, 67, 129),
+                color: AppColors.cardBackground,
                 child: Card(
-                  color: AppColors.iconsNavBarColor,
+                  color: AppColors.primaryLight,
                   elevation: 4,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(12),

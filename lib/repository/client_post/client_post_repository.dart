@@ -16,7 +16,7 @@ class ClientPostRepository {
     required String? travelTime,
   }) async {
     try {
-      await FirebaseFirestore.instance.collection('posts').add({
+      await FirebaseFirestore.instance.collection('cientPosts').add({
         'userId': user.id,
         'origin': origin,
         'destination': destination,
@@ -58,7 +58,7 @@ class ClientPostRepository {
   Future<List<Map<String, dynamic>>> getUserPosts() async {
     try {
       final snapshot =
-          await FirebaseFirestore.instance.collection('posts').get();
+          await FirebaseFirestore.instance.collection('clientPosts').get();
 
       return snapshot.docs.map((doc) => doc.data()).toList();
     } catch (e) {

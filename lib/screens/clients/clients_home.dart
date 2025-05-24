@@ -35,6 +35,10 @@ class _ClientsHomeState extends State<ClientsHome> {
     });
   }
 
+  Future<void> _onRefresh(BuildContext context) async {
+    context.read<ClientPostBloc>().add(LoadClientPosts());
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -55,36 +59,49 @@ class _ClientsHomeState extends State<ClientsHome> {
           ),
         ],
       ),
-      body: Stack(
-        children: [
-          BlocBuilder<ClientPostBloc, ClientPostState>(
-            builder: (context, state) {
-              if (state.status == ClientPostStatus.loading) {
-                print("👾👾👾👾👾👾👾👾👾👾");
-                return const Center(child: CircularProgressIndicator());
-              } else if (state.status == ClientPostStatus.success) {
-                print("😏😏😏😏😏😏😏😏");
-                final posts = state.posts;
-                return ListView.builder(
-                  itemCount: posts.length,
-                  itemBuilder: (context, index) {
-                    final post = posts[index];
-                    return PublicationCard(
-                      oigin: post['origin'],
-                      destination: post['destination'],
-                      description: post['description'],
+      body: RefreshIndicator(
+        child: Stack(
+          children: [
+            BlocBuilder<ClientPostBloc, ClientPostState>(
+              builder: (context, state) {
+                if (state.status == ClientPostStatus.loading) {
+                  print("👾👾👾👾👾👾👾👾👾👾");
+                  return const Center(child: CircularProgressIndicator());
+                } else if (state.status == ClientPostStatus.success) {
+                  print("😏😏😏😏😏😏😏😏");
+                  final posts = state.posts;
+                  if (posts.length == 0) {
+                    print("🐕🐕🐕🐕");
+                    return Center(
+                      child: Text(
+                        "No hay posts",
+                        style: TextStyle(color: AppColors.textPrimary),
+                      ),
                     );
-                  },
-                );
-              } else if (state.status == ClientPostStatus.error) {
-                print("❌❌❌❌❌❌❌");
-                return Center(child: Text("Error al cargar posts"));
-              }
-              return const SizedBox();
-            },
-          ),
-        ],
+                  }
+                  return ListView.builder(
+                    itemCount: posts.length,
+                    itemBuilder: (context, index) {
+                      final post = posts[index];
+                      return ClientPostCard(
+                        oigin: post['origin'],
+                        destination: post['destination'],
+                        description: post['description'],
+                      );
+                    },
+                  );
+                } else if (state.status == ClientPostStatus.error) {
+                  print("❌❌❌❌❌❌❌");
+                  return Center(child: Text("Error al cargar posts"));
+                }
+                return const SizedBox();
+              },
+            ),
+          ],
+        ),
+        onRefresh: () => _onRefresh(context),
       ),
+
       bottomNavigationBar: const NavBar(),
     );
   }
@@ -96,7 +113,7 @@ class _ClientsHomeState extends State<ClientsHome> {
 
 
 
-
+//!El drawable de fabian
   // @override
   // Widget build(BuildContext context) {
   //   return Scaffold(
