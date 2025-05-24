@@ -5,7 +5,7 @@ export 'animations/no_connection1.dart';
 //!buttons
 
 //!cards
-export 'cards/card-client.dart';
+export 'cards/card_client.dart';
 
 //!inputs
 
