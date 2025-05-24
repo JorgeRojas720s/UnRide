@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:un_ride/blocs/authentication/authentication.dart';
+import 'package:un_ride/blocs/client_post/bloc/client_post_bloc.dart';
 import 'package:un_ride/blocs/connectivity/bloc/connectivity_bloc.dart';
+import 'package:un_ride/repository/client_post/client_post_repository.dart';
 import 'package:un_ride/repository/repository.dart';
 import 'package:un_ride/theme.dart';
 import 'package:un_ride/Routes/routes.dart';
@@ -19,13 +21,19 @@ class App extends StatelessWidget {
       value: authenticationRepository,
       child: MultiBlocProvider(
         providers: [
+          BlocProvider(create: (_) => ConnectivityBloc()),
           BlocProvider(
             create:
                 (_) => AuthenticationBloc(
                   authenticationRepository: authenticationRepository,
                 ),
           ),
-          BlocProvider(create: (_) => ConnectivityBloc()),
+          BlocProvider(
+            create:
+                (_) => ClientPostBloc(
+                  publication_repository: ClientPostRepository(),
+                ),
+          ),
         ],
 
         child: AppView(),
@@ -70,11 +78,12 @@ class _AppViewState extends State<AppView> {
                       (route) => false,
                     );
                     break;
-                  // case AuthenticationStatus.authenticatedWithVehicle:
-                  //   _navigatorKey.currentState?.pushNamedAndRemoveUntil(
-                  //     '/role',
-                  //     (route) => false,
-                  //   );
+                  //!Cuando se desconecta el wifi y vuelve si usa esto, igualmente quitar, es por el sign in no trae vehicle
+                  case AuthenticationStatus.authenticatedWithVehicle:
+                    _navigatorKey.currentState?.pushNamedAndRemoveUntil(
+                      '/role',
+                      (route) => false,
+                    );
                   //break;
                   case AuthenticationStatus.authenticated:
                     _navigatorKey.currentState?.pushNamedAndRemoveUntil(
