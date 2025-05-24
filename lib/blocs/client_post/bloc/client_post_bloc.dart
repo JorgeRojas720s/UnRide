@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter/material.dart';
 import 'package:un_ride/repository/client_post/client_post_repository.dart';
 import 'package:un_ride/repository/repository.dart';
 
@@ -11,7 +12,7 @@ class ClientPostBloc extends Bloc<ClientPostEvent, ClientPostState> {
 
   ClientPostBloc({required ClientPostRepository clientPostRepository})
     : _clientPostRepository = clientPostRepository,
-      super(const ClientPostState.unknown()) {
+      super(const ClientPostState.loading()) {
     //!Aqi los envents
     on<ClientPostRegister>((event, emit) async {
       try {
@@ -31,6 +32,7 @@ class ClientPostBloc extends Bloc<ClientPostEvent, ClientPostState> {
       } catch (e) {
         print(e);
         print("Desde Bloc no se pudo registrar el post ❌❌❌");
+        emit(const ClientPostState.error());
       }
     });
 
@@ -38,6 +40,20 @@ class ClientPostBloc extends Bloc<ClientPostEvent, ClientPostState> {
       try {} catch (e) {
         print(e);
         print("Desde Bloc no se pudo editar el post ❌❌❌");
+      }
+    });
+
+    //!De los posts
+    on<LoadClientPosts>((event, emit) async {
+      try {
+        final List<Map<String, dynamic>> posts =
+            await clientPostRepository.getUserPosts();
+
+        emit(ClientPostState.success(posts));
+      } catch (e) {
+        print(e);
+        print("Desde Bloc no se pudo cargar los posts ❌❌❌");
+        emit(ClientPostState.error());
       }
     });
   }

@@ -53,4 +53,18 @@ class ClientPostRepository {
   }
 
   Future<void> deleteClientPost() async {}
+
+  //!De los posts
+  Future<List<Map<String, dynamic>>> getUserPosts() async {
+    try {
+      final snapshot =
+          await FirebaseFirestore.instance.collection('posts').get();
+
+      return snapshot.docs.map((doc) => doc.data()).toList();
+    } catch (e) {
+      print(e);
+      print("En repository no se pudo cargar los post ❌❌❌");
+      return const [];
+    }
+  }
 }

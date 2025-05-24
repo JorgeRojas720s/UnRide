@@ -81,3 +81,12 @@ class updateClientPost extends ClientPostEvent {
 class deleteClientPost extends ClientPostEvent {
   //!Ocupo saber como obtengo el id del post
 }
+
+//!Estados de los posts
+
+class LoadClientPosts extends ClientPostEvent {
+  LoadClientPosts();
+
+  @override
+  List<Object?> get props => [];
+}
