@@ -51,18 +51,32 @@ class AuthenticationUserRegister extends AuthenticationEvent {
   });
 
   @override
-  List<Object> get props => [];
+  List<Object> get props => [
+    identification,
+    name,
+    surname,
+    email,
+    phone,
+    password,
+    profilePictureUrl,
+    hasVehicle,
+    licensePlate,
+    make,
+    model,
+    year,
+    color,
+    vehicleType,
+  ];
 }
 
 class AuthenticationUserSignIn extends AuthenticationEvent {
   final String email;
-
   final String password;
 
   AuthenticationUserSignIn({required this.email, required this.password});
 
   @override
-  List<Object> get props => [];
+  List<Object> get props => [email, password];
 }
 
 class AuthenticationLogoutRequested extends AuthenticationEvent {}

@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:un_ride/appColors.dart';
+import 'package:un_ride/blocs/authentication/bloc/authentication_bloc.dart';
+import 'package:un_ride/blocs/client_post/bloc/client_post_bloc.dart';
 import 'package:un_ride/screens/Widgets/widgets.dart';
 
 class CreateRideScreen extends StatefulWidget {
@@ -124,6 +127,7 @@ class _CreateRideScreenState extends State<CreateRideScreen>
       }
 
       //!LLAMADO DEL BLOC
+      await saveClientPost(); //!Que devuelva algo de que se realizo para mostrar eso de abajo
 
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
@@ -134,6 +138,23 @@ class _CreateRideScreenState extends State<CreateRideScreen>
 
       _closeScreen();
     }
+  }
+
+  Future<void> saveClientPost() async {
+    final user = context.read<AuthenticationBloc>().state.user;
+    context.read<ClientPostBloc>().add(
+      await ClientPostRegister(
+        user: user,
+        origin: _originController.text.trim(),
+        destination: _destinationController.text.trim(),
+        description: _descriptionController.text.trim(),
+        // passengers: int.parse(_passengersController.text),
+        passengers: 1, //!Quitar cuando aggregue lo de pasajeros
+        travelDate: _selectedDate,
+        travelTime: _selectedTime?.format(context),
+        suggestedAmount: double.parse(_priceController.text),
+      ),
+    );
   }
 
   String _formatDate(DateTime date) {

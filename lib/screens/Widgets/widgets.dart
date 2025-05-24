@@ -6,7 +6,7 @@ export 'animations/no_connection1.dart';
 export 'buttons/sign-in-submit.dart';
 
 //!cards
-export 'cards/card-client.dart';
+export 'cards/card_client.dart';
 
 //!inputs
 export 'inputs/sign-in-text-field.dart';
