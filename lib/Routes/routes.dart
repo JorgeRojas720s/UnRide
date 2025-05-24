@@ -4,19 +4,12 @@ import 'package:un_ride/screens/role/role.dart';
 import 'package:un_ride/screens/clients/clients_home.dart';
 //import 'package:un_ride/screens/sign-up/sign-up.dart';
 import 'package:un_ride/screens/auth/auth.dart';
-import 'package:un_ride/screens/drawer/custom-drawer.dart';
 
 Map<String, Widget Function(BuildContext)> routes = {
-  '/splash': (_) => SplashPage(),
-  '/role': (_) => RolePage(),
+  '/splash': (_) => const SplashPage(),
+  '/role': (_) => const RolePage(),
   '/clients_home':
-      (_) => Builder(
-        builder:
-            (context) => ClientsHome(
-              onMenuPressed: () => Navigator.pushNamed(context, '/drawer'),
-            ),
-      ),
+      (_) => const ClientsHome(), // Eliminamos el onMenuPressed aquí
   //'/signUp': (_) => SignUpForm(),
-  '/auth': (_) => AuthScreen(),
-  '/drawer': (_) => CustomDrawer(),
+  '/auth': (_) => const AuthScreen(),
 };
