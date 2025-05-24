@@ -58,7 +58,7 @@ class AuthenticationBloc
       if (user.hasVehicle) {
         emit(AuthenticationState.authenticatedWithVehicle(user));
       } else if (!user.hasVehicle) {
-        emit(AuthenticationState.unauthenticated());
+        emit(AuthenticationState.authenticated(user));
       } else {
         emit(AuthenticationState.unauthenticated());
       }
