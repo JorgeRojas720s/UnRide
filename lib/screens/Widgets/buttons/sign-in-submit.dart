@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:un_ride/appColors.dart';
 
 class SignInSubmitButton extends StatelessWidget {
   final bool isLoading;
@@ -23,10 +24,12 @@ class SignInSubmitButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final defaultGradientColors =
-        gradientColors ?? [const Color(0xFF5C5CFF), const Color(0xFF7C4DFF)];
+        gradientColors ??
+        [AppColors.primary, AppColors.primary.withOpacity(0.8)];
+
     final defaultShadowColor =
-        shadowColor ?? const Color(0xFF5C5CFF).withOpacity(0.4);
-    final defaultBorderRadius = borderRadius ?? BorderRadius.circular(30);
+        shadowColor ?? AppColors.primary.withOpacity(0.3);
+    final defaultBorderRadius = borderRadius ?? BorderRadius.circular(12);
 
     return AnimatedContainer(
       duration: const Duration(milliseconds: 300),
@@ -43,7 +46,7 @@ class SignInSubmitButton extends StatelessWidget {
           BoxShadow(
             color: defaultShadowColor,
             blurRadius: 12,
-            offset: const Offset(0, 6),
+            offset: const Offset(0, 4),
           ),
         ],
       ),
@@ -52,27 +55,28 @@ class SignInSubmitButton extends StatelessWidget {
         style: ElevatedButton.styleFrom(
           backgroundColor: Colors.transparent,
           disabledBackgroundColor: Colors.transparent,
-          foregroundColor: Colors.white,
+          foregroundColor: AppColors.textPrimary,
           elevation: 0,
           shadowColor: Colors.transparent,
           shape: RoundedRectangleBorder(borderRadius: defaultBorderRadius),
         ),
         child:
             isLoading
-                ? const SizedBox(
+                ? SizedBox(
                   height: 24,
                   width: 24,
                   child: CircularProgressIndicator(
                     strokeWidth: 2.5,
-                    color: Colors.white,
+                    color: AppColors.textPrimary,
                   ),
                 )
                 : Text(
                   text,
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                    letterSpacing: 0.5,
+                    fontWeight: FontWeight.w600,
+                    letterSpacing: 0.3,
+                    color: AppColors.textPrimary,
                   ),
                 ),
       ),

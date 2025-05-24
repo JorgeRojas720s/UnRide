@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:un_ride/appColors.dart';
 
 class CustomDrawer extends StatefulWidget {
   final VoidCallback onClose;
@@ -28,7 +29,7 @@ class _CustomDrawerState extends State<CustomDrawer>
     );
 
     _slideAnimation = Tween<Offset>(
-      begin: const Offset(-1.0, 0.0),
+      begin: const Offset(1.0, 0.0),
       end: Offset.zero,
     ).animate(
       CurvedAnimation(parent: _animationController, curve: Curves.easeOut),
@@ -48,32 +49,47 @@ class _CustomDrawerState extends State<CustomDrawer>
     return SlideTransition(
       position: _slideAnimation,
       child: Scaffold(
-        backgroundColor: Colors.black,
+        backgroundColor: AppColors.scaffoldBackground,
         body: SafeArea(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               // Header del drawer
-              Padding(
+              Container(
                 padding: const EdgeInsets.all(16.0),
+                decoration: BoxDecoration(
+                  color: AppColors.secondaryBackground,
+                  border: Border(
+                    bottom: BorderSide(
+                      color: AppColors.cardBackground,
+                      width: 0.5,
+                    ),
+                  ),
+                ),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const Text(
+                    Text(
                       'Settings and activity',
                       style: TextStyle(
-                        color: Colors.white,
+                        color: AppColors.textPrimary,
                         fontSize: 24,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    IconButton(
-                      icon: const Icon(
-                        Icons.close,
-                        color: Colors.white,
-                        size: 28,
+                    Container(
+                      decoration: BoxDecoration(
+                        color: AppColors.cardBackground,
+                        borderRadius: BorderRadius.circular(20),
                       ),
-                      onPressed: widget.onClose,
+                      child: IconButton(
+                        icon: Icon(
+                          Icons.close,
+                          color: AppColors.textPrimary,
+                          size: 24,
+                        ),
+                        onPressed: widget.onClose,
+                      ),
                     ),
                   ],
                 ),
@@ -85,26 +101,34 @@ class _CustomDrawerState extends State<CustomDrawer>
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
+                      const SizedBox(height: 12),
+
                       _buildMenuItem(
                         icon: Icons.people_alt_outlined,
                         title: 'Clients Home',
                         onTap: () => widget.onItemSelected('clients'),
                       ),
 
-                      const Divider(
-                        color: Colors.grey,
+                      Divider(
+                        color: AppColors.cardBackground,
                         height: 32,
                         thickness: 0.5,
+                        indent: 16,
+                        endIndent: 16,
                       ),
 
-                      const Padding(
-                        padding: EdgeInsets.symmetric(
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
                           horizontal: 16.0,
                           vertical: 8.0,
                         ),
                         child: Text(
                           'How you use the app',
-                          style: TextStyle(color: Colors.grey, fontSize: 18),
+                          style: TextStyle(
+                            color: AppColors.textSecondary,
+                            fontSize: 18,
+                            fontWeight: FontWeight.w600,
+                          ),
                         ),
                       ),
 
@@ -144,20 +168,26 @@ class _CustomDrawerState extends State<CustomDrawer>
                         onTap: () => widget.onItemSelected('time'),
                       ),
 
-                      const Divider(
-                        color: Colors.grey,
+                      Divider(
+                        color: AppColors.cardBackground,
                         height: 32,
                         thickness: 0.5,
+                        indent: 16,
+                        endIndent: 16,
                       ),
 
-                      const Padding(
-                        padding: EdgeInsets.symmetric(
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
                           horizontal: 16.0,
                           vertical: 12.0,
                         ),
                         child: Text(
                           'For professionals',
-                          style: TextStyle(color: Colors.grey, fontSize: 18),
+                          style: TextStyle(
+                            color: AppColors.textSecondary,
+                            fontSize: 18,
+                            fontWeight: FontWeight.w600,
+                          ),
                         ),
                       ),
 
@@ -190,10 +220,12 @@ class _CustomDrawerState extends State<CustomDrawer>
                         onTap: () => widget.onItemSelected('creator'),
                       ),
 
-                      const Divider(
-                        color: Colors.grey,
+                      Divider(
+                        color: AppColors.cardBackground,
                         height: 32,
                         thickness: 0.5,
+                        indent: 16,
+                        endIndent: 16,
                       ),
 
                       const SizedBox(height: 20),
@@ -215,28 +247,43 @@ class _CustomDrawerState extends State<CustomDrawer>
     String? trailingText,
     required VoidCallback onTap,
   }) {
-    return ListTile(
-      onTap: onTap,
-      leading: Icon(
-        icon,
-        color: isSelected ? Colors.blue : Colors.white,
-        size: 28,
+    return Container(
+      margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+      decoration: BoxDecoration(
+        color:
+            isSelected
+                ? AppColors.primary.withOpacity(0.1)
+                : Colors.transparent,
+        borderRadius: BorderRadius.circular(8),
       ),
-      title: Text(
-        title,
-        style: TextStyle(
-          color: isSelected ? Colors.blue : Colors.white,
-          fontSize: 18,
-          fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
+      child: ListTile(
+        onTap: onTap,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+        leading: Icon(
+          icon,
+          color: isSelected ? AppColors.primary : AppColors.textPrimary,
+          size: 24,
         ),
+        title: Text(
+          title,
+          style: TextStyle(
+            color: isSelected ? AppColors.primary : AppColors.textPrimary,
+            fontSize: 16,
+            fontWeight: isSelected ? FontWeight.w600 : FontWeight.w400,
+          ),
+        ),
+        trailing:
+            trailingText != null
+                ? Text(
+                  trailingText,
+                  style: TextStyle(
+                    color: AppColors.textSecondary,
+                    fontSize: 14,
+                    fontWeight: FontWeight.w400,
+                  ),
+                )
+                : null,
       ),
-      trailing:
-          trailingText != null
-              ? Text(
-                trailingText,
-                style: const TextStyle(color: Colors.grey, fontSize: 16),
-              )
-              : null,
     );
   }
 }

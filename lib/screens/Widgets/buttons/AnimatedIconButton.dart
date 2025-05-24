@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:un_ride/screens/Widgets/animations/icons/animationIcon.dart';
+import 'package:un_ride/appColors.dart';
 
 class AnimatedIconButton extends StatefulWidget {
   final IconData icon;
@@ -21,14 +22,59 @@ class AnimatedIconButton extends StatefulWidget {
 
 class _AnimatedIconButtonState extends State<AnimatedIconButton>
     with SingleTickerProviderStateMixin {
+  late AnimationController _controller;
+  late Animation<double> _scaleAnimation;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 200),
+    );
+
+    _scaleAnimation = Tween<double>(
+      begin: 1.0,
+      end: 1.2,
+    ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeOut));
+
+    if (widget.isSelected) {
+      _controller.forward();
+    }
+  }
+
+  @override
+  void didUpdateWidget(AnimatedIconButton oldWidget) {
+    super.didUpdateWidget(oldWidget);
+
+    if (widget.isSelected && !oldWidget.isSelected) {
+      _controller.forward();
+    } else if (!widget.isSelected && oldWidget.isSelected) {
+      _controller.reverse();
+    }
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return IconButton(
-      icon: AnimationIcons(widget: widget, isSelected: widget.isSelected),
+      icon: ScaleTransition(
+        scale: _scaleAnimation,
+        child: Icon(
+          widget.icon,
+          size: widget.size,
+          color:
+              widget.isSelected
+                  ? AppColors.iconsNavBarColor
+                  : AppColors.primaryLight,
+        ),
+      ),
       onPressed: () {
-        // setState(() {
-        //   isSelected = true;
-        // });
         widget.onPressed();
       },
     );

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:un_ride/appColors.dart';
 
 class SignInTextField extends StatelessWidget {
   final TextEditingController controller;
@@ -31,20 +32,28 @@ class SignInTextField extends StatelessWidget {
         borderRadius: BorderRadius.circular(12),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.1),
+            color: AppColors.primaryDark.withOpacity(0.3),
             blurRadius: 8,
-            offset: const Offset(0, 4),
+            offset: const Offset(0, 2),
           ),
         ],
       ),
       child: TextFormField(
         controller: controller,
-        style: const TextStyle(color: Colors.white),
+        style: TextStyle(
+          color: AppColors.textPrimary,
+          fontSize: 16,
+          fontWeight: FontWeight.w400,
+        ),
         decoration: InputDecoration(
           labelText: label,
-          labelStyle: TextStyle(color: Colors.white.withOpacity(0.7)),
+          labelStyle: TextStyle(
+            color: AppColors.textSecondary,
+            fontSize: 16,
+            fontWeight: FontWeight.w400,
+          ),
           floatingLabelBehavior: FloatingLabelBehavior.never,
-          fillColor: Colors.white.withOpacity(0.07),
+          fillColor: AppColors.cardBackground,
           filled: true,
           prefixIcon: prefixIcon,
           suffixIcon: suffixIcon,
@@ -62,17 +71,17 @@ class SignInTextField extends StatelessWidget {
           ),
           focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(12),
-            borderSide: BorderSide(color: Colors.indigo.shade300, width: 1.5),
+            borderSide: BorderSide(color: AppColors.primary, width: 2),
           ),
           errorBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(12),
-            borderSide: BorderSide(color: Colors.red.shade300, width: 1.5),
+            borderSide: BorderSide(color: AppColors.primary, width: 1),
           ),
           focusedErrorBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(12),
-            borderSide: BorderSide(color: Colors.red.shade300, width: 1.5),
+            borderSide: BorderSide(color: AppColors.primary, width: 2),
           ),
-          errorStyle: TextStyle(color: Colors.red.shade300, fontSize: 12),
+          errorStyle: TextStyle(color: AppColors.primary, fontSize: 12),
         ),
         keyboardType: keyboardType,
         obscureText: obscureText,

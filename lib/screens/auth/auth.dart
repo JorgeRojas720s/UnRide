@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:un_ride/appColors.dart';
 import 'package:un_ride/screens/auth/sign-in-form.dart';
 import 'package:un_ride/screens/auth/sign-up-form.dart';
 
@@ -61,12 +62,17 @@ class _AuthScreenState extends State<AuthScreen>
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: SystemUiOverlayStyle.light,
       child: Scaffold(
+        backgroundColor: AppColors.scaffoldBackground,
         body: Container(
-          decoration: const BoxDecoration(
+          decoration: BoxDecoration(
             gradient: LinearGradient(
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
-              colors: [Color(0xFF4B164C), Color(0xFF1D1054), Color(0xFF050517)],
+              colors: [
+                AppColors.scaffoldBackground,
+                AppColors.primaryDark,
+                AppColors.scaffoldBackground,
+              ],
             ),
           ),
           child: SafeArea(
@@ -170,24 +176,28 @@ class _AuthScreenState extends State<AuthScreen>
               borderRadius: BorderRadius.circular(12),
               boxShadow: [
                 BoxShadow(
-                  color: Colors.black.withOpacity(0.3),
+                  color: AppColors.primary.withOpacity(0.3),
                   blurRadius: 12,
                   offset: const Offset(0, 4),
                 ),
               ],
-              gradient: const LinearGradient(
-                colors: [Color(0xFFFF4D4D), Color(0xFFFF7676)],
+              gradient: LinearGradient(
+                colors: [AppColors.primary, AppColors.primary.withOpacity(0.8)],
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
               ),
             ),
-            child: const Icon(Icons.directions_car, color: Colors.white),
+            child: Icon(
+              Icons.directions_car,
+              color: AppColors.textPrimary,
+              size: isSmallScreen ? 20 : 24,
+            ),
           ),
           const SizedBox(width: 12),
           Text(
             'UnRide',
             style: TextStyle(
-              color: Colors.white,
+              color: AppColors.textPrimary,
               fontSize: isSmallScreen ? 22 : 26,
               fontWeight: FontWeight.bold,
               letterSpacing: 0.5,
@@ -201,10 +211,14 @@ class _AuthScreenState extends State<AuthScreen>
   Widget _buildAuthToggle(bool isSmallScreen) {
     return Container(
       decoration: BoxDecoration(
-        color: Colors.white.withOpacity(0.05),
-        borderRadius: BorderRadius.circular(30),
+        color: AppColors.cardBackground,
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(
+          color: AppColors.secondaryBackground.withOpacity(0.3),
+          width: 1,
+        ),
       ),
-      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
+      padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 4),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
@@ -228,20 +242,19 @@ class _AuthScreenState extends State<AuthScreen>
         duration: const Duration(milliseconds: 300),
         curve: Curves.easeInOut,
         padding: EdgeInsets.symmetric(
-          horizontal: isSmallScreen ? 18 : 24,
+          horizontal: isSmallScreen ? 20 : 28,
           vertical: 12,
         ),
         decoration: BoxDecoration(
-          color:
-              isSelected ? Colors.white.withOpacity(0.15) : Colors.transparent,
-          borderRadius: BorderRadius.circular(25),
+          color: isSelected ? AppColors.primary : Colors.transparent,
+          borderRadius: BorderRadius.circular(8),
         ),
         child: Text(
           title,
           style: TextStyle(
-            color: isSelected ? Colors.white : Colors.white.withOpacity(0.6),
+            color: isSelected ? AppColors.textPrimary : AppColors.textSecondary,
             fontSize: isSmallScreen ? 14 : 16,
-            fontWeight: isSelected ? FontWeight.w600 : FontWeight.normal,
+            fontWeight: isSelected ? FontWeight.w600 : FontWeight.w400,
           ),
         ),
       ),

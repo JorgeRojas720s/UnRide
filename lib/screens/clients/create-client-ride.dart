@@ -69,10 +69,10 @@ class _CreateRideScreenState extends State<CreateRideScreen>
         return Theme(
           data: Theme.of(context).copyWith(
             colorScheme: const ColorScheme.dark(
-              primary: Color(0xFF5C5CFF),
-              onPrimary: Colors.white,
-              surface: Color(0xFF1E1E1E),
-              onSurface: Colors.white,
+              primary: AppColors.primary,
+              onPrimary: AppColors.textPrimary,
+              surface: AppColors.cardBackground,
+              onSurface: AppColors.textPrimary,
             ),
           ),
           child: child!,
@@ -94,10 +94,10 @@ class _CreateRideScreenState extends State<CreateRideScreen>
         return Theme(
           data: Theme.of(context).copyWith(
             colorScheme: const ColorScheme.dark(
-              primary: Color(0xFF5C5CFF),
-              onPrimary: Colors.white,
-              surface: Color(0xFF1E1E1E),
-              onSurface: Colors.white,
+              primary: AppColors.primary,
+              onPrimary: AppColors.textPrimary,
+              surface: AppColors.cardBackground,
+              onSurface: AppColors.textPrimary,
             ),
           ),
           child: child!,
@@ -117,7 +117,7 @@ class _CreateRideScreenState extends State<CreateRideScreen>
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
             content: Text('Por favor selecciona fecha y hora'),
-            backgroundColor: Colors.red,
+            backgroundColor: AppColors.primary,
           ),
         );
         return;
@@ -128,7 +128,7 @@ class _CreateRideScreenState extends State<CreateRideScreen>
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text('¡Publicación creada exitosamente!'),
-          backgroundColor: Colors.green,
+          backgroundColor: AppColors.primary,
         ),
       );
 
@@ -147,7 +147,7 @@ class _CreateRideScreenState extends State<CreateRideScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black,
+      backgroundColor: AppColors.scaffoldBackground, // Pure black background
       body: AnimatedBuilder(
         animation: _animationController,
         builder: (context, child) {
@@ -156,16 +156,16 @@ class _CreateRideScreenState extends State<CreateRideScreen>
             child: Column(
               children: [
                 AppBar(
-                  backgroundColor: const Color.fromARGB(255, 93, 1, 1),
+                  backgroundColor: AppColors.primaryDark, // Dark gray AppBar
                   elevation: 0,
                   leading: IconButton(
-                    icon: const Icon(Icons.close, color: Colors.white),
+                    icon: const Icon(Icons.close, color: AppColors.textPrimary),
                     onPressed: _closeScreen,
                   ),
                   title: const Text(
                     'Crear Publicación',
                     style: TextStyle(
-                      color: Colors.white,
+                      color: AppColors.textPrimary,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
@@ -189,7 +189,7 @@ class _CreateRideScreenState extends State<CreateRideScreen>
                             label: 'Origen',
                             prefixIcon: const Icon(
                               Icons.my_location,
-                              color: Colors.white54,
+                              color: AppColors.textSecondary,
                             ),
                             validator: (value) {
                               if (value == null || value.isEmpty) {
@@ -205,7 +205,7 @@ class _CreateRideScreenState extends State<CreateRideScreen>
                             label: 'Destino',
                             prefixIcon: const Icon(
                               Icons.location_on,
-                              color: Colors.white54,
+                              color: AppColors.textSecondary,
                             ),
                             validator: (value) {
                               if (value == null || value.isEmpty) {
@@ -227,14 +227,16 @@ class _CreateRideScreenState extends State<CreateRideScreen>
                                       horizontal: 12,
                                     ),
                                     decoration: BoxDecoration(
-                                      color: Colors.white.withOpacity(0.05),
+                                      color:
+                                          AppColors
+                                              .cardBackground, // Card background color
                                       borderRadius: BorderRadius.circular(10),
                                     ),
                                     child: Row(
                                       children: [
                                         const Icon(
                                           Icons.calendar_today,
-                                          color: Colors.white54,
+                                          color: AppColors.textSecondary,
                                         ),
                                         const SizedBox(width: 12),
                                         Text(
@@ -244,10 +246,8 @@ class _CreateRideScreenState extends State<CreateRideScreen>
                                           style: TextStyle(
                                             color:
                                                 _selectedDate != null
-                                                    ? Colors.white
-                                                    : Colors.white.withOpacity(
-                                                      0.7,
-                                                    ),
+                                                    ? AppColors.textPrimary
+                                                    : AppColors.textSecondary,
                                             fontSize: 16,
                                           ),
                                         ),
@@ -266,14 +266,16 @@ class _CreateRideScreenState extends State<CreateRideScreen>
                                       horizontal: 12,
                                     ),
                                     decoration: BoxDecoration(
-                                      color: Colors.white.withOpacity(0.05),
+                                      color:
+                                          AppColors
+                                              .cardBackground, // Card background color
                                       borderRadius: BorderRadius.circular(10),
                                     ),
                                     child: Row(
                                       children: [
                                         const Icon(
                                           Icons.access_time,
-                                          color: Colors.white54,
+                                          color: AppColors.textSecondary,
                                         ),
                                         const SizedBox(width: 12),
                                         Text(
@@ -283,10 +285,8 @@ class _CreateRideScreenState extends State<CreateRideScreen>
                                           style: TextStyle(
                                             color:
                                                 _selectedTime != null
-                                                    ? Colors.white
-                                                    : Colors.white.withOpacity(
-                                                      0.7,
-                                                    ),
+                                                    ? AppColors.textPrimary
+                                                    : AppColors.textSecondary,
                                             fontSize: 16,
                                           ),
                                         ),
@@ -307,7 +307,7 @@ class _CreateRideScreenState extends State<CreateRideScreen>
                             ),
                             prefixIcon: const Icon(
                               Icons.attach_money,
-                              color: Colors.white54,
+                              color: AppColors.textSecondary,
                             ),
                             validator: (value) {
                               if (value == null || value.isEmpty) {
@@ -321,13 +321,34 @@ class _CreateRideScreenState extends State<CreateRideScreen>
                             },
                           ),
                           const SizedBox(height: 16),
+                          // Passengers field
+                          SignUpTextField(
+                            controller: _passengersController,
+                            label: 'Número de pasajeros',
+                            keyboardType: TextInputType.number,
+                            prefixIcon: const Icon(
+                              Icons.people,
+                              color: AppColors.textSecondary,
+                            ),
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return 'Por favor ingresa el número de pasajeros';
+                              }
+                              final int? passengers = int.tryParse(value);
+                              if (passengers == null || passengers <= 0) {
+                                return 'Ingresa un número válido';
+                              }
+                              return null;
+                            },
+                          ),
+                          const SizedBox(height: 16),
                           // Description field
                           SignUpTextField(
                             controller: _descriptionController,
                             label: 'Descripción (opcional)',
                             prefixIcon: const Icon(
                               Icons.description,
-                              color: Colors.white54,
+                              color: AppColors.textSecondary,
                             ),
                             contentPadding: const EdgeInsets.symmetric(
                               vertical: 20,

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:un_ride/appColors.dart';
 
 class SignUpTextField extends StatelessWidget {
   final TextEditingController controller;
@@ -30,26 +31,29 @@ class SignUpTextField extends StatelessWidget {
     this.fillColor,
     this.labelColor,
     this.focusedBorderColor,
-    this.borderRadius = 10,
+    this.borderRadius = 12,
     this.contentPadding,
   });
 
   @override
   Widget build(BuildContext context) {
-    final defaultFillColor = fillColor ?? Colors.white.withOpacity(0.05);
-    final defaultLabelColor = labelColor ?? Colors.white.withOpacity(0.7);
-    final defaultFocusedBorderColor =
-        focusedBorderColor ?? Colors.indigo.shade200;
+    final defaultFillColor = fillColor ?? AppColors.cardBackground;
+    final defaultLabelColor = labelColor ?? AppColors.textSecondary;
+    final defaultFocusedBorderColor = focusedBorderColor ?? AppColors.primary;
     final defaultContentPadding =
         contentPadding ??
-        const EdgeInsets.symmetric(vertical: 16, horizontal: 12);
+        const EdgeInsets.symmetric(vertical: 16, horizontal: 16);
 
     return TextFormField(
       controller: controller,
-      style: const TextStyle(color: Colors.white),
+      style: TextStyle(color: AppColors.textPrimary, fontSize: 16),
       decoration: InputDecoration(
         labelText: label,
-        labelStyle: TextStyle(color: defaultLabelColor),
+        labelStyle: TextStyle(
+          color: defaultLabelColor,
+          fontSize: 16,
+          fontWeight: FontWeight.w400,
+        ),
         fillColor: defaultFillColor,
         filled: true,
         contentPadding: defaultContentPadding,
@@ -63,17 +67,17 @@ class SignUpTextField extends StatelessWidget {
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(borderRadius),
-          borderSide: BorderSide(color: defaultFocusedBorderColor, width: 1),
+          borderSide: BorderSide(color: defaultFocusedBorderColor, width: 2),
         ),
         errorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(borderRadius),
-          borderSide: BorderSide(color: Colors.red.shade300, width: 1),
+          borderSide: BorderSide(color: AppColors.primary, width: 1),
         ),
         focusedErrorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(borderRadius),
-          borderSide: BorderSide(color: Colors.red.shade300, width: 1),
+          borderSide: BorderSide(color: AppColors.primary, width: 2),
         ),
-        errorStyle: TextStyle(color: Colors.red.shade300, fontSize: 12),
+        errorStyle: TextStyle(color: AppColors.primary, fontSize: 12),
         prefixIcon: prefixIcon,
         suffixIcon: suffixIcon,
       ),
