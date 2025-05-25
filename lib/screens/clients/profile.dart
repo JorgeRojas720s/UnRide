@@ -221,7 +221,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           ),
         ],
       ),
-      bottomNavigationBar: const NavBar(),
+      //!  bottomNavigationBar: const NavBar(),
     );
   }
 

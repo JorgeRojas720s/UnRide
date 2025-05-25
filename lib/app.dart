@@ -8,7 +8,7 @@ import 'package:un_ride/repository/repository.dart';
 import 'package:un_ride/theme.dart';
 import 'package:un_ride/Routes/routes.dart';
 import 'package:un_ride/screens/Widgets/widgets.dart';
-import 'package:un_ride/screens/clients/clients_home.dart';
+import 'package:un_ride/screens/clients/clients.dart';
 
 class App extends StatelessWidget {
   final AuthenticationRepository authenticationRepository;
@@ -87,7 +87,7 @@ class _AppViewState extends State<AppView> {
                   //break;
                   case AuthenticationStatus.authenticated:
                     _navigatorKey.currentState?.pushNamedAndRemoveUntil(
-                      '/clients_home',
+                      '/clients',
                       (route) => false,
                     );
                     break;

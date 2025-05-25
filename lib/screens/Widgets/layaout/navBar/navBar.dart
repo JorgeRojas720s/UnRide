@@ -6,7 +6,13 @@ import 'package:un_ride/screens/Widgets/buttons/AnimatedIconButton.dart';
 import 'package:un_ride/screens/clients/create_client_ride.dart';
 
 class NavBar extends StatefulWidget {
-  const NavBar({super.key});
+  final ValueChanged<int> onTabChanged;
+  final int currentIndex;
+  const NavBar({
+    super.key,
+    required this.onTabChanged,
+    required this.currentIndex,
+  });
 
   @override
   State<NavBar> createState() => _NavBarState();
@@ -15,35 +21,11 @@ class NavBar extends StatefulWidget {
 class _NavBarState extends State<NavBar> {
   double iconsButtonsSize = 25;
   int selectedIndex = 0;
+
   bool _isCreateRideOpen = false;
 
   void onIconPressed(int index) {
-    setState(() {
-      selectedIndex = index;
-    });
-
-    switch (index) {
-      case 0:
-        // Navegar a Home
-        Navigator.of(context).pushReplacementNamed('/clients_home');
-        print("Home");
-        break;
-      case 1:
-        print("Noseeeeeeeeeeeeeeeeeeeeee");
-        break;
-      case 2:
-        // Logout
-        context.read<AuthenticationBloc>().add(AuthenticationLogoutRequested());
-        Navigator.of(
-          context,
-        ).pushNamedAndRemoveUntil('/auth', (route) => false);
-        break;
-      case 3:
-        // Navegar a Profile
-        Navigator.of(context).pushReplacementNamed('/profile');
-        print("Profile");
-        break;
-    }
+    widget.onTabChanged(index);
   }
 
   void _openCreateRide() {
@@ -107,13 +89,13 @@ class _NavBarState extends State<NavBar> {
               AnimatedIconButton(
                 size: iconsButtonsSize,
                 icon: Icons.home_rounded,
-                isSelected: selectedIndex == 0,
+                isSelected: widget.currentIndex == 0,
                 onPressed: () => onIconPressed(0),
               ),
               AnimatedIconButton(
                 size: iconsButtonsSize,
                 icon: Icons.push_pin_rounded,
-                isSelected: selectedIndex == 1,
+                isSelected: widget.currentIndex == 1,
                 onPressed: () => onIconPressed(1),
               ),
               Column(
@@ -150,13 +132,13 @@ class _NavBarState extends State<NavBar> {
               AnimatedIconButton(
                 size: iconsButtonsSize,
                 icon: Icons.favorite_rounded,
-                isSelected: selectedIndex == 2,
+                isSelected: widget.currentIndex == 2,
                 onPressed: () => onIconPressed(2),
               ),
               AnimatedIconButton(
                 size: iconsButtonsSize,
                 icon: Icons.person,
-                isSelected: selectedIndex == 3,
+                isSelected: widget.currentIndex == 3,
                 onPressed: () => onIconPressed(3),
               ),
             ],

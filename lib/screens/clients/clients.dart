@@ -1,21 +1,29 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:un_ride/appColors.dart';
-import 'package:un_ride/blocs/client_post/bloc/client_post_bloc.dart';
-import 'package:un_ride/screens/Widgets/widgets.dart';
-import 'package:un_ride/screens/drawer/custom_drawer.dart';
 
-class ClientsHome extends StatefulWidget {
-  const ClientsHome({super.key});
+import 'package:un_ride/appColors.dart';
+
+import 'package:un_ride/screens/Widgets/widgets.dart';
+import 'package:un_ride/screens/clients/profile.dart';
+import 'package:un_ride/screens/clients/screens/clients_home.dart';
+
+class Clients extends StatefulWidget {
+  const Clients({super.key});
 
   @override
-  State<ClientsHome> createState() => _ClientsHomeState();
+  State<Clients> createState() => _ClientsState();
 }
 
-class _ClientsHomeState extends State<ClientsHome> {
+class _ClientsState extends State<Clients> {
   // bool _isDrawerOpen = false;
   bool _isDriverMode = false;
   bool _canSwitchToDriver = true;
+  int selectedIndex = 0;
+
+  void handleTabChange(int index) {
+    setState(() {
+      selectedIndex = index;
+    });
+  }
 
   // void _toggleDrawer() {
   //   setState(() {
@@ -23,20 +31,25 @@ class _ClientsHomeState extends State<ClientsHome> {
   //   });
   // }
 
-  @override
-  void initState() {
-    super.initState();
-    context.read<ClientPostBloc>().add(LoadClientPosts());
-  }
-
   void _toggleRole(bool isDriver) {
     setState(() {
       _isDriverMode = isDriver;
     });
   }
 
-  Future<void> _onRefresh(BuildContext context) async {
-    context.read<ClientPostBloc>().add(LoadClientPosts());
+  Widget _buildBody() {
+    switch (selectedIndex) {
+      case 0:
+        return const ClientsHome(); // pantalla para clientes
+      case 1:
+        return Text("La del pin");
+      case 2:
+      // !La del corazon
+      case 3:
+        return const ProfileScreen();
+      default:
+        return const Center(child: Text("Pantalla no encontrada"));
+    }
   }
 
   @override
@@ -59,61 +72,15 @@ class _ClientsHomeState extends State<ClientsHome> {
           ),
         ],
       ),
-      body: RefreshIndicator(
-        child: Stack(
-          children: [
-            BlocBuilder<ClientPostBloc, ClientPostState>(
-              builder: (context, state) {
-                if (state.status == ClientPostStatus.loading) {
-                  print("👾👾👾👾👾👾👾👾👾👾");
-                  return const Center(child: CircularProgressIndicator());
-                } else if (state.status == ClientPostStatus.success) {
-                  print("😏😏😏😏😏😏😏😏");
-                  final posts = state.posts;
-                  if (posts.length == 0) {
-                    print("🐕🐕🐕🐕");
-                    return Center(
-                      child: Text(
-                        "No hay posts",
-                        style: TextStyle(color: AppColors.textPrimary),
-                      ),
-                    );
-                  }
-                  return ListView.builder(
-                    itemCount: posts.length,
-                    itemBuilder: (context, index) {
-                      final post = posts[index];
-                      return ClientPostCard(
-                        origin: post.origin,
-                        destination: post.destination,
-                        description: post.description,
-                        suggestedAmount: post.suggestedAmount,
-                        travelDate: post.travelDate,
-                        travelTime: post.travelTime,
-                      );
-                    },
-                  );
-                } else if (state.status == ClientPostStatus.error) {
-                  print("❌❌❌❌❌❌❌");
-                  return Center(child: Text("Error al cargar posts"));
-                }
-                return const SizedBox();
-              },
-            ),
-          ],
-        ),
-        onRefresh: () => _onRefresh(context),
-      ),
 
-      bottomNavigationBar: const NavBar(),
+      body: _buildBody(),
+      bottomNavigationBar: NavBar(
+        onTabChanged: handleTabChange,
+        currentIndex: selectedIndex,
+      ),
     );
   }
 }
-
-
-
-
-
 
 
 //!El drawable de fabian

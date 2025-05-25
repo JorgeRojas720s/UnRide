@@ -48,7 +48,7 @@ class RolePage extends StatelessWidget {
                   onPressed:
                       () => Navigator.of(context).pushNamedAndRemoveUntil(
                         //!Qiza mejor deajr el pushNamed para que conserve la ruta del role
-                        '/clients_home',
+                        '/clients',
                         (route) => false,
                       ),
                   child: Text('Client'),
@@ -57,7 +57,7 @@ class RolePage extends StatelessWidget {
                 // ElevatedButton(
                 //   onPressed: () {
                 //     Navigator.of(context).pushNamedAndRemoveUntil(
-                //       '/clients_home',
+                //       '/clients',
                 //       (route) => false,
                 //     );
                 //   },
