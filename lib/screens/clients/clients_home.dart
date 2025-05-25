@@ -84,9 +84,12 @@ class _ClientsHomeState extends State<ClientsHome> {
                     itemBuilder: (context, index) {
                       final post = posts[index];
                       return ClientPostCard(
-                        oigin: post['origin'],
-                        destination: post['destination'],
-                        description: post['description'],
+                        origin: post.origin,
+                        destination: post.destination,
+                        description: post.description,
+                        suggestedAmount: post.suggestedAmount,
+                        travelDate: post.travelDate,
+                        travelTime: post.travelTime,
                       );
                     },
                   );

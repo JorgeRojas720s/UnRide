@@ -12,7 +12,7 @@ enum ClientPostStatus {
 
 class ClientPostState extends Equatable {
   final ClientPostStatus status;
-  final List<Map<String, dynamic>> posts;
+  final List<Post> posts;
 
   const ClientPostState({
     this.status = ClientPostStatus.unknown,
@@ -29,7 +29,7 @@ class ClientPostState extends Equatable {
 
   //!Estados de la publicacion
 
-  const ClientPostState.success(List<Map<String, dynamic>> posts)
+  const ClientPostState.success(List<Post> posts)
     : this(status: ClientPostStatus.success, posts: posts);
 
   const ClientPostState.loading() : this(status: ClientPostStatus.loading);

@@ -2,6 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:un_ride/repository/client_post/client_post_repository.dart';
+import 'package:un_ride/repository/client_post/models/client_post.dart';
 import 'package:un_ride/repository/repository.dart';
 
 part 'client_post_event.dart';
@@ -15,6 +16,8 @@ class ClientPostBloc extends Bloc<ClientPostEvent, ClientPostState> {
       super(const ClientPostState.loading()) {
     //!Aqi los envents
     on<ClientPostRegister>((event, emit) async {
+      print("🫏🫏🫏🫏");
+      print(event.travelTime);
       try {
         await _clientPostRepository.createClientPost(
           user: event.user,
@@ -46,8 +49,10 @@ class ClientPostBloc extends Bloc<ClientPostEvent, ClientPostState> {
     //!De los posts
     on<LoadClientPosts>((event, emit) async {
       try {
-        final List<Map<String, dynamic>> posts =
-            await clientPostRepository.getUserPosts();
+        final List<Post> posts = await clientPostRepository.getUserPosts();
+
+        print("📍📍📍📍");
+        print(posts);
 
         emit(ClientPostState.success(posts));
       } catch (e) {
