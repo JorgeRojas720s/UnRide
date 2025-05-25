@@ -24,19 +24,24 @@ class _NavBarState extends State<NavBar> {
 
     switch (index) {
       case 0:
-        print("Homeeeeeeee");
+        // Navegar a Home
+        Navigator.of(context).pushReplacementNamed('/clients_home');
+        print("Home");
         break;
       case 1:
         print("Noseeeeeeeeeeeeeeeeeeeeee");
         break;
       case 2:
+        // Logout
         context.read<AuthenticationBloc>().add(AuthenticationLogoutRequested());
         Navigator.of(
           context,
         ).pushNamedAndRemoveUntil('/auth', (route) => false);
         break;
       case 3:
-        print("Holaaaaaaaaaaaaaaaaaaaaaaaa");
+        // Navegar a Profile
+        Navigator.of(context).pushReplacementNamed('/profile');
+        print("Profile");
         break;
     }
   }

@@ -46,195 +46,172 @@ class _CustomDrawerState extends State<CustomDrawer>
 
   @override
   Widget build(BuildContext context) {
-    return SlideTransition(
-      position: _slideAnimation,
-      child: Scaffold(
-        backgroundColor: AppColors.scaffoldBackground,
-        body: SafeArea(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              // Header del drawer
-              Container(
-                padding: const EdgeInsets.all(16.0),
-                decoration: BoxDecoration(
-                  color: AppColors.secondaryBackground,
-                  border: Border(
-                    bottom: BorderSide(
-                      color: AppColors.cardBackground,
-                      width: 0.5,
-                    ),
+    return Scaffold(
+      backgroundColor: AppColors.scaffoldBackground,
+      body: SafeArea(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+              padding: const EdgeInsets.all(5.0),
+              decoration: BoxDecoration(
+                color: AppColors.secondaryBackground,
+                border: Border(
+                  bottom: BorderSide(
+                    color: AppColors.cardBackground,
+                    width: 0.5,
                   ),
                 ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    'Settings and activity',
+                    style: TextStyle(
+                      color: AppColors.textPrimary,
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  Container(
+                    child: IconButton(
+                      icon: Icon(
+                        Icons.close,
+                        color: AppColors.primary,
+                        size: 24,
+                      ),
+                      onPressed: widget.onClose,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+
+            // Contenido del drawer
+            Expanded(
+              child: SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      'Settings and activity',
-                      style: TextStyle(
-                        color: AppColors.textPrimary,
-                        fontSize: 24,
-                        fontWeight: FontWeight.bold,
+                    const SizedBox(height: 12),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 16.0,
+                        vertical: 8.0,
                       ),
-                    ),
-                    Container(
-                      decoration: BoxDecoration(
-                        color: AppColors.cardBackground,
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                      child: IconButton(
-                        icon: Icon(
-                          Icons.close,
-                          color: AppColors.textPrimary,
-                          size: 24,
+                      child: Text(
+                        'How you use the app',
+                        style: TextStyle(
+                          color: AppColors.primary,
+                          fontSize: 18,
+                          fontWeight: FontWeight.w600,
                         ),
-                        onPressed: widget.onClose,
                       ),
                     ),
+
+                    // Saved
+                    _buildMenuItem(
+                      icon: Icons.bookmark_border,
+                      title: 'Saved',
+                      onTap: () => widget.onItemSelected('saved'),
+                    ),
+
+                    // Archive (marcado como seleccionado)
+                    _buildMenuItem(
+                      icon: Icons.history,
+                      title: 'Archive',
+                      isSelected: true,
+                      onTap: () => widget.onItemSelected('archive'),
+                    ),
+
+                    // Your activity
+                    _buildMenuItem(
+                      icon: Icons.show_chart,
+                      title: 'Your activity',
+                      onTap: () => widget.onItemSelected('activity'),
+                    ),
+
+                    // Notifications
+                    _buildMenuItem(
+                      icon: Icons.notifications_none,
+                      title: 'Notifications',
+                      onTap: () => widget.onItemSelected('notifications'),
+                    ),
+
+                    // Time management
+                    _buildMenuItem(
+                      icon: Icons.access_time,
+                      title: 'Time management',
+                      onTap: () => widget.onItemSelected('time'),
+                    ),
+
+                    Divider(
+                      color: AppColors.cardBackground,
+                      height: 32,
+                      thickness: 0.5,
+                      indent: 16,
+                      endIndent: 16,
+                    ),
+
+                    Padding(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 16.0,
+                        vertical: 12.0,
+                      ),
+                      child: Text(
+                        'For professionals',
+                        style: TextStyle(
+                          color: AppColors.primary,
+                          fontSize: 18,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ),
+
+                    // Insights
+                    _buildMenuItem(
+                      icon: Icons.bar_chart,
+                      title: 'Insights',
+                      onTap: () => widget.onItemSelected('insights'),
+                    ),
+
+                    // Meta Verified
+                    _buildMenuItem(
+                      icon: Icons.verified,
+                      title: 'Meta Verified',
+                      trailingText: 'Not subscribed',
+                      onTap: () => widget.onItemSelected('verified'),
+                    ),
+
+                    // Scheduled content
+                    _buildMenuItem(
+                      icon: Icons.schedule,
+                      title: 'Scheduled content',
+                      onTap: () => widget.onItemSelected('scheduled'),
+                    ),
+
+                    // Creator tools and controls
+                    _buildMenuItem(
+                      icon: Icons.tune,
+                      title: 'Creator tools and controls',
+                      onTap: () => widget.onItemSelected('creator'),
+                    ),
+
+                    Divider(
+                      color: AppColors.cardBackground,
+                      height: 32,
+                      thickness: 0.5,
+                      indent: 16,
+                      endIndent: 16,
+                    ),
+
+                    const SizedBox(height: 20),
                   ],
                 ),
               ),
-
-              // Contenido del drawer
-              Expanded(
-                child: SingleChildScrollView(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const SizedBox(height: 12),
-
-                      _buildMenuItem(
-                        icon: Icons.people_alt_outlined,
-                        title: 'Clients Home',
-                        onTap: () => widget.onItemSelected('clients'),
-                      ),
-
-                      Divider(
-                        color: AppColors.cardBackground,
-                        height: 32,
-                        thickness: 0.5,
-                        indent: 16,
-                        endIndent: 16,
-                      ),
-
-                      Padding(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 16.0,
-                          vertical: 8.0,
-                        ),
-                        child: Text(
-                          'How you use the app',
-                          style: TextStyle(
-                            color: AppColors.textSecondary,
-                            fontSize: 18,
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
-                      ),
-
-                      // Saved
-                      _buildMenuItem(
-                        icon: Icons.bookmark_border,
-                        title: 'Saved',
-                        onTap: () => widget.onItemSelected('saved'),
-                      ),
-
-                      // Archive (marcado como seleccionado)
-                      _buildMenuItem(
-                        icon: Icons.history,
-                        title: 'Archive',
-                        isSelected: true,
-                        onTap: () => widget.onItemSelected('archive'),
-                      ),
-
-                      // Your activity
-                      _buildMenuItem(
-                        icon: Icons.show_chart,
-                        title: 'Your activity',
-                        onTap: () => widget.onItemSelected('activity'),
-                      ),
-
-                      // Notifications
-                      _buildMenuItem(
-                        icon: Icons.notifications_none,
-                        title: 'Notifications',
-                        onTap: () => widget.onItemSelected('notifications'),
-                      ),
-
-                      // Time management
-                      _buildMenuItem(
-                        icon: Icons.access_time,
-                        title: 'Time management',
-                        onTap: () => widget.onItemSelected('time'),
-                      ),
-
-                      Divider(
-                        color: AppColors.cardBackground,
-                        height: 32,
-                        thickness: 0.5,
-                        indent: 16,
-                        endIndent: 16,
-                      ),
-
-                      Padding(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 16.0,
-                          vertical: 12.0,
-                        ),
-                        child: Text(
-                          'For professionals',
-                          style: TextStyle(
-                            color: AppColors.textSecondary,
-                            fontSize: 18,
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
-                      ),
-
-                      // Insights
-                      _buildMenuItem(
-                        icon: Icons.bar_chart,
-                        title: 'Insights',
-                        onTap: () => widget.onItemSelected('insights'),
-                      ),
-
-                      // Meta Verified
-                      _buildMenuItem(
-                        icon: Icons.verified,
-                        title: 'Meta Verified',
-                        trailingText: 'Not subscribed',
-                        onTap: () => widget.onItemSelected('verified'),
-                      ),
-
-                      // Scheduled content
-                      _buildMenuItem(
-                        icon: Icons.schedule,
-                        title: 'Scheduled content',
-                        onTap: () => widget.onItemSelected('scheduled'),
-                      ),
-
-                      // Creator tools and controls
-                      _buildMenuItem(
-                        icon: Icons.tune,
-                        title: 'Creator tools and controls',
-                        onTap: () => widget.onItemSelected('creator'),
-                      ),
-
-                      Divider(
-                        color: AppColors.cardBackground,
-                        height: 32,
-                        thickness: 0.5,
-                        indent: 16,
-                        endIndent: 16,
-                      ),
-
-                      const SizedBox(height: 20),
-                    ],
-                  ),
-                ),
-              ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
