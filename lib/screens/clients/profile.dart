@@ -97,6 +97,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
       case 'creator':
         _showPlaceholderDialog('Creator Tools');
         break;
+      case 'logout':
+        context.read<AuthenticationBloc>().add(AuthenticationLogoutRequested());
+        break;
     }
   }
 

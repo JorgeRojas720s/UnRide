@@ -4,6 +4,7 @@ import 'package:meta/meta.dart';
 class User extends Equatable {
   final String? id;
   final String name;
+  final String surname;
   final String email;
   final String phoneNumber;
   final String profilePictureUrl;
@@ -12,6 +13,7 @@ class User extends Equatable {
   const User({
     required this.id,
     required this.name,
+    required this.surname,
     required this.email,
     required this.phoneNumber,
     required this.profilePictureUrl,
@@ -21,6 +23,7 @@ class User extends Equatable {
   static const empty = User(
     id: '',
     name: '',
+    surname: '',
     email: '',
     phoneNumber: '',
     profilePictureUrl: '',
@@ -31,6 +34,7 @@ class User extends Equatable {
   List<Object?> get props => [
     id,
     name,
+    surname,
     email,
     phoneNumber,
     profilePictureUrl,

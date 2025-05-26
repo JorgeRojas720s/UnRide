@@ -23,27 +23,27 @@ class AuthenticationRepository {
   }) : _firebaseAuth = firebaseAuth ?? firebase_auth.FirebaseAuth.instance,
        _googleSignIn = googleSignIn ?? GoogleSignIn();
 
+  //!El viejo
+  // Stream<User> get user {
+  //   return _firebaseAuth.authStateChanges().map((firebaseUser) {
+  //     return firebaseUser == null ? User.empty : firebaseUser.toUserAuth;
+  //   });
+  // }
+
+  // //!Probar luego, es para que al entrar a la app vaya detenctando si tiene vehicle
   Stream<User> get user {
-    return _firebaseAuth.authStateChanges().map((firebaseUser) {
-      return firebaseUser == null ? User.empty : firebaseUser.toUser;
+    return _firebaseAuth.authStateChanges().asyncMap((firebaseUser) async {
+      if (firebaseUser == null) {
+        return User.empty;
+      }
+
+      Map<String, dynamic> userData = await getUserDataFromFirestore(
+        firebaseUser.uid,
+      );
+
+      return userData.toUser();
     });
   }
-
-  //!Probar luego, es para que al entrar a la app vaya detenctando si tiene vehicle
-  //  Future<User> get user async {
-  //     return _firebaseAuth.authStateChanges().map((firebaseUser) {
-
-  //       if(firebaseUser == null){
-  //         return User.empty;
-  //       }
-
-  //        Map<String, dynamic> userData = await getUserDataFromFirestore(
-  //         authUser.uid,
-  //       );
-
-  //       : firebaseUser.toUser;
-  //     });
-  //   }
 
   //!Lo dio gepeto para quitar el cuando se quita de fireAuth
   firebase_auth.User? get currentUser => _firebaseAuth.currentUser;
@@ -100,7 +100,7 @@ class AuthenticationRepository {
         );
       }
 
-      return authUser.toUser;
+      return authUser.toUserAuth;
     } on Exception {
       print("No sirvio el registro: ❌❌❌❌❌");
       throw SignUpFailure();
@@ -165,7 +165,6 @@ class AuthenticationRepository {
   }
 
   //!Iniciar sesion con email y password
-  //! Quiza deberia de retornar el user
   Future<User> logInWithEmailAndPassword({
     required String email,
     required String password,
@@ -184,7 +183,11 @@ class AuthenticationRepository {
         authUser.uid,
       );
 
-      return userData.toUser(authUser.uid);
+      print('☁️☁️☁️☁️☁️☁️ $authUser.uid');
+
+      return userData.toUser();
+
+      // return userData.toUser(authUser.uid);
     } on Exception {
       throw LoginWithEmailAndPasswordFailure();
     }
@@ -229,10 +232,11 @@ class AuthenticationRepository {
 
 //! Esta extension convierte un objeto de tipo firebase_auth.User a un objeto de tipo User
 extension on firebase_auth.User {
-  User get toUser {
+  User get toUserAuth {
     return User(
       id: uid,
       name: displayName ?? '',
+      surname: '',
       email: email ?? '',
       phoneNumber: phoneNumber ?? '',
       profilePictureUrl: photoURL ?? '',
@@ -242,11 +246,12 @@ extension on firebase_auth.User {
 }
 
 extension UserFromMap on Map<String, dynamic> {
-  User toUser(String uid) {
+  User toUser() {
     return User(
-      id: uid,
+      id: this['identification'] ?? '',
       name: this['name'] ?? '',
       email: this['email'] ?? '',
+      surname: this['surname'] ?? '',
       phoneNumber: this['phoneNumber'] ?? '',
       profilePictureUrl: this['profilePictureUrl'] ?? '',
       hasVehicle: this['hasVehicle'] ?? false,

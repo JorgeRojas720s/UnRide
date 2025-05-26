@@ -206,6 +206,13 @@ class _CustomDrawerState extends State<CustomDrawer>
                       endIndent: 16,
                     ),
 
+                    // Cerrar Sesion
+                    _buildMenuItem(
+                      icon: Icons.logout_rounded,
+                      title: 'Cerrar sesión',
+                      onTap: () => widget.onItemSelected('logout'),
+                    ),
+
                     const SizedBox(height: 20),
                   ],
                 ),
