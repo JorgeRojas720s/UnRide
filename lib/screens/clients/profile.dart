@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:un_ride/appColors.dart';
 import 'package:un_ride/screens/Widgets/widgets.dart';
 import 'package:un_ride/screens/drawer/custom_drawer.dart';
+import 'package:un_ride/blocs/authentication/authentication.dart';
+import 'package:un_ride/repository/repository.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -13,13 +16,6 @@ class ProfileScreen extends StatefulWidget {
 class _ProfileScreenState extends State<ProfileScreen> {
   final ScrollController _scrollController = ScrollController();
   bool _isScrolled = false;
-
-  final String _userName = "Jorge Homosexual";
-  final String _userEmail = "jorge.rojas@example.com";
-  final String _userPhone = "+57 300 123 4567";
-  final String _profileImageUrl = "";
-  final double _rating = 4.8;
-  final String _memberSince = "Enero 2024";
 
   @override
   void initState() {
@@ -137,95 +133,111 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
     return Scaffold(
       backgroundColor: AppColors.scaffoldBackground,
-      body: CustomScrollView(
-        controller: _scrollController,
-        slivers: [
-          SliverAppBar(
-            expandedHeight: availableHeight * 0.40,
-            floating: false,
-            pinned: true,
-            backgroundColor: AppColors.scaffoldBackground,
-            foregroundColor: AppColors.textPrimary,
-            elevation: 0,
-            actions: [
-              IconButton(
-                icon: Icon(Icons.menu, color: AppColors.textPrimary),
-                onPressed: _openDrawer,
+      body: BlocBuilder<AuthenticationBloc, AuthenticationState>(
+        builder: (context, state) {
+          if (state.status == AuthenticationStatus.unauthenticated) {
+            return Center(
+              child: Text(
+                'Usuario no autenticado',
+                style: TextStyle(color: AppColors.textPrimary),
               ),
-            ],
-            flexibleSpace: LayoutBuilder(
-              builder: (context, constraints) {
-                final maxHeight = constraints.maxHeight;
-                final minHeight =
-                    kToolbarHeight + MediaQuery.of(context).padding.top;
+            );
+          }
 
-                return FlexibleSpaceBar(
-                  collapseMode: CollapseMode.pin,
-                  background: Container(
-                    decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                        begin: Alignment.topCenter,
-                        end: Alignment.bottomCenter,
-                        colors: [
-                          AppColors.scaffoldBackground,
-                          AppColors.secondaryBackground.withOpacity(0.8),
-                        ],
-                      ),
-                    ),
-                    child: Stack(
-                      children: [
-                        // Contenido principal
-                        Positioned(
-                          top: minHeight,
-                          left: 0,
-                          right: 0,
-                          bottom: 0,
-                          child: SingleChildScrollView(
-                            physics: NeverScrollableScrollPhysics(),
-                            child: Padding(
-                              padding: EdgeInsets.only(
-                                bottom: 20,
-                              ), // Espacio para las stats
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  _buildProfileImage(),
-                                  SizedBox(height: 10),
-                                  _buildUserName(),
-                                  SizedBox(height: 8),
-                                  _buildUserEmail(),
-                                ],
-                              ),
-                            ),
+          final user = state.user;
+
+          return CustomScrollView(
+            controller: _scrollController,
+            slivers: [
+              SliverAppBar(
+                expandedHeight: availableHeight * 0.40,
+                floating: false,
+                pinned: true,
+                backgroundColor: AppColors.scaffoldBackground,
+                foregroundColor: AppColors.textPrimary,
+                elevation: 0,
+                actions: [
+                  IconButton(
+                    icon: Icon(Icons.menu, color: AppColors.textPrimary),
+                    onPressed: _openDrawer,
+                  ),
+                ],
+                flexibleSpace: LayoutBuilder(
+                  builder: (context, constraints) {
+                    final maxHeight = constraints.maxHeight;
+                    final minHeight =
+                        kToolbarHeight + MediaQuery.of(context).padding.top;
+
+                    return FlexibleSpaceBar(
+                      collapseMode: CollapseMode.pin,
+                      background: Container(
+                        decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                            begin: Alignment.topCenter,
+                            end: Alignment.bottomCenter,
+                            colors: [
+                              AppColors.scaffoldBackground,
+                              AppColors.secondaryBackground.withOpacity(0.8),
+                            ],
                           ),
                         ),
-                      ],
-                    ),
-                  ),
-                );
-              },
-            ),
-          ),
-          SliverToBoxAdapter(
-            child: Container(
-              color: AppColors.scaffoldBackground,
-              child: Column(
-                children: [
-                  _buildProfileDetails(),
-                  _buildSectionDivider("Mis Publicaciones"),
-                  _buildPostsPlaceholder(),
-                  SizedBox(height: 80),
-                ],
+                        child: Stack(
+                          children: [
+                            // Contenido principal
+                            Positioned(
+                              top: minHeight,
+                              left: 0,
+                              right: 0,
+                              bottom: 0,
+                              child: SingleChildScrollView(
+                                physics: NeverScrollableScrollPhysics(),
+                                child: Padding(
+                                  padding: EdgeInsets.only(
+                                    bottom: 20,
+                                  ), // Espacio para las stats
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      _buildProfileImage(
+                                        user.profilePictureUrl,
+                                      ),
+                                      SizedBox(height: 10),
+                                      _buildUserName(user.name),
+                                      SizedBox(height: 8),
+                                      _buildUserEmail(user.email),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    );
+                  },
+                ),
               ),
-            ),
-          ),
-        ],
+              SliverToBoxAdapter(
+                child: Container(
+                  color: AppColors.scaffoldBackground,
+                  child: Column(
+                    children: [
+                      _buildProfileDetails(user),
+                      _buildSectionDivider("Mis Publicaciones"),
+                      _buildPostsPlaceholder(),
+                      SizedBox(height: 80),
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          );
+        },
       ),
-      //!  bottomNavigationBar: const NavBar(),
     );
   }
 
-  Widget _buildProfileImage() {
+  Widget _buildProfileImage(String profileImageUrl) {
     return Container(
       width: 120,
       height: 120,
@@ -249,18 +261,18 @@ class _ProfileScreenState extends State<ProfileScreen> {
           color: AppColors.secondaryBackground,
         ),
         child:
-            _profileImageUrl.isEmpty
+            profileImageUrl.isEmpty
                 ? Icon(Icons.person, size: 60, color: AppColors.textPrimary)
                 : ClipOval(
-                  child: Image.network(_profileImageUrl, fit: BoxFit.cover),
+                  child: Image.network(profileImageUrl, fit: BoxFit.cover),
                 ),
       ),
     );
   }
 
-  Widget _buildUserName() {
+  Widget _buildUserName(String name) {
     return Text(
-      _userName,
+      name.isEmpty ? "Usuario" : name,
       style: TextStyle(
         fontSize: 28,
         fontWeight: FontWeight.bold,
@@ -269,9 +281,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
     );
   }
 
-  Widget _buildUserEmail() {
+  Widget _buildUserEmail(String email) {
     return Text(
-      _userEmail,
+      email.isEmpty ? "No email" : email,
       style: TextStyle(fontSize: 16, color: AppColors.textSecondary),
     );
   }
@@ -306,7 +318,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     );
   }
 
-  Widget _buildProfileDetails() {
+  Widget _buildProfileDetails(User user) {
     return Container(
       margin: EdgeInsets.all(20),
       padding: EdgeInsets.all(20),
@@ -318,15 +330,61 @@ class _ProfileScreenState extends State<ProfileScreen> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          _buildDetailRow(Icons.phone_rounded, "Teléfono", _userPhone),
+          _buildDetailRow(Icons.phone_rounded, "Teléfono", user.phoneNumber),
           SizedBox(height: 16),
           _buildDetailRow(
-            Icons.calendar_today_rounded,
-            "Miembro desde",
-            _memberSince,
+            user.hasVehicle
+                ? Icons.directions_car_rounded
+                : Icons.person_rounded,
+            "Tipo de usuario",
+            user.hasVehicle ? "Conductor" : "Pasajero",
+          ),
+          if (user.id != null && user.id!.isNotEmpty) ...[
+            SizedBox(height: 16),
+            _buildDetailRow(
+              Icons.fingerprint_rounded,
+              "ID de Usuario",
+              user.id!.length > 8 ? user.id!.substring(0, 8) + "..." : user.id!,
+            ),
+          ],
+        ],
+      ),
+    );
+  }
+
+  Widget _buildVehicleSection(User user) {
+    // Esta sección está comentada porque el modelo User actual no incluye información del vehículo
+    // Solo tiene el campo hasVehicle pero no los detalles del vehículo
+    return Container(
+      margin: EdgeInsets.symmetric(horizontal: 20),
+      padding: EdgeInsets.all(20),
+      decoration: BoxDecoration(
+        color: AppColors.cardBackground,
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: AppColors.scaffoldBackground, width: 1),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Icon(Icons.directions_car, color: AppColors.primary),
+              SizedBox(width: 8),
+              Text(
+                "Información del Vehículo",
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                  color: AppColors.textPrimary,
+                ),
+              ),
+            ],
           ),
           SizedBox(height: 16),
-          _buildDetailRow(Icons.star_rounded, "Calificación", "$_rating ⭐"),
+          Text(
+            "La información detallada del vehículo estará disponible próximamente.",
+            style: TextStyle(fontSize: 14, color: AppColors.textSecondary),
+          ),
         ],
       ),
     );
@@ -354,7 +412,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               ),
               SizedBox(height: 2),
               Text(
-                value,
+                value.isEmpty ? "No especificado" : value,
                 style: TextStyle(
                   fontSize: 16,
                   color: AppColors.textPrimary,
