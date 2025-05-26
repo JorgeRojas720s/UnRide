@@ -24,12 +24,12 @@ class _CreateRideScreenState extends State<CreateRideScreen>
   final _originController = TextEditingController();
   final _destinationController = TextEditingController();
   final _descriptionController = TextEditingController();
-  final _passengersController = TextEditingController();
   final _priceController = TextEditingController();
 
   DateTime? _selectedDate;
   TimeOfDay? _selectedTime;
   bool _isLoading = false;
+  int _selectedPassengers = 1;
 
   @override
   void initState() {
@@ -52,7 +52,6 @@ class _CreateRideScreenState extends State<CreateRideScreen>
     _originController.dispose();
     _destinationController.dispose();
     _descriptionController.dispose();
-    _passengersController.dispose();
     _priceController.dispose();
     super.dispose();
   }
@@ -148,8 +147,7 @@ class _CreateRideScreenState extends State<CreateRideScreen>
         origin: _originController.text.trim(),
         destination: _destinationController.text.trim(),
         description: _descriptionController.text.trim(),
-        // passengers: int.parse(_passengersController.text),
-        passengers: 1, //!Quitar cuando aggregue lo de pasajeros
+        passengers: _selectedPassengers,
         travelDate: _selectedDate,
         travelTime: _selectedTime?.format(context),
         suggestedAmount: double.parse(_priceController.text),
@@ -342,25 +340,64 @@ class _CreateRideScreenState extends State<CreateRideScreen>
                             },
                           ),
                           const SizedBox(height: 16),
-                          // Passengers field
-                          SignUpTextField(
-                            controller: _passengersController,
-                            label: 'Número de pasajeros',
-                            keyboardType: TextInputType.number,
-                            prefixIcon: const Icon(
-                              Icons.people,
-                              color: AppColors.textSecondary,
+                          // Passengers dropdown selector
+                          Container(
+                            padding: const EdgeInsets.symmetric(
+                              vertical: 4,
+                              horizontal: 12,
                             ),
-                            validator: (value) {
-                              if (value == null || value.isEmpty) {
-                                return 'Por favor ingresa el número de pasajeros';
-                              }
-                              final int? passengers = int.tryParse(value);
-                              if (passengers == null || passengers <= 0) {
-                                return 'Ingresa un número válido';
-                              }
-                              return null;
-                            },
+                            decoration: BoxDecoration(
+                              color: AppColors.cardBackground,
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            child: DropdownButtonFormField<int>(
+                              value: _selectedPassengers,
+                              decoration: const InputDecoration(
+                                labelText: 'Número de pasajeros',
+                                labelStyle: TextStyle(
+                                  color: AppColors.textSecondary,
+                                ),
+                                prefixIcon: Icon(
+                                  Icons.people,
+                                  color: AppColors.textSecondary,
+                                ),
+                                border: InputBorder.none,
+                                contentPadding: EdgeInsets.symmetric(
+                                  vertical: 16,
+                                  horizontal: 0,
+                                ),
+                              ),
+                              style: const TextStyle(
+                                color: AppColors.textPrimary,
+                                fontSize: 16,
+                              ),
+                              dropdownColor: AppColors.cardBackground,
+                              items:
+                                  List.generate(8, (index) => index + 1).map((
+                                    int value,
+                                  ) {
+                                    return DropdownMenuItem<int>(
+                                      value: value,
+                                      child: Text(
+                                        '$value ${value == 1 ? 'pasajero' : 'pasajeros'}',
+                                        style: const TextStyle(
+                                          color: AppColors.textPrimary,
+                                        ),
+                                      ),
+                                    );
+                                  }).toList(),
+                              onChanged: (int? newValue) {
+                                setState(() {
+                                  _selectedPassengers = newValue ?? 1;
+                                });
+                              },
+                              validator: (value) {
+                                if (value == null) {
+                                  return 'Por favor selecciona el número de pasajeros';
+                                }
+                                return null;
+                              },
+                            ),
                           ),
                           const SizedBox(height: 16),
                           // Description field

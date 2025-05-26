@@ -313,7 +313,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
       decoration: BoxDecoration(
         color: AppColors.cardBackground,
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: AppColors.primary.withOpacity(0.1), width: 1),
+        border: Border.all(color: AppColors.scaffoldBackground, width: 1),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
