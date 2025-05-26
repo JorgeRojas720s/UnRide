@@ -55,24 +55,6 @@ class _ClientsState extends State<Clients> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text(
-          "Un Ride",
-          style: TextStyle(color: AppColors.textPrimary),
-        ),
-        backgroundColor: AppColors.scaffoldBackground,
-        actions: [
-          Padding(
-            padding: const EdgeInsets.only(right: 16.0),
-            child: RoleSwitchButton(
-              isDriverMode: _isDriverMode,
-              onChanged: _toggleRole,
-              canSwitchToDriver: _canSwitchToDriver,
-            ),
-          ),
-        ],
-      ),
-
       body: _buildBody(),
       bottomNavigationBar: NavBar(
         onTabChanged: handleTabChange,
