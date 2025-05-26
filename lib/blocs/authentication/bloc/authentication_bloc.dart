@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/widgets.dart';
+import 'package:un_ride/blocs/client_post/bloc/client_post_bloc.dart';
 import 'package:un_ride/repository/repository.dart';
 
 part 'authentication_state.dart';
@@ -89,19 +90,42 @@ class AuthenticationBloc
           model: event.model,
           vehicleType: event.vehicleType,
         );
-        print("☁️☁️☁️☁️☁️☁️");
-        print(event.hasVehicle);
         if (event.hasVehicle) {
-          print("☁️☁️☁️☁️☁️☁️");
           emit(AuthenticationState.authenticatedWithVehicle(user));
         } else {
-          print(
-            ".aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-          );
           emit(AuthenticationState.authenticated(user));
         }
       } catch (e) {
         emit(const AuthenticationState.unauthenticated());
+      }
+    });
+
+    on<UpdateUser>((event, emit) async {
+      try {
+        final user = await _authenticationRepository.updateUser(
+          uid: event.uid,
+          name: event.name,
+          surname: event.surname,
+          phone: event.phone,
+          email: event.email,
+          profilePictureUrl: event.profilePictureUrl,
+          hasVehicle: event.hasVehicle,
+          licensePlate: event.licensePlate,
+          make: event.make,
+          year: event.year,
+          color: event.color,
+          model: event.model,
+          vehicleType: event.vehicleType,
+        );
+
+        if (event.hasVehicle) {
+          emit(AuthenticationState.authenticatedWithVehicle(user));
+        } else {
+          // emit(AuthenticationState.authenticated(user));//!Puede ser este o el estado modified es la misma vaina pero luego muvo logica
+          emit(AuthenticationState.modified(user));
+        }
+      } catch (e) {
+        print(e);
       }
     });
   } //?Fin del constructor

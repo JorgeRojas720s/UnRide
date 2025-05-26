@@ -41,14 +41,79 @@ class AuthenticationRepository {
         firebaseUser.uid,
       );
 
-      return userData.toUser();
+      return userData.toUser(firebaseUser.uid);
     });
   }
 
   //!Lo dio gepeto para quitar el cuando se quita de fireAuth
   firebase_auth.User? get currentUser => _firebaseAuth.currentUser;
 
-  //!Registro de user normal
+  //!Iniciar sesion con email y password
+  Future<User> logInWithEmailAndPassword({
+    required String email,
+    required String password,
+  }) async {
+    try {
+      firebase_auth.UserCredential result = await _firebaseAuth
+          .signInWithEmailAndPassword(email: email, password: password);
+
+      final authUser = result.user;
+
+      if (authUser == null) {
+        throw Exception("Usuario no autenticado");
+      }
+
+      Map<String, dynamic> userData = await getUserDataFromFirestore(
+        authUser.uid,
+      );
+
+      print('☁️☁️☁️☁️☁️☁️ $authUser.uid');
+
+      return userData.toUser(authUser.uid);
+    } on Exception {
+      print("No sirvio el login con email y password: ❌❌❌❌❌");
+      throw LoginWithEmailAndPasswordFailure();
+    }
+  }
+
+  Future<Map<String, dynamic>> getUserDataFromFirestore(String uid) async {
+    DocumentSnapshot<Map<String, dynamic>> snapshot =
+        await FirebaseFirestore.instance.collection('users').doc(uid).get();
+
+    if (snapshot.exists) {
+      return snapshot.data()!;
+    } else {
+      throw Exception("No se encontraron datos para el usuario.");
+    }
+  }
+
+  Future<void> logOut() async {
+    try {
+      await Future.wait([_firebaseAuth.signOut(), _googleSignIn.signOut()]);
+    } on Exception {
+      print("No sirvio el logout: ❌❌❌❌❌");
+      throw LogOutFailure();
+    }
+  }
+
+  //!Login con google
+  Future<void> logInWithGoogle() async {
+    try {
+      final googleUser = await _googleSignIn.signIn();
+      final googleAuth = await googleUser?.authentication;
+      final credential = firebase_auth.GoogleAuthProvider.credential(
+        accessToken: googleAuth?.accessToken,
+        idToken: googleAuth?.idToken,
+      );
+      await _firebaseAuth.signInWithCredential(credential);
+    } on Exception {
+      print("No sirvio el login con google: ❌❌❌❌❌");
+      throw LogInWithGoogleFailure();
+    }
+  }
+
+  //!Por tiempo no haré el bloc para esto, luego hacer su bloc
+  //!Registro de user
   Future<User> signUp({
     required String identification,
     required String name,
@@ -100,9 +165,18 @@ class AuthenticationRepository {
         );
       }
 
-      return authUser.toUserAuth;
+      //!Ver si no chingue nada
+      return User(
+        id: authUser.uid,
+        name: name,
+        surname: surname,
+        email: email,
+        phoneNumber: phone,
+        profilePictureUrl: profilePictureUrl,
+        hasVehicle: hasVehicle,
+      );
     } on Exception {
-      print("No sirvio el registro: ❌❌❌❌❌");
+      print("No sirvio el registro del user completo ❌❌❌❌❌");
       throw SignUpFailure();
     }
   }
@@ -117,28 +191,6 @@ class AuthenticationRepository {
     );
   }
 
-  Future<void> registerVehicle(
-    firebase_auth.User authUser,
-    String licensePlate,
-    String make,
-    String year,
-    String color,
-    String model,
-    String vehicleType,
-  ) async {
-    await FirebaseFirestore.instance
-        .collection('vehicles')
-        .doc(authUser.uid)
-        .set({
-          'licensePlate': licensePlate,
-          'make': make,
-          'year': year,
-          'color': color,
-          'model': model,
-          'vehicleType': vehicleType,
-        });
-  }
-
   Future<void> registerUser(
     firebase_auth.User firebaseUser,
     String identification,
@@ -149,88 +201,157 @@ class AuthenticationRepository {
     String profilePictureUrl,
     bool hasVehicle,
   ) async {
-    await FirebaseFirestore.instance
-        .collection('users')
-        .doc(firebaseUser.uid)
-        .set({
-          'identification': identification,
-          'name': name,
-          'surname': surname,
-          'email': email,
-          'phoneNumber': phone,
-          'profilePictureUrl': profilePictureUrl,
-          'hasVehicle': hasVehicle,
-        });
-    print("📍📍📍📍 ");
+    try {
+      await FirebaseFirestore.instance
+          .collection('users')
+          .doc(firebaseUser.uid)
+          .set({
+            'identification': identification,
+            'name': name,
+            'surname': surname,
+            'email': email,
+            'phoneNumber': phone,
+            'profilePictureUrl': profilePictureUrl,
+            'hasVehicle': hasVehicle,
+          });
+      print("📍📍📍📍 ");
+    } catch (e) {
+      print("No sirvio el registro del usuario: ❌❌❌❌❌");
+      print(e);
+    }
   }
 
-  //!Iniciar sesion con email y password
-  Future<User> logInWithEmailAndPassword({
+  Future<void> registerVehicle(
+    firebase_auth.User authUser,
+    String licensePlate,
+    String make,
+    String year,
+    String color,
+    String model,
+    String vehicleType,
+  ) async {
+    try {
+      await FirebaseFirestore.instance
+          .collection('vehicles')
+          .doc(authUser.uid)
+          .set({
+            'licensePlate': licensePlate,
+            'make': make,
+            'year': year,
+            'color': color,
+            'model': model,
+            'vehicleType': vehicleType,
+          });
+    } catch (e) {
+      print("No sirvio el registro del veiculo: ❌❌❌❌❌");
+      print(e);
+    }
+  }
+
+  //!Quiza deba retonar el user modificado para que se cargue ese
+  Future<User> updateUser({
+    required String uid,
+    required String name,
+    required String surname,
+    required String phone,
     required String email,
-    required String password,
+    required String profilePictureUrl,
+    required bool hasVehicle,
+    required String licensePlate,
+    required String make,
+    required String year,
+    required String color,
+    required String model,
+    required String vehicleType,
   }) async {
     try {
-      firebase_auth.UserCredential result = await _firebaseAuth
-          .signInWithEmailAndPassword(email: email, password: password);
+      await updateUserData(
+        uid: uid,
+        name: name,
+        surname: surname,
+        phone: phone,
+        email: email,
+        profilePictureUrl: profilePictureUrl,
+        hasVehicle: hasVehicle,
+      );
 
-      final authUser = result.user;
-
-      if (authUser == null) {
-        throw Exception("Usuario no autenticado");
+      if (hasVehicle) {
+        await updateUserVehicle(
+          uid: uid,
+          licensePlate: licensePlate,
+          make: make,
+          year: year,
+          color: color,
+          model: model,
+          vehicleType: vehicleType,
+        );
       }
 
-      Map<String, dynamic> userData = await getUserDataFromFirestore(
-        authUser.uid,
+      return User(
+        id: uid,
+        name: name,
+        surname: surname,
+        email: email,
+        phoneNumber: phone,
+        profilePictureUrl: profilePictureUrl,
+        hasVehicle: hasVehicle,
       );
-
-      print('☁️☁️☁️☁️☁️☁️ $authUser.uid');
-
-      return userData.toUser();
-
-      // return userData.toUser(authUser.uid);
-    } on Exception {
-      throw LoginWithEmailAndPasswordFailure();
+    } catch (e) {
+      print("No sirvio se pudo actualizar el user completo: ❌❌❌❌❌");
+      print(e);
+      rethrow; //!sigue su camino y deja que el error lo maneje otro
     }
   }
 
-  Future<Map<String, dynamic>> getUserDataFromFirestore(String uid) async {
-    DocumentSnapshot<Map<String, dynamic>> snapshot =
-        await FirebaseFirestore.instance.collection('users').doc(uid).get();
-
-    if (snapshot.exists) {
-      return snapshot.data()!;
-    } else {
-      throw Exception("No se encontraron datos para el usuario.");
-    }
-  }
-
-  //!Cerrar sesion
-  Future<void> logOut() async {
+  Future<void> updateUserData({
+    required String uid,
+    required String name,
+    required String surname,
+    required String phone,
+    required String email,
+    required String profilePictureUrl,
+    required bool hasVehicle,
+  }) async {
     try {
-      await Future.wait([_firebaseAuth.signOut(), _googleSignIn.signOut()]);
-    } on Exception {
-      print("Fallo el logout");
-      throw LogOutFailure();
+      await FirebaseFirestore.instance.collection('users').doc(uid).update({
+        'name': name,
+        'surname': surname,
+        'phone': phone,
+        'email': email,
+        'profilePictureUrl': profilePictureUrl,
+        'hasVehicle': hasVehicle,
+      });
+    } catch (e) {
+      print("No sirvio se pudo actualizar el user: ❌❌❌❌❌");
+      print(e);
     }
   }
 
-  //!Login con google
-  Future<void> logInWithGoogle() async {
+  Future<void> updateUserVehicle({
+    required String uid,
+    required String licensePlate,
+    required String make,
+    required String year,
+    required String color,
+    required String model,
+    required String vehicleType,
+  }) async {
     try {
-      final googleUser = await _googleSignIn.signIn();
-      final googleAuth = await googleUser?.authentication;
-      final credential = firebase_auth.GoogleAuthProvider.credential(
-        accessToken: googleAuth?.accessToken,
-        idToken: googleAuth?.idToken,
-      );
-      await _firebaseAuth.signInWithCredential(credential);
-    } on Exception {
-      throw LogInWithGoogleFailure();
+      await FirebaseFirestore.instance.collection('vehicles').doc(uid).update({
+        'color': color,
+        'licensePlate': licensePlate,
+        'make': make,
+        'model': model,
+        'vehicleType': vehicleType,
+        'year': year,
+      });
+    } catch (e) {
+      print("No sirvio se pudo actualizar el vehiculo del user: ❌❌❌❌❌");
+      print(e);
     }
   }
 }
 
-//! Esta extension convierte un objeto de tipo firebase_auth.User a un objeto de tipo User
 extension on firebase_auth.User {
   User get toUserAuth {
     return User(
@@ -246,9 +367,10 @@ extension on firebase_auth.User {
 }
 
 extension UserFromMap on Map<String, dynamic> {
-  User toUser() {
+  User toUser(String uid) {
     return User(
-      id: this['identification'] ?? '',
+      // id: this['identification'] ?? '',
+      id: uid,
       name: this['name'] ?? '',
       email: this['email'] ?? '',
       surname: this['surname'] ?? '',

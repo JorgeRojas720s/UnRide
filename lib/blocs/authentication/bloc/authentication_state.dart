@@ -4,6 +4,7 @@ enum AuthenticationStatus {
   authenticated,
   authenticatedWithVehicle,
   unauthenticated,
+  modified, //!No deberia ir aqui pero de mientras
   unknown,
 }
 
@@ -26,6 +27,9 @@ class AuthenticationState extends Equatable {
 
   const AuthenticationState.authenticatedWithVehicle(User user)
     : this(status: AuthenticationStatus.authenticatedWithVehicle, user: user);
+
+  const AuthenticationState.modified(User user)
+    : this(status: AuthenticationStatus.modified, user: user);
 
   @override
   List<Object?> get props => [status, user];
