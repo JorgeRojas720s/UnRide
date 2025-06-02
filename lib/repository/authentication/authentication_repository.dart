@@ -167,7 +167,8 @@ class AuthenticationRepository {
 
       //!Ver si no chingue nada
       return User(
-        id: authUser.uid,
+        uid: authUser.uid,
+        id: identification,
         name: name,
         surname: surname,
         email: email,
@@ -251,6 +252,7 @@ class AuthenticationRepository {
   //!Quiza deba retonar el user modificado para que se cargue ese
   Future<User> updateUser({
     required String uid,
+    required String identification,
     required String name,
     required String surname,
     required String phone,
@@ -288,7 +290,8 @@ class AuthenticationRepository {
       }
 
       return User(
-        id: uid,
+        uid: uid,
+        id: identification,
         name: name,
         surname: surname,
         email: email,
@@ -355,7 +358,8 @@ class AuthenticationRepository {
 extension on firebase_auth.User {
   User get toUserAuth {
     return User(
-      id: uid,
+      uid: uid,
+      id: '',
       name: displayName ?? '',
       surname: '',
       email: email ?? '',
@@ -369,8 +373,8 @@ extension on firebase_auth.User {
 extension UserFromMap on Map<String, dynamic> {
   User toUser(String uid) {
     return User(
-      // id: this['identification'] ?? '',
-      id: uid,
+      uid: uid,
+      id: this['identification'] ?? '',
       name: this['name'] ?? '',
       email: this['email'] ?? '',
       surname: this['surname'] ?? '',

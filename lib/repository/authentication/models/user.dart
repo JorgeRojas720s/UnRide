@@ -2,6 +2,7 @@ import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
 
 class User extends Equatable {
+  final String uid;
   final String? id;
   final String name;
   final String surname;
@@ -11,6 +12,7 @@ class User extends Equatable {
   final bool hasVehicle;
 
   const User({
+    required this.uid,
     required this.id,
     required this.name,
     required this.surname,
@@ -21,6 +23,7 @@ class User extends Equatable {
   }) : assert(id != null);
 
   static const empty = User(
+    uid: '',
     id: '',
     name: '',
     surname: '',
@@ -32,6 +35,7 @@ class User extends Equatable {
 
   @override
   List<Object?> get props => [
+    uid,
     id,
     name,
     surname,

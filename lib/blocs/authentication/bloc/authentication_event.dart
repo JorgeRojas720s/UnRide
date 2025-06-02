@@ -83,6 +83,7 @@ class AuthenticationUserRegister extends AuthenticationEvent {
 
 class UpdateUser extends AuthenticationEvent {
   final String uid;
+  final String identification;
   final String name;
   final String surname;
   final String email;
@@ -98,6 +99,7 @@ class UpdateUser extends AuthenticationEvent {
 
   UpdateUser({
     required this.uid,
+    required this.identification,
     required this.name,
     required this.surname,
     required this.email,

@@ -104,6 +104,7 @@ class AuthenticationBloc
       try {
         final user = await _authenticationRepository.updateUser(
           uid: event.uid,
+          identification: event.identification,
           name: event.name,
           surname: event.surname,
           phone: event.phone,
