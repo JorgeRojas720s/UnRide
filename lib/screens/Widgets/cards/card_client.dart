@@ -7,7 +7,7 @@ class ClientPostCard extends StatefulWidget {
   final String destination;
   final String? description;
   final double suggestedAmount;
-  final DateTime? travelDate;
+  final String? travelDate;
   final String? travelTime;
 
   const ClientPostCard({
@@ -36,7 +36,8 @@ class _ClientPostCardState extends State<ClientPostCard> {
     }
 
     if (widget.travelDate != null) {
-      travelDate = DateFormat('dd/MM/yyyy').format(widget.travelDate!);
+      // travelDate = DateFormat('dd/MM/yyyy').format(widget.travelDate!);
+      travelDate = widget.travelDate!;
     }
 
     if (widget.travelTime != null) {

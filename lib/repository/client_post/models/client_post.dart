@@ -3,6 +3,7 @@ import 'package:meta/meta.dart';
 import 'package:un_ride/repository/authentication/models/user.dart';
 
 class Post extends Equatable {
+  final int? id;
   final String userId;
   final String origin;
   final String destination;
@@ -10,17 +11,18 @@ class Post extends Equatable {
   final int passengers;
   final double suggestedAmount;
   final DateTime? postDate;
-  final DateTime? travelDate;
+  final String? travelDate;
   final String? travelTime;
 
   const Post({
+    this.id,
     required this.userId,
     required this.origin,
     required this.destination,
     this.description,
     required this.passengers,
     required this.suggestedAmount,
-    required this.postDate,
+    this.postDate,
     this.travelDate,
     this.travelTime,
   });
@@ -52,4 +54,35 @@ class Post extends Equatable {
 
   @override
   bool get stringify => true;
+
+  Map<String, dynamic> toMap() {
+    final map = <String, dynamic>{
+      'userId': userId,
+      'origin': origin,
+      'destination': destination,
+      'description': description,
+      'passengers': passengers,
+      'suggestedAmount': suggestedAmount,
+      'travelDate': travelDate,
+      'travelTime': travelTime,
+    };
+    if (id != null) {
+      map['id'] = id;
+    }
+    return map;
+  }
+
+  factory Post.fromMap(Map<String, dynamic> map) {
+    return Post(
+      id: map['id'] as int?,
+      userId: map['userId'] as String,
+      origin: map['origin'] as String,
+      destination: map['destination'] as String,
+      description: map['description'] as String,
+      passengers: map['passengers'] as int,
+      suggestedAmount: map['suggestedAmount'] as double,
+      travelDate: map['travelDate'] as String,
+      travelTime: map['travelTime'] as String,
+    );
+  }
 }

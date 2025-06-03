@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
 import 'package:un_ride/appColors.dart';
 import 'package:un_ride/blocs/authentication/bloc/authentication_bloc.dart';
 import 'package:un_ride/blocs/client_post/bloc/client_post_bloc.dart';
@@ -141,6 +142,7 @@ class _CreateRideScreenState extends State<CreateRideScreen>
 
   Future<void> saveClientPost() async {
     final user = context.read<AuthenticationBloc>().state.user;
+    final formattedDate = DateFormat('dd/MM/yyyy').format(_selectedDate!);
     context.read<ClientPostBloc>().add(
       await ClientPostRegister(
         user: user,
@@ -148,7 +150,7 @@ class _CreateRideScreenState extends State<CreateRideScreen>
         destination: _destinationController.text.trim(),
         description: _descriptionController.text.trim(),
         passengers: _selectedPassengers,
-        travelDate: _selectedDate,
+        travelDate: formattedDate,
         travelTime: _selectedTime?.format(context),
         suggestedAmount: double.parse(_priceController.text),
       ),

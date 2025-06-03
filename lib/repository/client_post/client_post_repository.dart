@@ -13,7 +13,7 @@ class ClientPostRepository {
     required passengers,
     required double suggestedAmount,
     required DateTime postDate,
-    required DateTime? travelDate,
+    required String? travelDate,
     required String? travelTime,
   }) async {
     try {
@@ -42,7 +42,7 @@ class ClientPostRepository {
     String? description,
     required passengers,
     required double suggestedAmount,
-    required DateTime? travelDate,
+    required String? travelDate,
     required String? travelTime,
   }) async {
     try {
@@ -83,16 +83,15 @@ class ClientPostRepository {
 extension PostFromMap on Map<String, dynamic> {
   Post toPost() {
     return Post(
-      userId: this['userId'] ?? '',
-      origin: this['origin'] ?? '',
-      destination: this['destination'] ?? '',
-      description: this['description'] ?? '',
+      userId: this['userId'] ?? null,
+      origin: this['origin'] ?? null,
+      destination: this['destination'] ?? null,
+      description: this['description'] ?? null,
       passengers: this['passengers'] ?? 0,
       postDate: this['postDate'] != null ? this['postDate'].toDate() : null,
-      suggestedAmount: this['suggestedAmount'],
-      travelDate:
-          this['travelDate'] != null ? this['travelDate'].toDate() : null,
-      travelTime: this['travelTime'] ?? '',
+      suggestedAmount: this['suggestedAmount'] ?? null,
+      travelDate: this['travelDate'] ?? null,
+      travelTime: this['travelTime'] ?? null,
     );
   }
 }

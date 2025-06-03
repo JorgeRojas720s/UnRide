@@ -15,7 +15,7 @@ class ClientPostRegister extends ClientPostEvent {
   final int passengers;
   final double suggestedAmount;
   final DateTime postDate;
-  final DateTime? travelDate;
+  final String? travelDate;
   final String? travelTime;
 
   ClientPostRegister({
@@ -51,7 +51,7 @@ class updateClientPost extends ClientPostEvent {
   final int passengers;
   final double suggestedAmount;
   // final DateTime postDate;
-  final DateTime? travelDate;
+  final String? travelDate;
   final String? travelTime;
 
   updateClientPost({
@@ -60,7 +60,7 @@ class updateClientPost extends ClientPostEvent {
     required this.destination,
     required this.description,
     required this.passengers,
-    required this.suggestedAmount,
+    required this.suggestedAmount, //!Quitar el required
     required this.travelDate,
     required this.travelTime,
   });
