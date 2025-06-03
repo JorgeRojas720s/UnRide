@@ -6,6 +6,7 @@ class ClientPostCard extends StatefulWidget {
   final String origin;
   final String destination;
   final String? description;
+  final int passengers;
   final double suggestedAmount;
   final String? travelDate;
   final String? travelTime;
@@ -15,6 +16,7 @@ class ClientPostCard extends StatefulWidget {
     required this.origin,
     required this.destination,
     required this.description,
+    required this.passengers,
     required this.suggestedAmount,
     required this.travelDate,
     required this.travelTime,
@@ -36,7 +38,6 @@ class _ClientPostCardState extends State<ClientPostCard> {
     }
 
     if (widget.travelDate != null) {
-      // travelDate = DateFormat('dd/MM/yyyy').format(widget.travelDate!);
       travelDate = widget.travelDate!;
     }
 
@@ -199,7 +200,7 @@ class _ClientPostCardState extends State<ClientPostCard> {
                                         24,
                                       ),
                                     ),
-                                    Text("2"),
+                                    Text(widget.passengers.toString()),
                                   ],
                                 ),
                               ],

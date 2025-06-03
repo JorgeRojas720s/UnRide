@@ -60,49 +60,49 @@ class _AppViewState extends State<AppView> {
       debugShowCheckedModeBanner: false,
       theme: theme,
       navigatorKey: _navigatorKey,
-      initialRoute: '/auth',
+      initialRoute: '/splash',
       routes: routes,
       builder: (context, child) {
         return BlocBuilder<ConnectivityBloc, ConnectivityState>(
           builder: (context, connectivityState) {
             if (!connectivityState.isConnected) {
               return NoConnection1(connectivityState: connectivityState);
+            } else {
+              return BlocListener<AuthenticationBloc, AuthenticationState>(
+                listener: (context, state) {
+                  switch (state.status) {
+                    case AuthenticationStatus.unauthenticated:
+                      _navigatorKey.currentState?.pushNamedAndRemoveUntil(
+                        '/auth',
+                        (route) => false,
+                      );
+                      break;
+                    //!Cuando se desconecta el wifi y vuelve si usa esto, igualmente quitar, es por el sign in no trae vehicle
+                    // case AuthenticationStatus.authenticatedWithVehicle:
+                    //   _navigatorKey.currentState?.pushNamedAndRemoveUntil(
+                    //     '/role',
+                    //     (route) => false,
+                    //   );
+                    //break;
+                    case AuthenticationStatus.authenticated:
+                      _navigatorKey.currentState?.pushNamedAndRemoveUntil(
+                        '/clients',
+                        (route) => false,
+                      );
+                      break;
+                    case AuthenticationStatus.unknown:
+                      _navigatorKey.currentState?.pushNamedAndRemoveUntil(
+                        '/splash',
+                        (route) => false,
+                      );
+                      break;
+                    default:
+                      break;
+                  }
+                },
+                child: child,
+              );
             }
-
-            return BlocListener<AuthenticationBloc, AuthenticationState>(
-              listener: (context, state) {
-                switch (state.status) {
-                  case AuthenticationStatus.unauthenticated:
-                    _navigatorKey.currentState?.pushNamedAndRemoveUntil(
-                      '/auth',
-                      (route) => false,
-                    );
-                    break;
-                  //!Cuando se desconecta el wifi y vuelve si usa esto, igualmente quitar, es por el sign in no trae vehicle
-                  case AuthenticationStatus.authenticatedWithVehicle:
-                    _navigatorKey.currentState?.pushNamedAndRemoveUntil(
-                      '/role',
-                      (route) => false,
-                    );
-                  //break;
-                  case AuthenticationStatus.authenticated:
-                    _navigatorKey.currentState?.pushNamedAndRemoveUntil(
-                      '/clients',
-                      (route) => false,
-                    );
-                    break;
-                  case AuthenticationStatus.unknown:
-                    _navigatorKey.currentState?.pushNamedAndRemoveUntil(
-                      '/splash',
-                      (route) => false,
-                    );
-                    break;
-                  default:
-                    break;
-                }
-              },
-              child: child,
-            );
           },
         );
       },

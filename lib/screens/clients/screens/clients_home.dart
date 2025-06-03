@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:un_ride/appColors.dart';
 import 'package:un_ride/blocs/client_post/bloc/client_post_bloc.dart';
+import 'package:un_ride/screens/Widgets/animations/no_posts.dart';
 import 'package:un_ride/screens/Widgets/widgets.dart';
 
 class ClientsHome extends StatefulWidget {
@@ -69,16 +70,10 @@ class _ClientsHomeState extends State<ClientsHome> {
               final posts = state.posts;
               if (posts.isEmpty) {
                 print("🐕🐕🐕🐕");
-                return const Center(
-                  child: Text(
-                    "No hay posts",
-                    style: TextStyle(color: AppColors.textPrimary),
-                  ),
-                );
+                return const Center(child: NoPosts());
               }
               return ListView.builder(
-                physics:
-                    const AlwaysScrollableScrollPhysics(), // Enables pull-to-refresh even with few items
+                physics: const AlwaysScrollableScrollPhysics(),
                 itemCount: posts.length,
                 itemBuilder: (context, index) {
                   final post = posts[index];
@@ -86,6 +81,7 @@ class _ClientsHomeState extends State<ClientsHome> {
                     origin: post.origin,
                     destination: post.destination,
                     description: post.description,
+                    passengers: post.passengers,
                     suggestedAmount: post.suggestedAmount,
                     travelDate: post.travelDate,
                     travelTime: post.travelTime,

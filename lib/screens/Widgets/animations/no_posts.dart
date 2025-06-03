@@ -2,17 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:un_ride/blocs/connectivity/connectivity.dart';
 
-class NoConnection1 extends StatelessWidget {
-  final ConnectivityState connectivityState;
-
-  const NoConnection1({super.key, required this.connectivityState});
+class NoPosts extends StatelessWidget {
+  const NoPosts({super.key});
 
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        key: const Key('no_connection_animation'),
+        key: const Key('no_posts_animation'),
         child: Lottie.asset(
-          "assets/animations/noConnection.json",
+          "assets/animations/noPosts.json",
           fit: BoxFit.cover,
           width: 300,
           height: 300,
