@@ -60,7 +60,7 @@ class _AppViewState extends State<AppView> {
       debugShowCheckedModeBanner: false,
       theme: theme,
       navigatorKey: _navigatorKey,
-      initialRoute: '/splash',
+      initialRoute: '/auth',
       routes: routes,
       builder: (context, child) {
         return BlocBuilder<ConnectivityBloc, ConnectivityState>(
@@ -78,12 +78,12 @@ class _AppViewState extends State<AppView> {
                       );
                       break;
                     //!Cuando se desconecta el wifi y vuelve si usa esto, igualmente quitar, es por el sign in no trae vehicle
-                    // case AuthenticationStatus.authenticatedWithVehicle:
-                    //   _navigatorKey.currentState?.pushNamedAndRemoveUntil(
-                    //     '/role',
-                    //     (route) => false,
-                    //   );
-                    //break;
+                    case AuthenticationStatus.authenticatedWithVehicle:
+                      _navigatorKey.currentState?.pushNamedAndRemoveUntil(
+                        '/role',
+                        (route) => false,
+                      );
+                      break;
                     case AuthenticationStatus.authenticated:
                       _navigatorKey.currentState?.pushNamedAndRemoveUntil(
                         '/clients',

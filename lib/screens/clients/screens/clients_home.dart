@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:un_ride/appColors.dart';
+import 'package:un_ride/blocs/authentication/bloc/authentication_bloc.dart';
 import 'package:un_ride/blocs/client_post/bloc/client_post_bloc.dart';
 import 'package:un_ride/screens/Widgets/animations/no_posts.dart';
 import 'package:un_ride/screens/Widgets/widgets.dart';
@@ -34,6 +35,10 @@ class _ClientsHomeState extends State<ClientsHome> {
       _isDriverMode = isDriver;
     });
     // Add your role switching logic here
+
+    if (_isDriverMode) {
+      //!Es mejor cargar una ruta o el widget?
+    }
   }
 
   @override
@@ -48,13 +53,22 @@ class _ClientsHomeState extends State<ClientsHome> {
         backgroundColor: AppColors.scaffoldBackground,
         elevation: 0,
         actions: [
-          Padding(
-            padding: const EdgeInsets.only(right: 16.0),
-            child: RoleSwitchButton(
-              isDriverMode: _isDriverMode,
-              onChanged: _toggleRole,
-              canSwitchToDriver: _canSwitchToDriver,
-            ),
+          BlocBuilder<AuthenticationBloc, AuthenticationState>(
+            builder: (context, state) {
+              if (state.status ==
+                  AuthenticationStatus.authenticatedWithVehicle) {
+                return Padding(
+                  padding: const EdgeInsets.only(right: 16.0),
+                  child: RoleSwitchButton(
+                    isDriverMode: _isDriverMode,
+                    onChanged: _toggleRole,
+                    canSwitchToDriver: _canSwitchToDriver,
+                  ),
+                );
+              } else {
+                return const SizedBox.shrink();
+              }
+            },
           ),
         ],
       ),

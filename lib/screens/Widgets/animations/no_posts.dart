@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
-import 'package:un_ride/blocs/connectivity/connectivity.dart';
 
 class NoPosts extends StatelessWidget {
   const NoPosts({super.key});

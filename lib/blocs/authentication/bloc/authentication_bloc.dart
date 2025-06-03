@@ -137,6 +137,10 @@ class AuthenticationBloc
     print(event.user);
     print("💐💐💐💐💐");
 
+    //!Este if me hacia falta por eso se quitaba y colocaba la anmacion del role
+    if (event.user.hasVehicle) {
+      return AuthenticationState.authenticatedWithVehicle(event.user);
+    }
     return event.user != User.empty
         ? AuthenticationState.authenticated(event.user)
         : const AuthenticationState.unauthenticated();
