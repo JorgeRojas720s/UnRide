@@ -21,9 +21,9 @@ class _ClientsHomeState extends State<ClientsHome> {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      context.read<ClientPostBloc>().add(LoadClientPosts());
-    });
+    // WidgetsBinding.instance.addPostFrameCallback((_) {
+    //   context.read<ClientPostBloc>().add(LoadClientPosts());
+    // });
   }
 
   Future<void> _onRefresh(BuildContext context) async {
@@ -38,6 +38,9 @@ class _ClientsHomeState extends State<ClientsHome> {
 
     if (_isDriverMode) {
       //!Es mejor cargar una ruta o el widget?
+      Navigator.of(
+        context,
+      ).pushNamedAndRemoveUntil('/drivers', (route) => false);
     }
   }
 
@@ -74,46 +77,47 @@ class _ClientsHomeState extends State<ClientsHome> {
       ),
       body: RefreshIndicator(
         onRefresh: () => _onRefresh(context),
-        child: BlocBuilder<ClientPostBloc, ClientPostState>(
-          builder: (context, state) {
-            if (state.status == ClientPostStatus.loading) {
-              print("👾👾👾👾👾👾👾👾👾👾");
-              return const Center(child: CircularProgressIndicator());
-            } else if (state.status == ClientPostStatus.success) {
-              print("😏😏😏😏😏😏😏😏");
-              final posts = state.posts;
-              if (posts.isEmpty) {
-                print("🐕🐕🐕🐕");
-                return const Center(child: NoPosts());
-              }
-              return ListView.builder(
-                physics: const AlwaysScrollableScrollPhysics(),
-                itemCount: posts.length,
-                itemBuilder: (context, index) {
-                  final post = posts[index];
-                  return ClientPostCard(
-                    origin: post.origin,
-                    destination: post.destination,
-                    description: post.description,
-                    passengers: post.passengers,
-                    suggestedAmount: post.suggestedAmount,
-                    travelDate: post.travelDate,
-                    travelTime: post.travelTime,
-                  );
-                },
-              );
-            } else if (state.status == ClientPostStatus.error) {
-              print("❌❌❌❌❌❌❌");
-              return const Center(
-                child: Text(
-                  "Error al cargar posts",
-                  style: TextStyle(color: AppColors.textPrimary),
-                ),
-              );
-            }
-            return const SizedBox();
-          },
-        ),
+        child: Text("Los posts de drivers"),
+        // child: BlocBuilder<ClientPostBloc, ClientPostState>(
+        //   builder: (context, state) {
+        //     if (state.status == ClientPostStatus.loading) {
+        //       print("👾👾👾👾👾👾👾👾👾👾");
+        //       return const Center(child: CircularProgressIndicator());
+        //     } else if (state.status == ClientPostStatus.success) {
+        //       print("😏😏😏😏😏😏😏😏");
+        //       final posts = state.posts;
+        //       if (posts.isEmpty) {
+        //         print("🐕🐕🐕🐕");
+        //         return const Center(child: NoPosts());
+        //       }
+        //       return ListView.builder(
+        //         physics: const AlwaysScrollableScrollPhysics(),
+        //         itemCount: posts.length,
+        //         itemBuilder: (context, index) {
+        //           final post = posts[index];
+        //           return ClientPostCard(
+        //             origin: post.origin,
+        //             destination: post.destination,
+        //             description: post.description,
+        //             passengers: post.passengers,
+        //             suggestedAmount: post.suggestedAmount,
+        //             travelDate: post.travelDate,
+        //             travelTime: post.travelTime,
+        //           );
+        //         },
+        //       );
+        //     } else if (state.status == ClientPostStatus.error) {
+        //       print("❌❌❌❌❌❌❌");
+        //       return const Center(
+        //         child: Text(
+        //           "Error al cargar posts",
+        //           style: TextStyle(color: AppColors.textPrimary),
+        //         ),
+        //       );
+        //     }
+        //     return const SizedBox();
+        //   },
+        // ),
       ),
     );
   }
