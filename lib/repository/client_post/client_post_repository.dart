@@ -58,7 +58,7 @@ class ClientPostRepository {
   Future<void> deleteClientPost() async {}
 
   //!De los posts
-  Future<List<Post>> getUserPosts() async {
+  Future<List<Post>> getClientsPosts() async {
     try {
       final snapshot =
           await FirebaseFirestore.instance.collection('clientPosts').get();
@@ -72,6 +72,25 @@ class ClientPostRepository {
     } catch (e) {
       print(e);
       print("En repository no se pudo cargar los post ❌❌❌");
+      return const [];
+    }
+  }
+
+  Future<List<Post>> getUserClientPosts({required user}) async {
+    try {
+      final snapshot =
+          await FirebaseFirestore.instance.collection('clientsPosts').get();
+
+      print("✅✅✅✅✅✅✅✅");
+      print(snapshot.docs.map((doc) => doc.data()).toList());
+
+      final UserPosts =
+          snapshot.docs.map((doc) => doc.data().toPost()).toList();
+
+      return UserPosts;
+    } catch (e) {
+      print(e);
+      print("En repository no se pudo cargar los post del client user ❌❌❌");
       return const [];
     }
   }

@@ -4,7 +4,7 @@ enum ClientPostStatus {
   unknown,
   published,
   deleted,
-  edited,
+  updated,
   success,
   loading,
   error,
@@ -25,7 +25,7 @@ class ClientPostState extends Equatable {
 
   const ClientPostState.deleted() : this(status: ClientPostStatus.deleted);
 
-  const ClientPostState.edited() : this(status: ClientPostStatus.edited);
+  const ClientPostState.updated() : this(status: ClientPostStatus.updated);
 
   //!Estados de la publicacion
 

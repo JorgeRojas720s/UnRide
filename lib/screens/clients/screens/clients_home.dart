@@ -27,7 +27,7 @@ class _ClientsHomeState extends State<ClientsHome> {
   }
 
   Future<void> _onRefresh(BuildContext context) async {
-    context.read<ClientPostBloc>().add(LoadClientPosts());
+    // context.read<ClientPostBloc>().add(LoadClientsPosts());//!Drivers
   }
 
   void _toggleRole(bool isDriver) {

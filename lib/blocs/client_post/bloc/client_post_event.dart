@@ -84,9 +84,18 @@ class deleteClientPost extends ClientPostEvent {
 
 //!Estados de los posts
 
-class LoadClientPosts extends ClientPostEvent {
-  LoadClientPosts();
+class LoadClientsPosts extends ClientPostEvent {
+  LoadClientsPosts();
 
   @override
   List<Object?> get props => [];
+}
+
+class LoadUserClientPosts extends ClientPostEvent {
+  final User user;
+
+  LoadUserClientPosts({required this.user});
+
+  @override
+  List<Object?> get props => [user];
 }

@@ -77,10 +77,10 @@ class _AppViewState extends State<AppView> {
                         (route) => false,
                       );
                       break;
-                    //!Cuando se desconecta el wifi y vuelve si usa esto, igualmente quitar, es por el sign in no trae vehicle
+                    //!ambos va a clients porque cambio la manera de select rol
                     case AuthenticationStatus.authenticatedWithVehicle:
                       _navigatorKey.currentState?.pushNamedAndRemoveUntil(
-                        '/role',
+                        '/clients',
                         (route) => false,
                       );
                       break;

@@ -23,12 +23,12 @@ class _DriverHomeState extends State<DriverHome> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      context.read<ClientPostBloc>().add(LoadClientPosts());
+      context.read<ClientPostBloc>().add(LoadClientsPosts());
     });
   }
 
   Future<void> _onRefresh(BuildContext context) async {
-    context.read<ClientPostBloc>().add(LoadClientPosts());
+    context.read<ClientPostBloc>().add(LoadClientsPosts());
   }
 
   void _toggleRole(bool isDriver) {

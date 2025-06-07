@@ -55,16 +55,29 @@ class ClientPostBloc extends Bloc<ClientPostEvent, ClientPostState> {
     });
 
     on<updateClientPost>((event, emit) async {
-      try {} catch (e) {
+      try {
+        clientPostRepository.updateClientPost(
+          user: event.user,
+          origin: event.origin,
+          destination: event.destination,
+          passengers: event.passengers,
+          suggestedAmount: event.suggestedAmount,
+          travelDate: event.travelDate,
+          travelTime: event.travelTime,
+        );
+
+        emit(ClientPostState.updated());
+      } catch (e) {
         print(e);
         print("Desde Bloc no se pudo editar el post ❌❌❌");
+        emit(ClientPostState.error());
       }
     });
 
     //!De los posts
-    on<LoadClientPosts>((event, emit) async {
+    on<LoadClientsPosts>((event, emit) async {
       try {
-        final List<Post> posts = await clientPostRepository.getUserPosts();
+        final List<Post> posts = await clientPostRepository.getClientsPosts();
 
         //!Lo de sqlite
         // final List<Post> posts = await _historyDao.findAll();
@@ -76,6 +89,18 @@ class ClientPostBloc extends Bloc<ClientPostEvent, ClientPostState> {
       } catch (e) {
         print(e);
         print("Desde Bloc no se pudo cargar los posts ❌❌❌");
+        emit(ClientPostState.error());
+      }
+    });
+
+    on<LoadUserClientPosts>((event, emit) async {
+      try {
+        final List<Post> userPosts = await clientPostRepository
+            .getUserClientPosts(user: event.user);
+
+        emit(ClientPostState.success(userPosts));
+      } catch (e) {
+        print("Desde Bloc no se pudo cargar los posts del user ❌❌❌");
         emit(ClientPostState.error());
       }
     });
