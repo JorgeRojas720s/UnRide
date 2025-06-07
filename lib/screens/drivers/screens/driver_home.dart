@@ -15,7 +15,7 @@ class DriverHome extends StatefulWidget {
 }
 
 class _DriverHomeState extends State<DriverHome> {
-  bool _isDriverMode = false;
+  bool _isDriverMode = true;
   bool _canSwitchToDriver =
       true; // You'll need to determine this based on your business logic
 
