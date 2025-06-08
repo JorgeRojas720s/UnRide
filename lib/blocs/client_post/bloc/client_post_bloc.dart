@@ -21,6 +21,7 @@ class ClientPostBloc extends Bloc<ClientPostEvent, ClientPostState> {
       print("🫏🫏🫏🫏");
       print(event.travelTime);
       try {
+        emit(ClientPostState.loading());
         await _clientPostRepository.createClientPost(
           user: event.user,
           origin: event.origin,
@@ -56,7 +57,8 @@ class ClientPostBloc extends Bloc<ClientPostEvent, ClientPostState> {
 
     on<updateClientPost>((event, emit) async {
       try {
-        clientPostRepository.updateClientPost(
+        emit(ClientPostState.loading());
+        await clientPostRepository.updateClientPost(
           user: event.user,
           origin: event.origin,
           destination: event.destination,
@@ -77,6 +79,8 @@ class ClientPostBloc extends Bloc<ClientPostEvent, ClientPostState> {
     //!De los posts
     on<LoadClientsPosts>((event, emit) async {
       try {
+        emit(ClientPostState.loading());
+
         final List<Post> posts = await clientPostRepository.getClientsPosts();
 
         //!Lo de sqlite
@@ -95,6 +99,8 @@ class ClientPostBloc extends Bloc<ClientPostEvent, ClientPostState> {
 
     on<LoadUserClientPosts>((event, emit) async {
       try {
+        print("🍫🍫🍫🍫🍫🍫🍫🍫🍫🍫🍫🍫🍫🍫");
+        emit(ClientPostState.loading());
         final List<Post> userPosts = await clientPostRepository
             .getUserClientPosts(user: event.user);
 

@@ -9,6 +9,9 @@ export 'buttons/role_button.dart';
 //!cards
 export 'cards/card_client.dart';
 
+//!clientPosts
+export 'client_posts/client_post.dart';
+
 //!inputs
 export 'inputs/sign_in_text_field.dart';
 export 'inputs/sign_up_text_field.dart';

@@ -76,10 +76,19 @@ class ClientPostRepository {
     }
   }
 
-  Future<List<Post>> getUserClientPosts({required user}) async {
+  Future<List<Post>> getUserClientPosts({required User user}) async {
     try {
+      print('koka: $user');
+      print('pepepe:');
+      print(user.id);
+
       final snapshot =
-          await FirebaseFirestore.instance.collection('clientsPosts').get();
+          await FirebaseFirestore.instance
+              .collection('clientPosts')
+              .where('userId', isEqualTo: user.id)
+              .get();
+
+      print(snapshot);
 
       print("✅✅✅✅✅✅✅✅");
       print(snapshot.docs.map((doc) => doc.data()).toList());

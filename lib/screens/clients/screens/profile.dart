@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:provider/provider.dart';
 import 'package:un_ride/appColors.dart';
+import 'package:un_ride/blocs/client_post/client_post.dart';
+import 'package:un_ride/screens/Widgets/animations/no_posts.dart';
 import 'package:un_ride/screens/Widgets/widgets.dart';
 import 'package:un_ride/screens/drawer/custom_drawer.dart';
 import 'package:un_ride/blocs/authentication/authentication.dart';
@@ -21,6 +24,20 @@ class _ProfileScreenState extends State<ProfileScreen> {
   void initState() {
     super.initState();
     _scrollController.addListener(_onScroll);
+
+    //!Esto es para que cuando se carga el widget vaya pidiendo datos
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final authState = context.read<AuthenticationBloc>().state;
+
+      if (authState.status == AuthenticationStatus.authenticated ||
+          authState.status == AuthenticationStatus.authenticatedWithVehicle) {
+        final user = authState.user;
+        print("saaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
+        print(user);
+
+        context.read<ClientPostBloc>().add(LoadUserClientPosts(user: user));
+      }
+    });
   }
 
   @override
@@ -228,6 +245,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       _buildProfileDetails(user),
                       _buildSectionDivider("Mis Publicaciones"),
                       _buildPostsPlaceholder(),
+                      userPosts(),
                       SizedBox(height: 80),
                     ],
                   ),
@@ -505,5 +523,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
         ],
       ),
     );
+  }
+
+  Widget userPosts() {
+    return const ClientPostBody();
   }
 }

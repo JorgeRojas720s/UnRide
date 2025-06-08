@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:provider/provider.dart';
 import 'package:un_ride/blocs/authentication/authentication.dart';
 import 'package:un_ride/blocs/client_post/bloc/client_post_bloc.dart';
 import 'package:un_ride/blocs/connectivity/bloc/connectivity_bloc.dart';
+import 'package:un_ride/providers/providers.dart';
 import 'package:un_ride/repository/client_post/client_post_repository.dart';
 import 'package:un_ride/repository/repository.dart';
 import 'package:un_ride/theme.dart';
@@ -34,6 +36,7 @@ class App extends StatelessWidget {
                   clientPostRepository: ClientPostRepository(),
                 ),
           ),
+          ChangeNotifierProvider(create: (_) => UserProvider()),
         ],
 
         child: AppView(),
