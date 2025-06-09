@@ -245,7 +245,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       _buildProfileDetails(user),
                       _buildSectionDivider("Mis Publicaciones"),
                       //_buildPostsPlaceholder(),
-                      userPosts(),
+                      const ClientPostBody(),
                       SizedBox(height: 80),
                     ],
                   ),
@@ -523,9 +523,5 @@ class _ProfileScreenState extends State<ProfileScreen> {
         ],
       ),
     );
-  }
-
-  Widget userPosts() {
-    return const ClientPostBody();
   }
 }

@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:un_ride/appColors.dart';
+import 'package:un_ride/blocs/client_post/bloc/client_post_bloc.dart';
 import 'package:un_ride/screens/Widgets/animations/no_posts.dart';
 import 'package:un_ride/screens/Widgets/cards/card_client.dart';
-
-import '../../../blocs/client_post/bloc/client_post_bloc.dart';
 
 class ClientPostBody extends StatelessWidget {
   const ClientPostBody({super.key});
@@ -25,25 +24,32 @@ class ClientPostBody extends StatelessWidget {
           } else if (state.status == ClientPostStatus.success) {
             print("😏😏😏😏😏😏😏😏");
             final posts = state.posts;
+            print('lalallllalaaaaaaaaaaaa $posts');
             if (posts.isEmpty) {
               print("🐕🐕🐕🐕");
               return const Center(child: NoPosts());
             }
-            return ListView.builder(
-              physics: const AlwaysScrollableScrollPhysics(),
-              itemCount: posts.length,
-              itemBuilder: (context, index) {
-                final post = posts[index];
-                return ClientPostCard(
-                  origin: post.origin,
-                  destination: post.destination,
-                  description: post.description,
-                  passengers: post.passengers,
-                  suggestedAmount: post.suggestedAmount,
-                  travelDate: post.travelDate,
-                  travelTime: post.travelTime,
-                );
-              },
+            return SingleChildScrollView(
+              child: ListView.builder(
+                shrinkWrap: true,
+                physics: NeverScrollableScrollPhysics(),
+
+                // physics: AlwaysScrollableScrollPhysics(),
+                itemCount: posts.length,
+                itemBuilder: (context, index) {
+                  final post = posts[index];
+                  print('0000Psssssssssssss $post');
+                  return ClientPostCard(
+                    origin: post.origin,
+                    destination: post.destination,
+                    description: post.description,
+                    passengers: post.passengers,
+                    suggestedAmount: post.suggestedAmount,
+                    travelDate: post.travelDate,
+                    travelTime: post.travelTime,
+                  );
+                },
+              ),
             );
           } else if (state.status == ClientPostStatus.error) {
             print("❌❌❌❌❌❌❌");
