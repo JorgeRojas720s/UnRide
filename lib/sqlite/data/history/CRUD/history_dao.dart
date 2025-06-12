@@ -6,7 +6,7 @@ class HistoryDao {
   final DatabaseHelper _dbHelper = DatabaseHelper();
 
   // 1. Insertar nueva tarea
-  Future<int> insert(Post post) async {
+  Future<int> insert(ClientPost post) async {
     final db = await _dbHelper.database;
 
     // final modifiedPost = post.copyWith(
@@ -22,7 +22,7 @@ class HistoryDao {
   }
 
   // 2. Obtener todas las tareas (ordenadas por fecha)
-  Future<List<Post>> findAll() async {
+  Future<List<ClientPost>> findAll() async {
     final db = await _dbHelper.database;
     final List<Map<String, dynamic>> maps = await db.query(
       'ur_history',
@@ -30,12 +30,12 @@ class HistoryDao {
     );
 
     return List.generate(maps.length, (i) {
-      return Post.fromMap(maps[i]);
+      return ClientPost.fromMap(maps[i]);
     });
   }
 
   // 3. Obtener tarea por id
-  Future<Post?> findById(String userId) async {
+  Future<ClientPost?> findById(String userId) async {
     final db = await _dbHelper.database;
     final List<Map<String, dynamic>> maps = await db.query(
       'ur_history',
@@ -44,14 +44,14 @@ class HistoryDao {
     );
 
     if (maps.isNotEmpty) {
-      return Post.fromMap(maps.first);
+      return ClientPost.fromMap(maps.first);
     } else {
       return null;
     }
   }
 
   // 4. Actualizar tarea existente
-  Future<int> update(Post post) async {
+  Future<int> update(ClientPost post) async {
     final db = await _dbHelper.database;
     return await db.update(
       'ur_history',

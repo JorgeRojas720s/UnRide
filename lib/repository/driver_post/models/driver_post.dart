@@ -2,7 +2,7 @@ import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
 import 'package:un_ride/repository/authentication/models/user.dart';
 
-class ClientPost extends Equatable {
+class DriverPost extends Equatable {
   final int? id;
   final String userId;
   final String origin;
@@ -14,7 +14,7 @@ class ClientPost extends Equatable {
   final String? travelDate;
   final String? travelTime;
 
-  const ClientPost({
+  const DriverPost({
     this.id,
     required this.userId,
     required this.origin,
@@ -27,7 +27,7 @@ class ClientPost extends Equatable {
     this.travelTime,
   });
 
-  static const empty = ClientPost(
+  static const empty = DriverPost(
     userId: '',
     origin: '',
     destination: '',
@@ -72,8 +72,8 @@ class ClientPost extends Equatable {
     return map;
   }
 
-  factory ClientPost.fromMap(Map<String, dynamic> map) {
-    return ClientPost(
+  factory DriverPost.fromMap(Map<String, dynamic> map) {
+    return DriverPost(
       id: map['id'] as int?,
       userId: map['userId'] as String,
       origin: map['origin'] as String,

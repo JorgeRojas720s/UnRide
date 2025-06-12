@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:un_ride/screens/Widgets/layaout/navBar/navBar.dart';
+import 'package:un_ride/screens/Widgets/layaout/navbar/navbar.dart';
 import 'package:un_ride/screens/drivers/screens/driver_home.dart';
 
 class Drivers extends StatefulWidget {

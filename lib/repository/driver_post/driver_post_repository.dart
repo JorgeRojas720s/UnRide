@@ -1,11 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:un_ride/repository/client_post/models/client_post.dart';
+import 'package:un_ride/repository/driver_post/models/driver_post.dart';
 import 'package:un_ride/repository/repository.dart';
 
-class ClientPostRepository {
-  ClientPostRepository();
+class DriverPostRepository {
+  DriverPostRepository();
 
-  Future<void> createClientPost({
+  Future<void> createDriverPost({
     required User user,
     required String origin,
     required String destination,
@@ -17,7 +18,7 @@ class ClientPostRepository {
     required String? travelTime,
   }) async {
     try {
-      await FirebaseFirestore.instance.collection('clientPosts').add({
+      await FirebaseFirestore.instance.collection('driverPosts').add({
         'userId': user.id,
         'origin': origin,
         'destination': destination,
@@ -34,7 +35,7 @@ class ClientPostRepository {
     }
   }
 
-  Future<void> updateClientPost({
+  Future<void> updateDriverPost({
     required User user,
     required String origin,
     required String destination,
@@ -54,59 +55,59 @@ class ClientPostRepository {
     }
   }
 
-  Future<void> deleteClientPost() async {}
+  Future<void> deleteDriverPost() async {}
+}
 
-  //!De los posts
-  Future<List<ClientPost>> getAllClientsPosts() async {
-    try {
-      final snapshot =
-          await FirebaseFirestore.instance.collection('clientPosts').get();
+//!De los posts
+Future<List<DriverPost>> getAllDriversPost() async {
+  try {
+    final snapshot =
+        await FirebaseFirestore.instance.collection('clientPosts').get();
 
-      print("✅✅✅✅✅✅✅✅");
-      print(snapshot.docs.map((doc) => doc.data()).toList());
+    print("✅✅✅✅✅✅✅✅");
+    print(snapshot.docs.map((doc) => doc.data()).toList());
 
-      final posts =
-          snapshot.docs.map((doc) => doc.data().toClientPost()).toList();
+    final posts =
+        snapshot.docs.map((doc) => doc.data().toDriverPost()).toList();
 
-      return posts;
-    } catch (e) {
-      print(e);
-      print("En repository no se pudo cargar los post ❌❌❌");
-      return const [];
-    }
+    return posts;
+  } catch (e) {
+    print(e);
+    print("En repository no se pudo cargar los post ❌❌❌");
+    return const [];
   }
+}
 
-  Future<List<ClientPost>> getClientPosts({required User user}) async {
-    try {
-      print('koka: $user');
-      print('pepepe:');
-      print(user.id);
+Future<List<DriverPost>> getDriverPost({required User user}) async {
+  try {
+    print('koka: $user');
+    print('pepepe:');
+    print(user.id);
 
-      final snapshot =
-          await FirebaseFirestore.instance
-              .collection('clientPosts')
-              .where('userId', isEqualTo: user.id)
-              .get();
+    final snapshot =
+        await FirebaseFirestore.instance
+            .collection('driverPosts')
+            .where('userId', isEqualTo: user.id)
+            .get();
 
-      print("✅✅✅✅✅✅✅✅");
-      print(snapshot.docs.map((doc) => doc.data()).toList());
+    print("✅✅✅✅✅✅✅✅");
+    print(snapshot.docs.map((doc) => doc.data()).toList());
 
-      final UserPosts =
-          snapshot.docs.map((doc) => doc.data().toClientPost()).toList();
+    final UserPosts =
+        snapshot.docs.map((doc) => doc.data().toDriverPost()).toList();
 
-      return UserPosts;
-    } catch (e) {
-      print(e);
-      print("En repository no se pudo cargar los post del client user ❌❌❌");
-      return const [];
-    }
+    return UserPosts;
+  } catch (e) {
+    print(e);
+    print("En repository no se pudo cargar los post del client user ❌❌❌");
+    return const [];
   }
 }
 
 //!Devolver el array de posts
-extension ClientPostFromMap on Map<String, dynamic> {
-  ClientPost toClientPost() {
-    return ClientPost(
+extension PostFromMap on Map<String, dynamic> {
+  DriverPost toDriverPost() {
+    return DriverPost(
       userId: this['userId'] ?? null,
       origin: this['origin'] ?? null,
       destination: this['destination'] ?? null,
