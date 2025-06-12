@@ -30,7 +30,7 @@ class _ClientsHomeState extends State<ClientsHome> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.scaffoldBackground,
-      appBar: MainAppBar(canSwitch: true, isDriverMode: false),
+
       body: RefreshIndicator(
         onRefresh: () => _onRefresh(context),
         child: Text("Los posts de drivers"),

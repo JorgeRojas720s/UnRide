@@ -3,15 +3,18 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:un_ride/appColors.dart';
 import 'package:un_ride/blocs/authentication/bloc/authentication_bloc.dart';
 import 'package:un_ride/screens/Widgets/buttons/role_button.dart';
+import 'package:un_ride/screens/Widgets/loaders/car_loader.dart';
 
 class MainAppBar extends StatefulWidget implements PreferredSizeWidget {
   final bool canSwitch;
   final bool isDriverMode;
+  // final ValueChanged<bool> onRoleChange;
 
   const MainAppBar({
     super.key,
     required this.canSwitch,
     required this.isDriverMode,
+    // required this.onRoleChange,
   });
 
   @override
@@ -30,11 +33,17 @@ class _MainAppBarState extends State<MainAppBar> {
     _isDriverMode = widget.isDriverMode;
   }
 
-  void toggleRole(bool isDriver) {
+  Future<void> toggleRole(bool isDriver) async {
     setState(() {
       _isDriverMode = isDriver;
     });
 
+    await showLoader();
+
+    changeView(isDriver);
+  }
+
+  void changeView(bool isDriver) {
     if (isDriver) {
       Navigator.of(
         context,
@@ -44,6 +53,16 @@ class _MainAppBarState extends State<MainAppBar> {
         context,
       ).pushNamedAndRemoveUntil('/clients', (route) => false);
     }
+  }
+
+  Future<void> showLoader() async {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) => CarLoader(),
+    );
+
+    await Future.delayed(const Duration(milliseconds: 3000));
   }
 
   @override
