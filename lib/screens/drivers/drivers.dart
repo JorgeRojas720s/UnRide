@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+import 'package:un_ride/screens/Widgets/layaout/appbar/appbar.dart';
 import 'package:un_ride/screens/Widgets/layaout/navbar/navbar.dart';
 import 'package:un_ride/screens/drivers/screens/driver_home.dart';
 
@@ -37,6 +37,7 @@ class _DriversState extends State<Drivers> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: MainAppBar(canSwitch: true, isDriverMode: true),
       body: _buildBody(),
       bottomNavigationBar: NavBar(
         onTabChanged: handleTabChange,

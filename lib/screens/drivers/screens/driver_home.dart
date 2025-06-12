@@ -13,10 +13,6 @@ class DriverHome extends StatefulWidget {
 }
 
 class _DriverHomeState extends State<DriverHome> {
-  bool _isDriverMode = true;
-  bool _canSwitchToDriver =
-      true; // You'll need to determine this based on your business logic
-
   @override
   void initState() {
     super.initState();
@@ -25,25 +21,11 @@ class _DriverHomeState extends State<DriverHome> {
     });
   }
 
-  // void _toggleRole(bool isDriver) {
-  //   setState(() {
-  //     _isDriverMode = isDriver;
-  //   });
-  //   // Add your role switching logic here
-
-  //   if (!_isDriverMode) {
-  //     //!Es mejor cargar una ruta o el widget?
-  //     Navigator.of(
-  //       context,
-  //     ).pushNamedAndRemoveUntil('/clients', (route) => false);
-  //   }
-  // }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.scaffoldBackground,
-      appBar: MainAppBar(canSwitch: true, isDriverMode: true),
+
       body: const ClientPostBody(),
     );
   }

@@ -1,7 +1,4 @@
 import 'package:flutter/material.dart';
-
-import 'package:un_ride/appColors.dart';
-
 import 'package:un_ride/screens/Widgets/widgets.dart';
 import 'package:un_ride/screens/clients/screens/profile.dart';
 import 'package:un_ride/screens/clients/screens/clients_home.dart';
@@ -40,6 +37,11 @@ class _ClientsState extends State<Clients> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: MainAppBar(
+        canSwitch: true,
+        isDriverMode: false,
+        // onRoleChange: toggleRole,
+      ),
       body: _buildBody(),
       bottomNavigationBar: NavBar(
         onTabChanged: handleTabChange,
