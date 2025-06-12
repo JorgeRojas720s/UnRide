@@ -14,10 +14,6 @@ class ClientsHome extends StatefulWidget {
 }
 
 class _ClientsHomeState extends State<ClientsHome> {
-  bool _isDriverMode = false;
-  bool _canSwitchToDriver =
-      true; // You'll need to determine this based on your business logic
-
   @override
   void initState() {
     super.initState();
@@ -30,51 +26,11 @@ class _ClientsHomeState extends State<ClientsHome> {
     // context.read<ClientPostBloc>().add(LoadClientsPosts());//!Drivers
   }
 
-  void _toggleRole(bool isDriver) {
-    setState(() {
-      _isDriverMode = isDriver;
-    });
-    // Add your role switching logic here
-
-    if (_isDriverMode) {
-      //!Es mejor cargar una ruta o el widget?
-      Navigator.of(
-        context,
-      ).pushNamedAndRemoveUntil('/drivers', (route) => false);
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.scaffoldBackground,
-      appBar: AppBar(
-        title: const Text(
-          "Un Ride",
-          style: TextStyle(color: AppColors.textPrimary),
-        ),
-        backgroundColor: AppColors.scaffoldBackground,
-        elevation: 0,
-        actions: [
-          BlocBuilder<AuthenticationBloc, AuthenticationState>(
-            builder: (context, state) {
-              if (state.status ==
-                  AuthenticationStatus.authenticatedWithVehicle) {
-                return Padding(
-                  padding: const EdgeInsets.only(right: 16.0),
-                  child: RoleSwitchButton(
-                    isDriverMode: _isDriverMode,
-                    onChanged: _toggleRole,
-                    canSwitchToDriver: _canSwitchToDriver,
-                  ),
-                );
-              } else {
-                return const SizedBox.shrink();
-              }
-            },
-          ),
-        ],
-      ),
+      appBar: MainAppBar(canSwitch: true, isDriverMode: false),
       body: RefreshIndicator(
         onRefresh: () => _onRefresh(context),
         child: Text("Los posts de drivers"),

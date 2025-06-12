@@ -81,7 +81,8 @@ class ClientPostBloc extends Bloc<ClientPostEvent, ClientPostState> {
       try {
         emit(ClientPostState.loading());
 
-        final List<Post> posts = await clientPostRepository.getClientsPosts();
+        final List<ClientPost> posts =
+            await clientPostRepository.getAllClientsPosts();
 
         //!Lo de sqlite
         // final List<Post> posts = await _historyDao.findAll();
@@ -101,8 +102,8 @@ class ClientPostBloc extends Bloc<ClientPostEvent, ClientPostState> {
       try {
         print("🍫🍫🍫🍫🍫🍫🍫🍫🍫🍫🍫🍫🍫🍫");
         emit(ClientPostState.loading());
-        final List<Post> userPosts = await clientPostRepository
-            .getUserClientPosts(user: event.user);
+        final List<ClientPost> userPosts = await clientPostRepository
+            .getClientPosts(user: event.user);
 
         emit(ClientPostState.success(userPosts));
       } catch (e) {

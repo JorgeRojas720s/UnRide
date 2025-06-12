@@ -4,23 +4,26 @@ import 'package:un_ride/appColors.dart';
 class RoleSwitchButton extends StatelessWidget {
   final bool isDriverMode;
   final ValueChanged<bool> onChanged;
-  final bool canSwitchToDriver;
+  final bool canSwitch;
 
   const RoleSwitchButton({
     super.key,
     required this.isDriverMode,
     required this.onChanged,
-    required this.canSwitchToDriver,
+    required this.canSwitch,
   });
 
   @override
   Widget build(BuildContext context) {
     return AnimatedSwitcher(
       duration: const Duration(milliseconds: 300),
+      transitionBuilder: (Widget child, Animation<double> animation) {
+        return ScaleTransition(scale: animation, child: child);
+      },
       child:
-          canSwitchToDriver
+          canSwitch
               ? Container(
-                key: ValueKey<bool>(canSwitchToDriver),
+                key: ValueKey<bool>(canSwitch),
                 decoration: BoxDecoration(
                   color: AppColors.cardBackground,
                   borderRadius: BorderRadius.circular(20),
@@ -41,8 +44,8 @@ class RoleSwitchButton extends StatelessWidget {
                         isActive: !isDriverMode,
                         onTap:
                             () => onChanged(
-                              !isDriverMode,
-                            ), //!Estaba true por defeault lo cambie pero no se si es lo mejor
+                              false,
+                            ), // Cambio aquí: false para modo cliente
                       ),
                       const SizedBox(width: 4),
                       _buildRoleButton(
@@ -50,15 +53,17 @@ class RoleSwitchButton extends StatelessWidget {
                         icon: Icons.directions_car,
                         label: 'Driver',
                         isActive: isDriverMode,
-                        onTap: () => onChanged(isDriverMode),
-                        //!Estaba false por defeault lo cambie pero no se si es lo mejor
+                        onTap:
+                            () => onChanged(
+                              true,
+                            ), // Cambio aquí: true para modo driver
                       ),
                     ],
                   ),
                 ),
               )
               : Container(
-                key: ValueKey<bool>(canSwitchToDriver),
+                key: ValueKey<bool>(canSwitch),
                 decoration: BoxDecoration(
                   color: AppColors.cardBackground,
                   borderRadius: BorderRadius.circular(20),

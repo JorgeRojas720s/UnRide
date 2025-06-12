@@ -17,7 +17,8 @@ export 'inputs/sign_in_text_field.dart';
 export 'inputs/sign_up_text_field.dart';
 
 //!layaout
-export 'layaout/navBar/navBar.dart';
+export 'layaout/navbar/navbar.dart';
+export 'layaout/appbar/appbar.dart';
 
 //!loaders
 export 'loaders/splash_page.dart';
