@@ -26,26 +26,26 @@ class _SignUpFormState extends State<SignUpForm> with TickerProviderStateMixin {
   final _carBrandController = TextEditingController();
   final _modelController = TextEditingController();
   final _yearController = TextEditingController();
-  String _selectedVehicleType = 'Automobile';
-  String _selectedVehicleColor = 'Black';
+  String _selectedVehicleType = 'Automóvil';
+  String _selectedVehicleColor = 'Negro';
   final List<String> _vehicleTypes = [
-    'Automobile',
-    'Motorcycle',
+    'Automóvil',
+    'Motocicleta',
     'SUV',
-    'Truck',
-    'Van',
+    'Camión',
+    'Furgoneta',
   ];
   final List<String> _vehicleColors = [
-    'Black',
-    'White',
-    'Silver',
-    'Gray',
-    'Red',
-    'Blue',
-    'Green',
-    'Yellow',
-    'Orange',
-    'Brown',
+    'Negro',
+    'Blanco',
+    'Plateado',
+    'Gris',
+    'Rojo',
+    'Azul',
+    'Verde',
+    'Amarillo',
+    'Naranja',
+    'Marrón',
   ];
 
   bool _isLoading = false;
@@ -122,6 +122,14 @@ class _SignUpFormState extends State<SignUpForm> with TickerProviderStateMixin {
         _vehicleAnimationController.forward();
       } else {
         _vehicleAnimationController.reverse();
+
+        _licensePlateController.clear();
+        _carBrandController.clear();
+        _modelController.clear();
+        _yearController.clear();
+
+        _selectedVehicleType = 'Automóvil';
+        _selectedVehicleColor = 'Negro';
       }
     });
   }
@@ -195,7 +203,7 @@ class _SignUpFormState extends State<SignUpForm> with TickerProviderStateMixin {
           });
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(
-              content: Text('Registration failed. Please try again.'),
+              content: Text('Error en el registro. Inténtalo de nuevo.'),
               backgroundColor: Colors.red,
             ),
           );
@@ -213,7 +221,7 @@ class _SignUpFormState extends State<SignUpForm> with TickerProviderStateMixin {
                 delay: 0.0,
                 child: SignUpTextField(
                   controller: _idNumberController,
-                  label: 'ID Number (Cédula)',
+                  label: 'Cédula',
                   keyboardType: TextInputType.number,
                   prefixIcon: const Icon(
                     Icons.badge_outlined,
@@ -221,7 +229,7 @@ class _SignUpFormState extends State<SignUpForm> with TickerProviderStateMixin {
                   ),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
-                      return 'ID number is required';
+                      return 'Se requiere número de identificación';
                     }
                     return null;
                   },
@@ -240,14 +248,14 @@ class _SignUpFormState extends State<SignUpForm> with TickerProviderStateMixin {
                           Expanded(
                             child: SignUpTextField(
                               controller: _firstNameController,
-                              label: 'First Name',
+                              label: 'Nombre',
                               prefixIcon: const Icon(
                                 Icons.person_outline,
                                 color: Colors.white70,
                               ),
                               validator: (value) {
                                 if (value == null || value.isEmpty) {
-                                  return 'First name is required';
+                                  return 'El nombre es requerido';
                                 }
                                 return null;
                               },
@@ -257,14 +265,14 @@ class _SignUpFormState extends State<SignUpForm> with TickerProviderStateMixin {
                           Expanded(
                             child: SignUpTextField(
                               controller: _lastNameController,
-                              label: 'Last Name',
+                              label: 'Apellido',
                               prefixIcon: const Icon(
                                 Icons.person_outline,
                                 color: Colors.white70,
                               ),
                               validator: (value) {
                                 if (value == null || value.isEmpty) {
-                                  return 'Last name is required';
+                                  return 'Se requiere apellido';
                                 }
                                 return null;
                               },
@@ -280,14 +288,14 @@ class _SignUpFormState extends State<SignUpForm> with TickerProviderStateMixin {
                           delay: 0.1,
                           child: SignUpTextField(
                             controller: _firstNameController,
-                            label: 'First Name',
+                            label: 'Nombre',
                             prefixIcon: const Icon(
                               Icons.person_outline,
                               color: Colors.white70,
                             ),
                             validator: (value) {
                               if (value == null || value.isEmpty) {
-                                return 'First name is required';
+                                return 'El nombre es obligatorio';
                               }
                               return null;
                             },
@@ -298,14 +306,14 @@ class _SignUpFormState extends State<SignUpForm> with TickerProviderStateMixin {
                           delay: 0.15,
                           child: SignUpTextField(
                             controller: _lastNameController,
-                            label: 'Last Name',
+                            label: 'Apellido',
                             prefixIcon: const Icon(
                               Icons.person_outline,
                               color: Colors.white70,
                             ),
                             validator: (value) {
                               if (value == null || value.isEmpty) {
-                                return 'Last name is required';
+                                return 'Se requiere apellido';
                               }
                               return null;
                             },
@@ -323,7 +331,7 @@ class _SignUpFormState extends State<SignUpForm> with TickerProviderStateMixin {
                 delay: 0.2,
                 child: SignUpTextField(
                   controller: _phoneController,
-                  label: 'Phone Number',
+                  label: 'Número de teléfono',
                   keyboardType: TextInputType.phone,
                   prefixIcon: const Icon(
                     Icons.phone_outlined,
@@ -331,7 +339,7 @@ class _SignUpFormState extends State<SignUpForm> with TickerProviderStateMixin {
                   ),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
-                      return 'Phone number is required';
+                      return 'Se requiere número de teléfono';
                     }
                     return null;
                   },
@@ -344,7 +352,7 @@ class _SignUpFormState extends State<SignUpForm> with TickerProviderStateMixin {
                 delay: 0.25,
                 child: SignUpTextField(
                   controller: _emailController,
-                  label: 'Email Address',
+                  label: 'Correo electrónico',
                   keyboardType: TextInputType.emailAddress,
                   prefixIcon: const Icon(
                     Icons.email_outlined,
@@ -352,12 +360,12 @@ class _SignUpFormState extends State<SignUpForm> with TickerProviderStateMixin {
                   ),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
-                      return 'Email is required';
+                      return 'Se requiere correo electrónico';
                     }
                     if (!RegExp(
                       r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$',
                     ).hasMatch(value)) {
-                      return 'Enter a valid email address';
+                      return 'Introduzca una dirección de correo electrónico válida';
                     }
                     return null;
                   },
@@ -377,7 +385,7 @@ class _SignUpFormState extends State<SignUpForm> with TickerProviderStateMixin {
                           Expanded(
                             child: SignUpTextField(
                               controller: _passwordController,
-                              label: 'Password',
+                              label: 'Contraseña',
                               obscureText: !_isPasswordVisible,
                               prefixIcon: const Icon(
                                 Icons.lock_outline,
@@ -398,10 +406,10 @@ class _SignUpFormState extends State<SignUpForm> with TickerProviderStateMixin {
                               ),
                               validator: (value) {
                                 if (value == null || value.isEmpty) {
-                                  return 'Password is required';
+                                  return 'Se requiere contraseña';
                                 }
                                 if (value.length < 6) {
-                                  return 'Min 6 characters';
+                                  return 'Mínimo 6 caracteres';
                                 }
                                 return null;
                               },
@@ -411,7 +419,7 @@ class _SignUpFormState extends State<SignUpForm> with TickerProviderStateMixin {
                           Expanded(
                             child: SignUpTextField(
                               controller: _confirmPasswordController,
-                              label: 'Confirm Password',
+                              label: 'Confirmar contraseña',
                               obscureText: !_isConfirmPasswordVisible,
                               prefixIcon: const Icon(
                                 Icons.lock_outline,
@@ -433,10 +441,10 @@ class _SignUpFormState extends State<SignUpForm> with TickerProviderStateMixin {
                               ),
                               validator: (value) {
                                 if (value == null || value.isEmpty) {
-                                  return 'Please confirm password';
+                                  return 'Por favor confirme la contraseña';
                                 }
                                 if (value != _passwordController.text) {
-                                  return 'Passwords do not match';
+                                  return 'Las contraseñas no coinciden';
                                 }
                                 return null;
                               },
@@ -452,7 +460,7 @@ class _SignUpFormState extends State<SignUpForm> with TickerProviderStateMixin {
                           delay: 0.3,
                           child: SignUpTextField(
                             controller: _passwordController,
-                            label: 'Password',
+                            label: 'Contraseña',
                             obscureText: !_isPasswordVisible,
                             prefixIcon: const Icon(
                               Icons.lock_outline,
@@ -473,10 +481,10 @@ class _SignUpFormState extends State<SignUpForm> with TickerProviderStateMixin {
                             ),
                             validator: (value) {
                               if (value == null || value.isEmpty) {
-                                return 'Password is required';
+                                return 'Se requiere contraseña';
                               }
                               if (value.length < 6) {
-                                return 'Password must be at least 6 characters';
+                                return 'La contraseña debe tener al menos 6 caracteres';
                               }
                               return null;
                             },
@@ -487,7 +495,7 @@ class _SignUpFormState extends State<SignUpForm> with TickerProviderStateMixin {
                           delay: 0.35,
                           child: SignUpTextField(
                             controller: _confirmPasswordController,
-                            label: 'Confirm Password',
+                            label: 'Confirmar contraseña',
                             obscureText: !_isConfirmPasswordVisible,
                             prefixIcon: const Icon(
                               Icons.lock_outline,
@@ -509,10 +517,10 @@ class _SignUpFormState extends State<SignUpForm> with TickerProviderStateMixin {
                             ),
                             validator: (value) {
                               if (value == null || value.isEmpty) {
-                                return 'Please confirm your password';
+                                return 'Por favor confirma tu contraseña';
                               }
                               if (value != _passwordController.text) {
-                                return 'Passwords do not match';
+                                return 'Las contraseñas no coinciden';
                               }
                               return null;
                             },
@@ -539,8 +547,8 @@ class _SignUpFormState extends State<SignUpForm> with TickerProviderStateMixin {
                   ),
                   child: Text(
                     _showVehicleRegistration
-                        ? 'Hide Vehicle Registration'
-                        : 'Register a Vehicle',
+                        ? 'Ocultar registro de vehículo'
+                        : 'Registrar un vehículo',
                     style: const TextStyle(fontSize: 14),
                   ),
                 ),
@@ -573,7 +581,7 @@ class _SignUpFormState extends State<SignUpForm> with TickerProviderStateMixin {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    'Vehicle Information',
+                                    'Información del vehículo',
                                     style: TextStyle(
                                       color: Colors.white.withOpacity(0.9),
                                       fontSize: 16,
@@ -584,7 +592,7 @@ class _SignUpFormState extends State<SignUpForm> with TickerProviderStateMixin {
 
                                   SignUpTextField(
                                     controller: _licensePlateController,
-                                    label: 'License Plate',
+                                    label: 'Matrícula (Placa)',
                                     prefixIcon: const Icon(
                                       Icons.directions_car_outlined,
                                       color: Colors.white70,
@@ -596,7 +604,7 @@ class _SignUpFormState extends State<SignUpForm> with TickerProviderStateMixin {
 
                                   SignUpTextField(
                                     controller: _carBrandController,
-                                    label: 'Car Brand',
+                                    label: 'Marca',
                                     prefixIcon: const Icon(
                                       Icons.design_services_outlined,
                                       color: Colors.white70,
@@ -606,7 +614,7 @@ class _SignUpFormState extends State<SignUpForm> with TickerProviderStateMixin {
 
                                   SignUpTextField(
                                     controller: _modelController,
-                                    label: 'Model',
+                                    label: 'Modelo',
                                     prefixIcon: const Icon(
                                       Icons.model_training_outlined,
                                       color: Colors.white70,
@@ -616,7 +624,7 @@ class _SignUpFormState extends State<SignUpForm> with TickerProviderStateMixin {
 
                                   SignUpTextField(
                                     controller: _yearController,
-                                    label: 'Year',
+                                    label: 'Año',
                                     keyboardType: TextInputType.number,
                                     prefixIcon: const Icon(
                                       Icons.calendar_today_outlined,
@@ -630,7 +638,7 @@ class _SignUpFormState extends State<SignUpForm> with TickerProviderStateMixin {
                                     dropdownColor: Colors.black87,
                                     style: const TextStyle(color: Colors.white),
                                     decoration: InputDecoration(
-                                      labelText: 'Vehicle Color',
+                                      labelText: 'Color del vehículo',
                                       labelStyle: TextStyle(
                                         color: Colors.white.withOpacity(0.7),
                                       ),
@@ -685,7 +693,7 @@ class _SignUpFormState extends State<SignUpForm> with TickerProviderStateMixin {
                                     dropdownColor: Colors.black87,
                                     style: const TextStyle(color: Colors.white),
                                     decoration: InputDecoration(
-                                      labelText: 'Vehicle Type',
+                                      labelText: 'Tipo de vehículo',
                                       labelStyle: TextStyle(
                                         color: Colors.white.withOpacity(0.7),
                                       ),
@@ -792,7 +800,7 @@ class _SignUpFormState extends State<SignUpForm> with TickerProviderStateMixin {
                               ),
                             )
                             : Text(
-                              'Create Account',
+                              'Crear una cuenta',
                               style: TextStyle(
                                 fontSize: 16,
                                 fontWeight: FontWeight.w600,

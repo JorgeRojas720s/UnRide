@@ -96,7 +96,7 @@ class _SignInFormState extends State<SignInForm>
               ).animate(_itemAnimations[0]),
               child: SignInTextField(
                 controller: _emailController,
-                label: 'Email Address',
+                label: 'Correo Electrónico',
                 keyboardType: TextInputType.emailAddress,
                 prefixIcon: const Icon(
                   Icons.email_outlined,
@@ -104,12 +104,12 @@ class _SignInFormState extends State<SignInForm>
                 ),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
-                    return 'Email is required';
+                    return 'Se requiere correo electrónico';
                   }
                   if (!RegExp(
                     r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$',
                   ).hasMatch(value)) {
-                    return 'Enter a valid email address';
+                    return 'Introduzca una dirección de correo electrónico válida';
                   }
                   return null;
                 },
@@ -127,7 +127,7 @@ class _SignInFormState extends State<SignInForm>
               ).animate(_itemAnimations[1]),
               child: SignInTextField(
                 controller: _passwordController,
-                label: 'Password',
+                label: 'Contraseña',
                 obscureText: !_isPasswordVisible,
                 prefixIcon: const Icon(
                   Icons.lock_outline,
@@ -148,13 +148,15 @@ class _SignInFormState extends State<SignInForm>
                 ),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
-                    return 'Password is required';
+                    return 'Se requiere contraseña';
                   }
                   return null;
                 },
               ),
             ),
           ),
+
+          const SizedBox(height: 10),
 
           Align(
             alignment: Alignment.centerRight,
@@ -171,7 +173,7 @@ class _SignInFormState extends State<SignInForm>
                   tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                 ),
                 child: const Text(
-                  'Forgot Password?',
+                  '¿Has olvidado tu contraseña?',
                   style: TextStyle(fontSize: 13),
                 ),
               ),
@@ -189,7 +191,7 @@ class _SignInFormState extends State<SignInForm>
               ).animate(_itemAnimations[2]),
               child: SignInSubmitButton(
                 isLoading: _isLoading,
-                text: 'Sign In',
+                text: 'Iniciar Sesión',
                 onPressed: _submitForm,
               ),
             ),
