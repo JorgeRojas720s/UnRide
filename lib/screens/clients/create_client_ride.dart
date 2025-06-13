@@ -68,6 +68,10 @@ class _CreateRideScreenState extends State<CreateRideScreen>
       initialDate: DateTime.now(),
       firstDate: DateTime.now(),
       lastDate: DateTime.now().add(const Duration(days: 365)),
+      locale: const Locale('es', 'ES'),
+      helpText: 'Seleccionar Fecha',
+      cancelText: 'Cancelar',
+      confirmText: 'Confirmar',
       builder: (context, child) {
         return Theme(
           data: Theme.of(context).copyWith(
@@ -76,6 +80,24 @@ class _CreateRideScreenState extends State<CreateRideScreen>
               onPrimary: AppColors.textPrimary,
               surface: AppColors.cardBackground,
               onSurface: AppColors.textPrimary,
+              background: AppColors.cardBackground,
+              onBackground: AppColors.textPrimary,
+            ),
+            dialogTheme: DialogTheme(
+              backgroundColor: AppColors.cardBackground,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(20),
+              ),
+              elevation: 20,
+            ),
+            textTheme: Theme.of(context).textTheme.copyWith(
+              bodyLarge: const TextStyle(color: Colors.white),
+              bodyMedium: const TextStyle(color: Colors.white),
+              headlineMedium: const TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
+              ),
+              labelLarge: const TextStyle(color: Colors.white),
             ),
           ),
           child: child!,
@@ -93,6 +115,11 @@ class _CreateRideScreenState extends State<CreateRideScreen>
     final TimeOfDay? picked = await showTimePicker(
       context: context,
       initialTime: TimeOfDay.now(),
+      helpText: 'Seleccionar Hora',
+      cancelText: 'Cancelar',
+      confirmText: 'Confirmar',
+      hourLabelText: 'Hora',
+      minuteLabelText: 'Minuto',
       builder: (context, child) {
         return Theme(
           data: Theme.of(context).copyWith(
@@ -101,6 +128,50 @@ class _CreateRideScreenState extends State<CreateRideScreen>
               onPrimary: AppColors.textPrimary,
               surface: AppColors.cardBackground,
               onSurface: AppColors.textPrimary,
+              background: AppColors.cardBackground,
+              onBackground: AppColors.textPrimary,
+              secondary: AppColors.primary,
+              onSecondary: AppColors.textPrimary,
+            ),
+            dialogTheme: DialogTheme(
+              backgroundColor: AppColors.cardBackground,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(20),
+              ),
+              elevation: 20,
+            ),
+            textTheme: Theme.of(context).textTheme.copyWith(
+              bodyLarge: const TextStyle(color: Colors.white),
+              bodyMedium: const TextStyle(color: Colors.white),
+              headlineMedium: const TextStyle(
+                color: AppColors.primaryLight,
+                fontWeight: FontWeight.bold,
+              ),
+              headlineSmall: const TextStyle(
+                color: AppColors.primaryLight,
+                fontWeight: FontWeight.bold,
+              ),
+              labelLarge: const TextStyle(
+                color: AppColors.primaryLight,
+                fontWeight: FontWeight.w600,
+              ),
+              displayMedium: const TextStyle(
+                color: AppColors.primaryLight,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            // Personalizar el selector AM/PM
+            segmentedButtonTheme: SegmentedButtonThemeData(
+              style: SegmentedButton.styleFrom(
+                backgroundColor: Colors.transparent,
+                selectedBackgroundColor: AppColors.primary,
+                selectedForegroundColor: AppColors.textPrimary,
+                foregroundColor: AppColors.textSecondary,
+                side: const BorderSide(color: AppColors.primary, width: 1),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12),
+                ),
+              ),
             ),
           ),
           child: child!,

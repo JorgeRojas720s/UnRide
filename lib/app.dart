@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_localizations/flutter_localizations.dart'; // Agregado
 import 'package:un_ride/blocs/authentication/authentication.dart';
 import 'package:un_ride/blocs/client_post/bloc/client_post_bloc.dart';
 import 'package:un_ride/blocs/connectivity/bloc/connectivity_bloc.dart';
@@ -65,6 +66,17 @@ class _AppViewState extends State<AppView> {
       navigatorKey: _navigatorKey,
       initialRoute: '/auth',
       routes: routes,
+      // Configuración de localizaciones agregada
+      locale: const Locale('es', 'ES'),
+      localizationsDelegates: const [
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      supportedLocales: const [
+        Locale('es', 'ES'),
+        Locale('en', 'US'), // Inglés como respaldo
+      ],
       builder: (context, child) {
         return BlocBuilder<ConnectivityBloc, ConnectivityState>(
           builder: (context, connectivityState) {

@@ -222,8 +222,8 @@ class _AuthScreenState extends State<AuthScreen>
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          _buildTabButton('Sign In', true, isSmallScreen),
-          _buildTabButton('Sign Up', false, isSmallScreen),
+          _buildTabButton('Iniciar sesión', true, isSmallScreen),
+          _buildTabButton('Registrarse', false, isSmallScreen),
         ],
       ),
     );

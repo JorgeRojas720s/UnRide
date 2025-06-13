@@ -67,7 +67,7 @@ class _CustomDrawerState extends State<CustomDrawer>
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    'Settings and activity',
+                    'Configuración y actividad',
                     style: TextStyle(
                       color: AppColors.textPrimary,
                       fontSize: 20,
@@ -101,7 +101,7 @@ class _CustomDrawerState extends State<CustomDrawer>
                         vertical: 8.0,
                       ),
                       child: Text(
-                        'How you use the app',
+                        'Cómo usas la app',
                         style: TextStyle(
                           color: AppColors.primary,
                           fontSize: 18,
@@ -113,14 +113,14 @@ class _CustomDrawerState extends State<CustomDrawer>
                     // Saved
                     _buildMenuItem(
                       icon: Icons.bookmark_border,
-                      title: 'Saved',
+                      title: 'Guardados',
                       onTap: () => widget.onItemSelected('saved'),
                     ),
 
                     // Archive (marcado como seleccionado)
                     _buildMenuItem(
                       icon: Icons.history,
-                      title: 'Archive',
+                      title: 'Archivados',
                       isSelected: true,
                       onTap: () => widget.onItemSelected('archive'),
                     ),
@@ -128,21 +128,21 @@ class _CustomDrawerState extends State<CustomDrawer>
                     // Your activity
                     _buildMenuItem(
                       icon: Icons.show_chart,
-                      title: 'Your activity',
+                      title: 'Tu actividad',
                       onTap: () => widget.onItemSelected('activity'),
                     ),
 
                     // Notifications
                     _buildMenuItem(
                       icon: Icons.notifications_none,
-                      title: 'Notifications',
+                      title: 'Notificaciones',
                       onTap: () => widget.onItemSelected('notifications'),
                     ),
 
                     // Time management
                     _buildMenuItem(
                       icon: Icons.access_time,
-                      title: 'Time management',
+                      title: 'Gestión del tiempo',
                       onTap: () => widget.onItemSelected('time'),
                     ),
 
@@ -160,7 +160,7 @@ class _CustomDrawerState extends State<CustomDrawer>
                         vertical: 12.0,
                       ),
                       child: Text(
-                        'For professionals',
+                        'Para profesionales',
                         style: TextStyle(
                           color: AppColors.primary,
                           fontSize: 18,
@@ -172,29 +172,29 @@ class _CustomDrawerState extends State<CustomDrawer>
                     // Insights
                     _buildMenuItem(
                       icon: Icons.bar_chart,
-                      title: 'Insights',
+                      title: 'Estadísticas',
                       onTap: () => widget.onItemSelected('insights'),
                     ),
 
                     // Meta Verified
                     _buildMenuItem(
                       icon: Icons.verified,
-                      title: 'Meta Verified',
-                      trailingText: 'Not subscribed',
+                      title: 'Meta Verificado',
+                      trailingText: 'No suscrito',
                       onTap: () => widget.onItemSelected('verified'),
                     ),
 
                     // Scheduled content
                     _buildMenuItem(
                       icon: Icons.schedule,
-                      title: 'Scheduled content',
+                      title: 'Contenido programado',
                       onTap: () => widget.onItemSelected('scheduled'),
                     ),
 
                     // Creator tools and controls
                     _buildMenuItem(
                       icon: Icons.tune,
-                      title: 'Creator tools and controls',
+                      title: 'Herramientas para creadores',
                       onTap: () => widget.onItemSelected('creator'),
                     ),
 
