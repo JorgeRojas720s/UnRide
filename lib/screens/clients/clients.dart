@@ -39,11 +39,6 @@ class _ClientsState extends State<Clients> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: MainAppBar(
-        canSwitch: true,
-        isDriverMode: false,
-        // onRoleChange: toggleRole,
-      ),
       body: _buildBody(),
       bottomNavigationBar: NavBar(
         onTabChanged: handleTabChange,

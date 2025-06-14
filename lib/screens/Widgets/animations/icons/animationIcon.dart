@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:un_ride/appColors.dart';
-import 'package:un_ride/screens/Widgets/buttons/AnimatedIconButton.dart';
+import 'package:un_ride/screens/Widgets/buttons/animated_icon_button.dart';
 
 class AnimationIcons extends StatelessWidget {
   const AnimationIcons({

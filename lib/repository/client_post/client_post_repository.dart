@@ -71,7 +71,7 @@ class ClientPostRepository {
       return posts;
     } catch (e) {
       print(e);
-      print("En repository no se pudo cargar los post ❌❌❌");
+      print("En repository no se pudo cargar los post de clients❌❌❌");
       return const [];
     }
   }

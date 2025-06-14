@@ -56,51 +56,51 @@ class DriverPostRepository {
   }
 
   Future<void> deleteDriverPost() async {}
-}
 
-//!De los posts
-Future<List<DriverPost>> getAllDriversPost() async {
-  try {
-    final snapshot =
-        await FirebaseFirestore.instance.collection('clientPosts').get();
+  //!De los posts
+  Future<List<DriverPost>> getAllDriversPosts() async {
+    try {
+      final snapshot =
+          await FirebaseFirestore.instance.collection('driverPosts').get();
 
-    print("✅✅✅✅✅✅✅✅");
-    print(snapshot.docs.map((doc) => doc.data()).toList());
+      print("✅✅✅✅✅✅✅✅");
+      print(snapshot.docs.map((doc) => doc.data()).toList());
 
-    final posts =
-        snapshot.docs.map((doc) => doc.data().toDriverPost()).toList();
+      final posts =
+          snapshot.docs.map((doc) => doc.data().toDriverPost()).toList();
 
-    return posts;
-  } catch (e) {
-    print(e);
-    print("En repository no se pudo cargar los post ❌❌❌");
-    return const [];
+      return posts;
+    } catch (e) {
+      print(e);
+      print("En repository no se pudo cargar los post ❌❌❌");
+      return const [];
+    }
   }
-}
 
-Future<List<DriverPost>> getDriverPost({required User user}) async {
-  try {
-    print('koka: $user');
-    print('pepepe:');
-    print(user.id);
+  Future<List<DriverPost>> getDriverPost({required User user}) async {
+    try {
+      print('koka: $user');
+      print('pepepe:');
+      print(user.id);
 
-    final snapshot =
-        await FirebaseFirestore.instance
-            .collection('driverPosts')
-            .where('userId', isEqualTo: user.id)
-            .get();
+      final snapshot =
+          await FirebaseFirestore.instance
+              .collection('driverPosts')
+              .where('userId', isEqualTo: user.id)
+              .get();
 
-    print("✅✅✅✅✅✅✅✅");
-    print(snapshot.docs.map((doc) => doc.data()).toList());
+      print("✅✅✅✅✅✅✅✅");
+      print(snapshot.docs.map((doc) => doc.data()).toList());
 
-    final UserPosts =
-        snapshot.docs.map((doc) => doc.data().toDriverPost()).toList();
+      final UserPosts =
+          snapshot.docs.map((doc) => doc.data().toDriverPost()).toList();
 
-    return UserPosts;
-  } catch (e) {
-    print(e);
-    print("En repository no se pudo cargar los post del client user ❌❌❌");
-    return const [];
+      return UserPosts;
+    } catch (e) {
+      print(e);
+      print("En repository no se pudo cargar los post del client user ❌❌❌");
+      return const [];
+    }
   }
 }
 

@@ -1,8 +1,5 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:flutter/material.dart';
-import 'package:un_ride/repository/client_post/client_post_repository.dart';
-import 'package:un_ride/repository/client_post/models/client_post.dart';
 import 'package:un_ride/repository/repository.dart';
 import 'package:un_ride/sqlite/data/history/CRUD/history_dao.dart';
 
@@ -58,7 +55,7 @@ class ClientPostBloc extends Bloc<ClientPostEvent, ClientPostState> {
     on<updateClientPost>((event, emit) async {
       try {
         emit(ClientPostState.loading());
-        await clientPostRepository.updateClientPost(
+        await _clientPostRepository.updateClientPost(
           user: event.user,
           origin: event.origin,
           destination: event.destination,
@@ -82,7 +79,7 @@ class ClientPostBloc extends Bloc<ClientPostEvent, ClientPostState> {
         emit(ClientPostState.loading());
 
         final List<ClientPost> posts =
-            await clientPostRepository.getAllClientsPosts();
+            await _clientPostRepository.getAllClientsPosts();
 
         //!Lo de sqlite
         // final List<Post> posts = await _historyDao.findAll();
@@ -102,7 +99,7 @@ class ClientPostBloc extends Bloc<ClientPostEvent, ClientPostState> {
       try {
         print("🍫🍫🍫🍫🍫🍫🍫🍫🍫🍫🍫🍫🍫🍫");
         emit(ClientPostState.loading());
-        final List<ClientPost> userPosts = await clientPostRepository
+        final List<ClientPost> userPosts = await _clientPostRepository
             .getClientPosts(user: event.user);
 
         emit(ClientPostState.success(userPosts));
