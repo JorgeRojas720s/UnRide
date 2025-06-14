@@ -6,7 +6,7 @@ import 'package:un_ride/screens/Widgets/widgets.dart';
 import 'package:un_ride/screens/Widgets/layaout/appbar/drawer/custom_drawer.dart';
 import 'package:un_ride/blocs/authentication/authentication.dart';
 import 'package:un_ride/repository/repository.dart';
-import 'package:un_ride/screens/clients/create_client_ride.dart';
+import 'package:un_ride/screens/clients/screens/create_ride.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});

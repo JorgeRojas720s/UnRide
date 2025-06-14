@@ -6,6 +6,7 @@ import 'package:un_ride/blocs/authentication/authentication.dart';
 import 'package:un_ride/blocs/client_post/bloc/client_post_bloc.dart';
 import 'package:un_ride/blocs/connectivity/bloc/connectivity_bloc.dart';
 import 'package:un_ride/blocs/driver_post/bloc/driver_post_bloc.dart';
+import 'package:un_ride/cubits/role_cubit/user_role.dart';
 import 'package:un_ride/providers/providers.dart';
 import 'package:un_ride/repository/repository.dart';
 import 'package:un_ride/theme.dart';
@@ -42,6 +43,8 @@ class App extends StatelessWidget {
                   driverPostRepository: DriverPostRepository(),
                 ),
           ),
+          ChangeNotifierProvider(create: (_) => UserProvider()),
+          BlocProvider(create: (_) => RoleCubit()),
           ChangeNotifierProvider(create: (_) => UserProvider()),
         ],
 

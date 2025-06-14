@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:un_ride/screens/Widgets/animations/no_posts.dart';
 import 'package:un_ride/screens/Widgets/layaout/appbar/appbar.dart';
 import 'package:un_ride/screens/Widgets/layaout/navbar/navbar.dart';
-import 'package:un_ride/screens/drivers/screens/driver_home.dart';
+import 'package:un_ride/screens/drivers/screens/home.dart';
+import 'package:un_ride/screens/drivers/screens/profile.dart';
 
 class Drivers extends StatefulWidget {
   const Drivers({super.key});
@@ -26,9 +28,9 @@ class _DriversState extends State<Drivers> {
       case 1:
         return Text("La del pin");
       case 2:
-        return Text("La del cora");
+        return NoPosts();
       case 3:
-      // return const ProfileScreen();
+        return const DriverProfileScreen();
       default:
         return const Center(child: Text("Pantalla no encontrada"));
     }

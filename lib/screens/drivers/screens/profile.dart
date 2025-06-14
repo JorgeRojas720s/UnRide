@@ -1,23 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:provider/provider.dart';
 import 'package:un_ride/appColors.dart';
-import 'package:un_ride/blocs/client_post/client_post.dart';
-import 'package:un_ride/screens/Widgets/animations/no_posts.dart';
+import 'package:un_ride/blocs/driver_post/bloc/driver_post_bloc.dart';
+import 'package:un_ride/screens/Widgets/driver_posts/driver_posts.dart';
 import 'package:un_ride/screens/Widgets/layaout/appbar/drawer/custom_drawer.dart';
-import 'package:un_ride/screens/Widgets/widgets.dart';
 import 'package:un_ride/blocs/authentication/authentication.dart';
 import 'package:un_ride/repository/repository.dart';
-import 'package:un_ride/screens/clients/create_client_ride.dart';
+import 'package:un_ride/screens/drivers/screens/create_ride.dart';
 
-class ProfileScreen extends StatefulWidget {
-  const ProfileScreen({super.key});
+class DriverProfileScreen extends StatefulWidget {
+  const DriverProfileScreen({super.key});
 
   @override
-  State<ProfileScreen> createState() => _ProfileScreenState();
+  State<DriverProfileScreen> createState() => _DriverProfileScreenState();
 }
 
-class _ProfileScreenState extends State<ProfileScreen> {
+class _DriverProfileScreenState extends State<DriverProfileScreen> {
   final ScrollController _scrollController = ScrollController();
   bool _isScrolled = false;
 
@@ -26,17 +24,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
     super.initState();
     _scrollController.addListener(_onScroll);
 
-    //!Esto es para que cuando se carga el widget vaya pidiendo datos
     WidgetsBinding.instance.addPostFrameCallback((_) {
       final authState = context.read<AuthenticationBloc>().state;
 
       if (authState.status == AuthenticationStatus.authenticated ||
           authState.status == AuthenticationStatus.authenticatedWithVehicle) {
         final user = authState.user;
-        print("saaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
-        print(user);
-
-        context.read<ClientPostBloc>().add(LoadUserClientPosts(user: user));
+        context.read<DriverPostBloc>().add(LoadUserDriverPosts(user: user));
       }
     });
   }
@@ -145,6 +139,30 @@ class _ProfileScreenState extends State<ProfileScreen> {
     );
   }
 
+  DateTime? _parseDate(String? dateString) {
+    if (dateString == null) return null;
+    try {
+      final parts = dateString.split('/');
+      return DateTime(
+        int.parse(parts[2]),
+        int.parse(parts[1]),
+        int.parse(parts[0]),
+      );
+    } catch (e) {
+      return null;
+    }
+  }
+
+  TimeOfDay? _parseTime(String? timeString) {
+    if (timeString == null) return null;
+    try {
+      final parts = timeString.split(':');
+      return TimeOfDay(hour: int.parse(parts[0]), minute: int.parse(parts[1]));
+    } catch (e) {
+      return null;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final screenHeight = MediaQuery.of(context).size.height;
@@ -246,7 +264,77 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       _buildProfileDetails(user),
                       _buildSectionDivider("Mis Publicaciones"),
                       //_buildPostsPlaceholder(),
-                      const ClientPostBody(showMenuButton: true),
+                      DriverPostBody(
+                        showMenuButton: true,
+                        onEditPost: (postId, post) {
+                          // AQUÍ se ejecuta cuando presionan "Modificar"
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder:
+                                  (context) => CreateDriverRideScreen(
+                                    onClose: () => Navigator.pop(context),
+                                    isEditing: true,
+                                    postId: postId?.toString(),
+                                    initialOrigin: post.origin,
+                                    initialDestination: post.destination,
+                                    initialDescription: post.description,
+                                    initialPrice: post.suggestedAmount,
+                                    initialDate: _parseDate(post.travelDate),
+                                    initialTime: _parseTime(post.travelTime),
+                                    initialPassengers: post.passengers,
+                                  ),
+                            ),
+                          );
+                        },
+                        onDeletePost: (postId) {
+                          // AQUÍ se ejecuta cuando presionan "Eliminar"
+                          showDialog(
+                            context: context,
+                            builder:
+                                (context) => AlertDialog(
+                                  backgroundColor: AppColors.cardBackground,
+                                  title: Text(
+                                    'Eliminar publicación',
+                                    style: TextStyle(
+                                      color: AppColors.textPrimary,
+                                    ),
+                                  ),
+                                  content: Text(
+                                    '¿Estás seguro de que deseas eliminar esta publicación?',
+                                    style: TextStyle(
+                                      color: AppColors.textSecondary,
+                                    ),
+                                  ),
+                                  actions: [
+                                    TextButton(
+                                      onPressed: () => Navigator.pop(context),
+                                      child: Text(
+                                        'Cancelar',
+                                        style: TextStyle(
+                                          color: AppColors.textSecondary,
+                                        ),
+                                      ),
+                                    ),
+                                    TextButton(
+                                      onPressed: () {
+                                        Navigator.pop(context);
+                                        // TODO: Implementar eliminación en el BLoC
+                                        // context.read<DriverPostBloc>().add(DriverPost(postId));
+                                        print(
+                                          'Eliminando publicación con ID: $postId',
+                                        );
+                                      },
+                                      child: Text(
+                                        'Eliminar',
+                                        style: TextStyle(color: Colors.red),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                          );
+                        },
+                      ),
                       SizedBox(height: 80),
                     ],
                   ),
@@ -523,96 +611,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
           ),
         ],
       ),
-    );
-  }
-
-  DateTime? _parseDate(String? dateString) {
-    if (dateString == null) return null;
-    try {
-      final parts = dateString.split('/');
-      return DateTime(
-        int.parse(parts[2]),
-        int.parse(parts[1]),
-        int.parse(parts[0]),
-      );
-    } catch (e) {
-      return null;
-    }
-  }
-
-  TimeOfDay? _parseTime(String? timeString) {
-    if (timeString == null) return null;
-    try {
-      final parts = timeString.split(':');
-      return TimeOfDay(hour: int.parse(parts[0]), minute: int.parse(parts[1]));
-    } catch (e) {
-      return null;
-    }
-  }
-
-  Widget userPosts() {
-    return ClientPostBody(
-      showMenuButton: true,
-      onEditPost: (postId, post) {
-        // AQUÍ se ejecuta cuando presionan "Modificar"
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder:
-                (context) => CreateRideScreen(
-                  onClose: () => Navigator.pop(context),
-                  isEditing: true,
-                  postId: postId?.toString(),
-                  initialOrigin: post.origin,
-                  initialDestination: post.destination,
-                  initialDescription: post.description,
-                  initialPrice: post.suggestedAmount,
-                  initialDate: _parseDate(post.travelDate),
-                  initialTime: _parseTime(post.travelTime),
-                  initialPassengers: post.passengers,
-                ),
-          ),
-        );
-      },
-      onDeletePost: (postId) {
-        // AQUÍ se ejecuta cuando presionan "Eliminar"
-        showDialog(
-          context: context,
-          builder:
-              (context) => AlertDialog(
-                backgroundColor: AppColors.cardBackground,
-                title: Text(
-                  'Eliminar publicación',
-                  style: TextStyle(color: AppColors.textPrimary),
-                ),
-                content: Text(
-                  '¿Estás seguro de que deseas eliminar esta publicación?',
-                  style: TextStyle(color: AppColors.textSecondary),
-                ),
-                actions: [
-                  TextButton(
-                    onPressed: () => Navigator.pop(context),
-                    child: Text(
-                      'Cancelar',
-                      style: TextStyle(color: AppColors.textSecondary),
-                    ),
-                  ),
-                  TextButton(
-                    onPressed: () {
-                      Navigator.pop(context);
-                      // TODO: Implementar eliminación en el BLoC
-                      // context.read<ClientPostBloc>().add(DeleteClientPost(postId));
-                      print('Eliminando publicación con ID: $postId');
-                    },
-                    child: Text(
-                      'Eliminar',
-                      style: TextStyle(color: Colors.red),
-                    ),
-                  ),
-                ],
-              ),
-        );
-      },
     );
   }
 }

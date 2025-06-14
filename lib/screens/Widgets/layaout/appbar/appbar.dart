@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:un_ride/appColors.dart';
 import 'package:un_ride/blocs/authentication/bloc/authentication_bloc.dart';
+import 'package:un_ride/cubits/role_cubit/user_role.dart';
 import 'package:un_ride/screens/Widgets/buttons/role_button.dart';
 import 'package:un_ride/screens/Widgets/loaders/car_loader.dart';
 
@@ -45,10 +46,12 @@ class _MainAppBarState extends State<MainAppBar> {
 
   void changeView(bool isDriver) {
     if (isDriver) {
+      context.read<RoleCubit>().setDriver();
       Navigator.of(
         context,
       ).pushNamedAndRemoveUntil('/drivers', (route) => false);
     } else {
+      context.read<RoleCubit>().setClient();
       Navigator.of(
         context,
       ).pushNamedAndRemoveUntil('/clients', (route) => false);

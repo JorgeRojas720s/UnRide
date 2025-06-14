@@ -3,7 +3,7 @@ import 'package:un_ride/screens/Widgets/animations/no_posts.dart';
 import 'package:un_ride/screens/Widgets/widgets.dart';
 import 'package:un_ride/screens/clients/screens/chat.dart';
 import 'package:un_ride/screens/clients/screens/profile.dart';
-import 'package:un_ride/screens/clients/screens/clients_home.dart';
+import 'package:un_ride/screens/clients/screens/home.dart';
 
 class Clients extends StatefulWidget {
   const Clients({super.key});
