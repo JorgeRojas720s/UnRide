@@ -5,13 +5,12 @@ import 'package:flutter_localizations/flutter_localizations.dart'; // Agregado
 import 'package:un_ride/blocs/authentication/authentication.dart';
 import 'package:un_ride/blocs/client_post/bloc/client_post_bloc.dart';
 import 'package:un_ride/blocs/connectivity/bloc/connectivity_bloc.dart';
+import 'package:un_ride/blocs/driver_post/bloc/driver_post_bloc.dart';
 import 'package:un_ride/providers/providers.dart';
-import 'package:un_ride/repository/client_post/client_post_repository.dart';
 import 'package:un_ride/repository/repository.dart';
 import 'package:un_ride/theme.dart';
 import 'package:un_ride/Routes/routes.dart';
 import 'package:un_ride/screens/Widgets/widgets.dart';
-import 'package:un_ride/screens/clients/clients.dart';
 
 class App extends StatelessWidget {
   final AuthenticationRepository authenticationRepository;
@@ -35,6 +34,12 @@ class App extends StatelessWidget {
             create:
                 (_) => ClientPostBloc(
                   clientPostRepository: ClientPostRepository(),
+                ),
+          ),
+          BlocProvider(
+            create:
+                (_) => DriverPostBloc(
+                  driverPostRepository: DriverPostRepository(),
                 ),
           ),
           ChangeNotifierProvider(create: (_) => UserProvider()),

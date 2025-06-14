@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:un_ride/screens/Widgets/cards/chat_card.dart';
+import 'package:un_ride/screens/Widgets/animations/no_posts.dart';
 import 'package:un_ride/screens/Widgets/widgets.dart';
 import 'package:un_ride/screens/clients/screens/chat.dart';
 import 'package:un_ride/screens/clients/screens/profile.dart';
@@ -28,7 +28,7 @@ class _ClientsState extends State<Clients> {
       case 1:
         return ChatScreen();
       case 2:
-        return Text("La del historial");
+        return NoPosts();
       case 3:
         return const ProfileScreen();
       default:

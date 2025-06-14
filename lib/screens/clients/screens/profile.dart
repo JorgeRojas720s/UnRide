@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:provider/provider.dart';
 import 'package:un_ride/appColors.dart';
 import 'package:un_ride/blocs/client_post/client_post.dart';
-import 'package:un_ride/screens/Widgets/animations/no_posts.dart';
 import 'package:un_ride/screens/Widgets/widgets.dart';
 import 'package:un_ride/screens/Widgets/layaout/appbar/drawer/custom_drawer.dart';
 import 'package:un_ride/blocs/authentication/authentication.dart';
