@@ -13,6 +13,10 @@ class ClientPostCard extends StatefulWidget {
   final bool allowsLuggage;
   final String userName;
   final String? userAvatar;
+  final bool showMenuButton;
+  final VoidCallback? onEdit;
+  final VoidCallback? onDelete;
+  final int? postId;
 
   const ClientPostCard({
     super.key,
@@ -27,6 +31,10 @@ class ClientPostCard extends StatefulWidget {
     this.allowsLuggage = false,
     this.userName = "Usuario",
     this.userAvatar,
+    this.showMenuButton = false,
+    this.onEdit,
+    this.onDelete,
+    this.postId,
   });
 
   @override
@@ -155,6 +163,53 @@ class _ClientPostCardState extends State<ClientPostCard> {
             ],
           ),
         ),
+        if (widget.showMenuButton) ...[
+          PopupMenuButton<String>(
+            icon: Icon(
+              Icons.more_vert,
+              color: AppColors.textSecondary,
+              size: 20,
+            ),
+            color: AppColors.cardBackground,
+            onSelected: (value) {
+              if (value == 'edit' && widget.onEdit != null) {
+                widget.onEdit!();
+              } else if (value == 'delete' && widget.onDelete != null) {
+                widget.onDelete!();
+              }
+            },
+            itemBuilder:
+                (context) => [
+                  PopupMenuItem(
+                    value: 'edit',
+                    child: Row(
+                      children: [
+                        Icon(Icons.edit, color: AppColors.primary, size: 18),
+                        SizedBox(width: 8),
+                        Text(
+                          'Modificar',
+                          style: TextStyle(color: AppColors.textPrimary),
+                        ),
+                      ],
+                    ),
+                  ),
+                  PopupMenuItem(
+                    value: 'delete',
+                    child: Row(
+                      children: [
+                        Icon(Icons.delete, color: Colors.red, size: 18),
+                        SizedBox(width: 8),
+                        Text(
+                          'Eliminar',
+                          style: TextStyle(color: AppColors.textPrimary),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+          ),
+          SizedBox(width: 8),
+        ],
         Container(
           padding: const EdgeInsets.all(8),
           decoration: BoxDecoration(

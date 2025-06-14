@@ -6,7 +6,16 @@ import 'package:un_ride/screens/Widgets/animations/no_posts.dart';
 import 'package:un_ride/screens/Widgets/cards/card_client.dart';
 
 class ClientPostBody extends StatelessWidget {
-  const ClientPostBody({super.key});
+  final bool showMenuButton;
+  final Function(int? postId, dynamic post)? onEditPost;
+  final Function(int? postId)? onDeletePost;
+
+  const ClientPostBody({
+    super.key,
+    this.showMenuButton = false,
+    this.onEditPost,
+    this.onDeletePost,
+  });
 
   Future<void> _onRefresh(BuildContext context) async {
     context.read<ClientPostBloc>().add(LoadClientsPosts());
@@ -47,6 +56,16 @@ class ClientPostBody extends StatelessWidget {
                     suggestedAmount: post.suggestedAmount,
                     travelDate: post.travelDate,
                     travelTime: post.travelTime,
+                    showMenuButton: showMenuButton,
+                    postId: post.id,
+                    onEdit:
+                        showMenuButton && onEditPost != null
+                            ? () => onEditPost!(post.id, post)
+                            : null,
+                    onDelete:
+                        showMenuButton && onDeletePost != null
+                            ? () => onDeletePost!(post.id)
+                            : null,
                   );
                 },
               ),

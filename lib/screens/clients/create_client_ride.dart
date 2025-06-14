@@ -8,9 +8,29 @@ import 'package:un_ride/screens/Widgets/widgets.dart';
 
 class CreateRideScreen extends StatefulWidget {
   final VoidCallback onClose;
+  final bool isEditing;
+  final String? postId;
+  final String? initialOrigin;
+  final String? initialDestination;
+  final String? initialDescription;
+  final double? initialPrice;
+  final DateTime? initialDate;
+  final TimeOfDay? initialTime;
+  final int? initialPassengers;
 
-  const CreateRideScreen({super.key, required this.onClose});
-
+  const CreateRideScreen({
+    super.key,
+    required this.onClose,
+    this.isEditing = false,
+    this.postId,
+    this.initialOrigin,
+    this.initialDestination,
+    this.initialDescription,
+    this.initialPrice,
+    this.initialDate,
+    this.initialTime,
+    this.initialPassengers,
+  });
   @override
   State<CreateRideScreen> createState() => _CreateRideScreenState();
 }
@@ -45,6 +65,16 @@ class _CreateRideScreenState extends State<CreateRideScreen>
     );
 
     _animationController.forward();
+
+    if (widget.isEditing) {
+      _originController.text = widget.initialOrigin ?? '';
+      _destinationController.text = widget.initialDestination ?? '';
+      _descriptionController.text = widget.initialDescription ?? '';
+      _priceController.text = widget.initialPrice?.toString() ?? '';
+      _selectedDate = widget.initialDate;
+      _selectedTime = widget.initialTime;
+      _selectedPassengers = widget.initialPassengers ?? 1;
+    }
   }
 
   @override
@@ -160,7 +190,7 @@ class _CreateRideScreenState extends State<CreateRideScreen>
                 fontWeight: FontWeight.bold,
               ),
             ),
-            // Personalizar el selector AM/PM
+
             segmentedButtonTheme: SegmentedButtonThemeData(
               style: SegmentedButton.styleFrom(
                 backgroundColor: Colors.transparent,
@@ -197,15 +227,23 @@ class _CreateRideScreenState extends State<CreateRideScreen>
         return;
       }
 
-      //!LLAMADO DEL BLOC
-      await saveClientPost(); //!Que devuelva algo de que se realizo para mostrar eso de abajo
-
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('¡Publicación creada exitosamente!'),
-          backgroundColor: AppColors.primary,
-        ),
-      );
+      if (widget.isEditing) {
+        await updateClientPost();
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('¡Publicación actualizada exitosamente!'),
+            backgroundColor: AppColors.primary,
+          ),
+        );
+      } else {
+        await saveClientPost();
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('¡Publicación creada exitosamente!'),
+            backgroundColor: AppColors.primary,
+          ),
+        );
+      }
 
       _closeScreen();
     }
@@ -226,6 +264,26 @@ class _CreateRideScreenState extends State<CreateRideScreen>
         suggestedAmount: double.parse(_priceController.text),
       ),
     );
+  }
+
+  Future<void> updateClientPost() async {
+    final user = context.read<AuthenticationBloc>().state.user;
+    final formattedDate = DateFormat('dd/MM/yyyy').format(_selectedDate!);
+
+    // Implementar la lógica de actualización
+    // context.read<ClientPostBloc>().add(
+    //   ClientPostUpdate(
+    //     postId: widget.postId!,
+    //     user: user,
+    //     origin: _originController.text.trim(),
+    //     destination: _destinationController.text.trim(),
+    //     description: _descriptionController.text.trim(),
+    //     passengers: _selectedPassengers,
+    //     travelDate: formattedDate,
+    //     travelTime: _selectedTime?.format(context),
+    //     suggestedAmount: double.parse(_priceController.text),
+    //   ),
+    // );
   }
 
   String _formatDate(DateTime date) {
@@ -254,8 +312,10 @@ class _CreateRideScreenState extends State<CreateRideScreen>
                     icon: const Icon(Icons.close, color: AppColors.textPrimary),
                     onPressed: _closeScreen,
                   ),
-                  title: const Text(
-                    'Crear Publicación',
+                  title: Text(
+                    widget.isEditing
+                        ? 'Modificar Publicación'
+                        : 'Crear Publicación',
                     style: TextStyle(
                       color: AppColors.textPrimary,
                       fontWeight: FontWeight.bold,
@@ -490,7 +550,10 @@ class _CreateRideScreenState extends State<CreateRideScreen>
                           // Submit button
                           SignInSubmitButton(
                             isLoading: _isLoading,
-                            text: 'Crear Publicación',
+                            text:
+                                widget.isEditing
+                                    ? 'Actualizar Publicación'
+                                    : 'Crear Publicación',
                             onPressed: _submitForm,
                             height: 54,
                           ),
