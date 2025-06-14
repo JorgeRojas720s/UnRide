@@ -94,7 +94,7 @@ class _NavBarState extends State<NavBar> {
               ),
               AnimatedIconButton(
                 size: iconsButtonsSize,
-                icon: Icons.push_pin_rounded,
+                icon: Icons.chat,
                 isSelected: widget.currentIndex == 1,
                 onPressed: () => onIconPressed(1),
               ),
@@ -131,7 +131,7 @@ class _NavBarState extends State<NavBar> {
               ),
               AnimatedIconButton(
                 size: iconsButtonsSize,
-                icon: Icons.favorite_rounded,
+                icon: Icons.collections_bookmark_rounded,
                 isSelected: widget.currentIndex == 2,
                 onPressed: () => onIconPressed(2),
               ),

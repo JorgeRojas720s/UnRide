@@ -78,7 +78,6 @@ class _ClientPostCardState extends State<ClientPostCard> {
                 ],
                 stops: [0.1, 0.9],
               ),
-              // Se eliminó el borde rojo
             ),
             child: MouseRegion(
               onEnter: (_) => setState(() => _isHovered = true),
@@ -208,16 +207,7 @@ class _ClientPostCardState extends State<ClientPostCard> {
                   ),
                 ],
           ),
-          SizedBox(width: 8),
         ],
-        Container(
-          padding: const EdgeInsets.all(8),
-          decoration: BoxDecoration(
-            color: AppColors.primary.withOpacity(0.1),
-            borderRadius: BorderRadius.circular(12),
-          ),
-          child: Icon(Icons.share_rounded, color: AppColors.primary, size: 20),
-        ),
       ],
     );
   }
@@ -228,7 +218,6 @@ class _ClientPostCardState extends State<ClientPostCard> {
       decoration: BoxDecoration(
         color: AppColors.scaffoldBackground.withOpacity(0.3),
         borderRadius: BorderRadius.circular(16),
-        // Se eliminó el borde rojo
       ),
       child: isCompact ? _buildCompactRoute() : _buildFullRoute(),
     );
@@ -278,7 +267,7 @@ class _ClientPostCardState extends State<ClientPostCard> {
           children: [
             Icon(
               Icons.location_on,
-              color: Colors.red,
+              color: AppColors.primary,
               size: 16,
             ), // Icono de ubicación en rojo
             const SizedBox(width: 8),
@@ -334,11 +323,7 @@ class _ClientPostCardState extends State<ClientPostCard> {
           ),
         ),
         const SizedBox(width: 12),
-        Icon(
-          Icons.location_on,
-          color: Colors.red,
-          size: 18,
-        ), // Icono de ubicación en rojo
+        Icon(Icons.location_on, color: AppColors.primary, size: 18),
       ],
     );
   }
@@ -386,8 +371,8 @@ class _ClientPostCardState extends State<ClientPostCard> {
     return Column(
       children: [
         _buildInfoItem(
-          Icons.attach_money_rounded,
-          "₡${widget.suggestedAmount.toStringAsFixed(0)}",
+          Icons.money_rounded,
+          "CRC ${widget.suggestedAmount.toStringAsFixed(0)}",
           "Precio sugerido",
         ),
         const SizedBox(height: 12),

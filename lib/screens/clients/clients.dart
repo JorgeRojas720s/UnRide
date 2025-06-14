@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:un_ride/screens/Widgets/cards/chat_card.dart';
 import 'package:un_ride/screens/Widgets/widgets.dart';
+import 'package:un_ride/screens/clients/screens/chat.dart';
 import 'package:un_ride/screens/clients/screens/profile.dart';
 import 'package:un_ride/screens/clients/screens/clients_home.dart';
 
@@ -24,9 +26,9 @@ class _ClientsState extends State<Clients> {
       case 0:
         return const ClientsHome(); // pantalla para clientes
       case 1:
-        return Text("La del pin");
+        return ChatScreen();
       case 2:
-        return Text("La del cora");
+        return Text("La del historial");
       case 3:
         return const ProfileScreen();
       default:
