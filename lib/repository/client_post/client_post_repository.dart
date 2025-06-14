@@ -19,6 +19,11 @@ class ClientPostRepository {
     try {
       await FirebaseFirestore.instance.collection('clientPosts').add({
         'userId': user.id,
+        'name': user.name,
+        'surname': user.surname,
+        'profilePictureUrl': user.profilePictureUrl,
+        'phoneNumber': user.phoneNumber,
+
         'origin': origin,
         'destination': destination,
         'description': description,
@@ -108,6 +113,11 @@ extension ClientPostFromMap on Map<String, dynamic> {
   ClientPost toClientPost() {
     return ClientPost(
       userId: this['userId'] ?? null,
+      name: this['name'] ?? null,
+      surname: this['surname'] ?? null,
+      phoneNumber: this['phoneNumber'] ?? null,
+      profilePictureUrl: this['profilePictureUrl'] ?? null,
+
       origin: this['origin'] ?? null,
       destination: this['destination'] ?? null,
       description: this['description'] ?? null,

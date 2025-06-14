@@ -49,6 +49,10 @@ class ClientPostBody extends StatelessWidget {
                   final post = posts[index];
                   print('0000Psssssssssssss $post');
                   return ClientPostCard(
+                    userName: post.name,
+                    userSurname: post.surname,
+                    phoneNumber: post.phoneNumber,
+                    userAvatar: post.profilePictureUrl,
                     origin: post.origin,
                     destination: post.destination,
                     description: post.description,

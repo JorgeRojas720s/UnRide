@@ -4,6 +4,7 @@ import 'package:un_ride/appColors.dart';
 import 'package:un_ride/blocs/driver_post/bloc/driver_post_bloc.dart';
 import 'package:un_ride/screens/Widgets/animations/no_posts.dart';
 import 'package:un_ride/screens/Widgets/cards/card_client.dart';
+import 'package:un_ride/screens/Widgets/cards/card_drivers.dart';
 
 class DriverPostBody extends StatelessWidget {
   final bool showMenuButton;
@@ -42,7 +43,11 @@ class DriverPostBody extends StatelessWidget {
                 itemCount: posts.length,
                 itemBuilder: (context, index) {
                   final post = posts[index];
-                  return ClientPostCard(
+                  return DriverPostCard(
+                    userName: post.name,
+                    userSurname: post.surname,
+                    phoneNumber: post.phoneNumber,
+                    userAvatar: post.profilePictureUrl,
                     origin: post.origin,
                     destination: post.destination,
                     description: post.description,

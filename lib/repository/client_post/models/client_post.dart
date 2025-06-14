@@ -5,6 +5,11 @@ import 'package:un_ride/repository/authentication/models/user.dart';
 class ClientPost extends Equatable {
   final int? id;
   final String userId;
+  final String name;
+  final String surname;
+  final String phoneNumber;
+  final String profilePictureUrl;
+
   final String origin;
   final String destination;
   final String? description;
@@ -17,6 +22,11 @@ class ClientPost extends Equatable {
   const ClientPost({
     this.id,
     required this.userId,
+    required this.name,
+    required this.surname,
+    required this.phoneNumber,
+    required this.profilePictureUrl,
+
     required this.origin,
     required this.destination,
     this.description,
@@ -29,6 +39,10 @@ class ClientPost extends Equatable {
 
   static const empty = ClientPost(
     userId: '',
+    name: '',
+    surname: '',
+    phoneNumber: '',
+    profilePictureUrl: '',
     origin: '',
     destination: '',
     description: '',
@@ -42,6 +56,10 @@ class ClientPost extends Equatable {
   @override
   List<Object?> get props => [
     userId,
+    name,
+    surname,
+    phoneNumber,
+    profilePictureUrl,
     origin,
     destination,
     description,
@@ -58,6 +76,11 @@ class ClientPost extends Equatable {
   Map<String, dynamic> toMap() {
     final map = <String, dynamic>{
       'userId': userId,
+      'name': name,
+      'surname': surname,
+      'phoneNumber': phoneNumber,
+      'profilePictureUrl': profilePictureUrl,
+
       'origin': origin,
       'destination': destination,
       'description': description,
@@ -76,6 +99,11 @@ class ClientPost extends Equatable {
     return ClientPost(
       id: map['id'] as int?,
       userId: map['userId'] as String,
+      name: map['name'] as String,
+      surname: map['name'] as String,
+      phoneNumber: map['phoneNumber'] as String,
+      profilePictureUrl: map['profilePictureUrl'] as String,
+
       origin: map['origin'] as String,
       destination: map['destination'] as String,
       description: map['description'] as String,

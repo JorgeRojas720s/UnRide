@@ -20,6 +20,11 @@ class DriverPostRepository {
     try {
       await FirebaseFirestore.instance.collection('driverPosts').add({
         'userId': user.id,
+        'name': user.name,
+        'surname': user.surname,
+        'profilePictureUrl': user.profilePictureUrl,
+        'phoneNumber': user.phoneNumber,
+
         'origin': origin,
         'destination': destination,
         'description': description,
@@ -109,6 +114,11 @@ extension PostFromMap on Map<String, dynamic> {
   DriverPost toDriverPost() {
     return DriverPost(
       userId: this['userId'] ?? null,
+      name: this['name'] ?? null,
+      surname: this['surname'] ?? null,
+      phoneNumber: this['phoneNumber'] ?? null,
+      profilePictureUrl: this['profilePictureUrl'] ?? null,
+
       origin: this['origin'] ?? null,
       destination: this['destination'] ?? null,
       description: this['description'] ?? null,

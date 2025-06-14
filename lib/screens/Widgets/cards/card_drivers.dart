@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:un_ride/appColors.dart';
 
-class ClientPostCard extends StatefulWidget {
+class DriverPostCard extends StatefulWidget {
   final String origin;
   final String destination;
   final String? description;
@@ -20,7 +20,7 @@ class ClientPostCard extends StatefulWidget {
   final VoidCallback? onDelete;
   final int? postId;
 
-  const ClientPostCard({
+  const DriverPostCard({
     super.key,
     required this.userName,
     required this.userSurname,
@@ -42,10 +42,10 @@ class ClientPostCard extends StatefulWidget {
   });
 
   @override
-  State<ClientPostCard> createState() => _ClientPostCardState();
+  State<DriverPostCard> createState() => _DriverPostCardState();
 }
 
-class _ClientPostCardState extends State<ClientPostCard> {
+class _DriverPostCardState extends State<DriverPostCard> {
   bool _isHovered = false;
 
   @override
@@ -56,6 +56,9 @@ class _ClientPostCardState extends State<ClientPostCard> {
     String travelDate = widget.travelDate ?? "Sin fecha";
     String description = widget.description ?? "Sin descripción";
     String travelTime = widget.travelTime ?? "Sin hora";
+
+    print("sssssssssssssssssssssssssssssssssssssssssssssssssss");
+    print(widget.userAvatar);
 
     return Container(
       margin: EdgeInsets.symmetric(
