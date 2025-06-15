@@ -258,7 +258,8 @@ class _DriverProfileScreenState extends State<DriverProfileScreen> {
               ),
               BlocListener<DriverPostBloc, DriverPostState>(
                 listener: (context, state) {
-                  if (state.status == DriverPostStatus.updated) {
+                  if (state.status == DriverPostStatus.updated ||
+                      state.status == DriverPostStatus.deleted) {
                     context.read<DriverPostBloc>().add(
                       LoadUserDriverPosts(user: user),
                     );
@@ -300,6 +301,8 @@ class _DriverProfileScreenState extends State<DriverProfileScreen> {
                             );
                           },
                           onDeletePost: (postId) {
+                            print("🫏🫏🫏🫏🫏🫏🫏");
+                            print(postId?.toString());
                             // AQUÍ se ejecuta cuando presionan "Eliminar"
                             showDialog(
                               context: context,
@@ -331,8 +334,12 @@ class _DriverProfileScreenState extends State<DriverProfileScreen> {
                                       TextButton(
                                         onPressed: () {
                                           Navigator.pop(context);
-                                          // TODO: Implementar eliminación en el BLoC
-                                          // context.read<DriverPostBloc>().add(DriverPost(postId));
+
+                                          context.read<DriverPostBloc>().add(
+                                            DeleteDriverPost(
+                                              postId: postId?.toString(),
+                                            ),
+                                          );
                                           print(
                                             'Eliminando publicación con ID: $postId',
                                           );

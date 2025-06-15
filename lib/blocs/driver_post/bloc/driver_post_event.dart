@@ -81,8 +81,11 @@ class UpdateDriverPost extends DriverPostEvent {
   ];
 }
 
-class deleteDriverPost extends DriverPostEvent {
-  //!Ocupo saber como obtengo el id del post
+class DeleteDriverPost extends DriverPostEvent {
+  final String? postId;
+  DeleteDriverPost({required this.postId});
+  @override
+  List<Object?> get props => [postId];
 }
 
 //!Estados de los posts

@@ -88,5 +88,20 @@ class DriverPostBloc extends Bloc<DriverPostEvent, DriverPostState> {
         emit(DriverPostState.error());
       }
     });
+
+    on<DeleteDriverPost>((event, emit) async {
+      try {
+        print("🍫🍫🍫👾👾");
+        print(event.postId);
+
+        emit(DriverPostState.loading());
+        await _driverPostRepository.deleteDriverPost(postId: event.postId);
+
+        emit(DriverPostState.deleted());
+      } catch (e) {
+        print("Desde Bloc no se pudo eliminar el post del user ❌❌❌");
+        emit(DriverPostState.error());
+      }
+    });
   }
 }

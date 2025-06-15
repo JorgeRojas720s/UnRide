@@ -73,7 +73,18 @@ class DriverPostRepository {
     }
   }
 
-  Future<void> deleteDriverPost() async {}
+  Future<void> deleteDriverPost({required String? postId}) async {
+    try {
+      await FirebaseFirestore.instance
+          .collection('driverPosts')
+          .doc(postId)
+          .delete();
+      print("✅ Post eliminado correctamente");
+    } catch (e) {
+      print(e);
+      print("En repository no se pudo eliminar el post ❌❌❌");
+    }
+  }
 
   //!De los posts
   Future<List<DriverPost>> getAllDriversPosts() async {
