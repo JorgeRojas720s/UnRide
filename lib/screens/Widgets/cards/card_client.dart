@@ -6,7 +6,7 @@ class ClientPostCard extends StatefulWidget {
   final String destination;
   final String? description;
   final int passengers;
-  final double suggestedAmount;
+  final int suggestedAmount;
   final String? travelDate;
   final String? travelTime;
   final bool allowsPets;

@@ -152,7 +152,10 @@ extension ClientPostFromMap on Map<String, dynamic> {
       description: this['description'] ?? null,
       passengers: this['passengers'] ?? 0,
       postDate: this['postDate'] != null ? this['postDate'].toDate() : null,
-      suggestedAmount: this['suggestedAmount'] ?? null,
+      suggestedAmount:
+          (this['suggestedAmount'] is double)
+              ? (this['suggestedAmount'] as double).toInt()
+              : (this['suggestedAmount'] ?? 0),
       travelDate: this['travelDate'] ?? null,
       travelTime: this['travelTime'] ?? null,
     );

@@ -92,12 +92,14 @@ class DriverPostRepository {
       final snapshot =
           await FirebaseFirestore.instance.collection('driverPosts').get();
 
-      print("✅✅✅✅✅✅✅✅");
-      print(snapshot.docs.map((doc) => doc.data()).toList());
+      print("👾👾👾👾👾👾👾👾👾👾👾👾👾👾👾");
+      print(snapshot.docs.map((doc) => doc.data()));
 
       final posts =
           snapshot.docs.map((doc) => doc.data().toDriverPost()).toList();
 
+      print("✅✅✅✅✅✅✅✅");
+      print(posts);
       return posts;
     } catch (e) {
       print(e);
@@ -149,7 +151,10 @@ extension PostFromMap on Map<String, dynamic> {
       description: this['description'] ?? null,
       passengers: this['passengers'] ?? 0,
       postDate: this['postDate'] != null ? this['postDate'].toDate() : null,
-      suggestedAmount: this['suggestedAmount'] ?? null,
+      suggestedAmount:
+          (this['suggestedAmount'] is int)
+              ? (this['suggestedAmount'] as int).toDouble()
+              : (this['suggestedAmount'] ?? 0.0),
       travelDate: this['travelDate'] ?? null,
       travelTime: this['travelTime'] ?? null,
     );

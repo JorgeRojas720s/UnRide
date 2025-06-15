@@ -15,7 +15,7 @@ class ClientPost extends Equatable {
   final String destination;
   final String? description;
   final int passengers;
-  final double suggestedAmount;
+  final int suggestedAmount;
   final DateTime? postDate;
   final String? travelDate;
   final String? travelTime;
@@ -114,7 +114,7 @@ class ClientPost extends Equatable {
       destination: map['destination'] as String,
       description: map['description'] as String,
       passengers: map['passengers'] as int,
-      suggestedAmount: map['suggestedAmount'] as double,
+      suggestedAmount: map['suggestedAmount'] as int,
       travelDate: map['travelDate'] as String,
       travelTime: map['travelTime'] as String,
     );

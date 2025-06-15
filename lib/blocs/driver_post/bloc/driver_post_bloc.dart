@@ -64,6 +64,9 @@ class DriverPostBloc extends Bloc<DriverPostEvent, DriverPostState> {
         final List<DriverPost> posts =
             await _driverPostRepository.getAllDriversPosts();
 
+        print("📍📍📍📍📍📍📍📍📍📍📍📍📍");
+        print(posts);
+
         emit(DriverPostState.success(posts));
       } catch (e) {
         print(e);
