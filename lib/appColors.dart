@@ -12,4 +12,5 @@ class AppColors {
   static const Color textPrimary = Color(0xFFFFFFFF);
   static const Color textSecondary = Color(0xFF8E8E93);
   static const Color accentPink = Color(0xFFFF2D92); // Apple Music pink accent
+  static const Color accentGreen = Color(0xFF2DFF92);
 }

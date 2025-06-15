@@ -231,16 +231,22 @@ class _CreateClientRideScreenState extends State<CreateClientRideScreen>
         await updateClientPost();
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
-            content: Text('¡Publicación actualizada exitosamente!'),
-            backgroundColor: AppColors.primary,
+            content: Text(
+              '¡Publicación actualizada exitosamente!',
+              style: TextStyle(color: Colors.black),
+            ),
+            backgroundColor: AppColors.accentGreen, //!Colocar verde?
           ),
         );
       } else {
         await saveClientPost();
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
-            content: Text('¡Publicación creada exitosamente!'),
-            backgroundColor: AppColors.primary,
+            content: Text(
+              '¡Publicación creada exitosamente!',
+              style: TextStyle(color: Colors.black),
+            ),
+            backgroundColor: AppColors.accentGreen,
           ),
         );
       }
