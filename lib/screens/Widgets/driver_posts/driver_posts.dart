@@ -8,8 +8,8 @@ import 'package:un_ride/screens/Widgets/cards/card_drivers.dart';
 
 class DriverPostBody extends StatelessWidget {
   final bool showMenuButton;
-  final Function(int? postId, dynamic post)? onEditPost;
-  final Function(int? postId)? onDeletePost;
+  final Function(String? postId, dynamic post)? onEditPost;
+  final Function(String? postId)? onDeletePost;
 
   const DriverPostBody({
     super.key,
@@ -43,6 +43,8 @@ class DriverPostBody extends StatelessWidget {
                 itemCount: posts.length,
                 itemBuilder: (context, index) {
                   final post = posts[index];
+                  print("📍📍📍📍📍📍📍📍📍");
+                  print(post.postId);
                   return DriverPostCard(
                     userName: post.name,
                     userSurname: post.surname,
@@ -56,14 +58,14 @@ class DriverPostBody extends StatelessWidget {
                     travelDate: post.travelDate,
                     travelTime: post.travelTime,
                     showMenuButton: showMenuButton,
-                    postId: post.id,
+                    postId: post.postId,
                     onEdit:
                         showMenuButton && onEditPost != null
-                            ? () => onEditPost!(post.id, post)
+                            ? () => onEditPost!(post.postId, post)
                             : null,
                     onDelete:
                         showMenuButton && onDeletePost != null
-                            ? () => onDeletePost!(post.id)
+                            ? () => onDeletePost!(post.postId)
                             : null,
                   );
                 },

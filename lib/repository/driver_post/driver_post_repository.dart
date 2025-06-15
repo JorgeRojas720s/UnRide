@@ -42,21 +42,34 @@ class DriverPostRepository {
 
   Future<void> updateDriverPost({
     required User user,
+    required String postId,
     required String origin,
     required String destination,
     String? description,
-    required passengers,
+    required int passengers,
     required double suggestedAmount,
     required String? travelDate,
     required String? travelTime,
   }) async {
     try {
-      //!Ocupo recibir el uid del post
+      await FirebaseFirestore.instance
+          .collection('driverPosts')
+          .doc(postId)
+          .update({
+            'userId': user.id,
+            'origin': origin,
+            'destination': destination,
+            'description': description ?? '',
+            'passengers': passengers,
+            'suggestedAmount': suggestedAmount,
+            'travelDate': travelDate ?? '',
+            'travelTime': travelTime ?? '',
+          });
 
       print("Se actualizó el post  ✅✅✅");
     } catch (e) {
       print(e);
-      print("En repository no se actualizo el post de cliente ❌❌❌");
+      print("En repository no se actualizó el post de cliente ❌❌❌");
     }
   }
 
@@ -94,13 +107,17 @@ class DriverPostRepository {
               .where('userId', isEqualTo: user.id)
               .get();
 
-      print("✅✅✅✅✅✅✅✅");
-      print(snapshot.docs.map((doc) => doc.data()).toList());
+      final userPosts =
+          snapshot.docs.map((doc) {
+            final post = doc.data().toDriverPost();
+            post.postId = doc.id;
+            return post;
+          }).toList();
 
-      final UserPosts =
-          snapshot.docs.map((doc) => doc.data().toDriverPost()).toList();
+      print("✅✅✅✅✅✅✅✅saaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
+      print(userPosts);
 
-      return UserPosts;
+      return userPosts;
     } catch (e) {
       print(e);
       print("En repository no se pudo cargar los post del client user ❌❌❌");
@@ -114,6 +131,7 @@ extension PostFromMap on Map<String, dynamic> {
   DriverPost toDriverPost() {
     return DriverPost(
       userId: this['userId'] ?? null,
+      postId: this['postId'] ?? null,
       name: this['name'] ?? null,
       surname: this['surname'] ?? null,
       phoneNumber: this['phoneNumber'] ?? null,

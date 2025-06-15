@@ -34,11 +34,12 @@ class DriverPostBloc extends Bloc<DriverPostEvent, DriverPostState> {
       }
     });
 
-    on<updateDriverPost>((event, emit) async {
+    on<UpdateDriverPost>((event, emit) async {
       try {
         emit(DriverPostState.loading());
         await _driverPostRepository.updateDriverPost(
           user: event.user,
+          postId: event.postId,
           origin: event.origin,
           destination: event.destination,
           passengers: event.passengers,
@@ -73,10 +74,13 @@ class DriverPostBloc extends Bloc<DriverPostEvent, DriverPostState> {
 
     on<LoadUserDriverPosts>((event, emit) async {
       try {
-        print("🍫🍫🍫🍫🍫🍫🍫🍫🍫🍫🍫🍫🍫🍫");
         emit(DriverPostState.loading());
         final List<DriverPost> userPosts = await _driverPostRepository
             .getDriverPost(user: event.user);
+        print("🍫🍫🍫🍫🍫🍫🍫🍫🍫🍫🍫🍫🍫🍫");
+        print("⚙️⚙️⚙️⚙️⚙️⚙️");
+
+        print(userPosts);
 
         emit(DriverPostState.success(userPosts));
       } catch (e) {

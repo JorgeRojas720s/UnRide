@@ -43,8 +43,9 @@ class DriverPostRegister extends DriverPostEvent {
   ];
 }
 
-class updateDriverPost extends DriverPostEvent {
+class UpdateDriverPost extends DriverPostEvent {
   final User user;
+  final String postId;
   final String origin;
   final String destination;
   final String description;
@@ -54,8 +55,9 @@ class updateDriverPost extends DriverPostEvent {
   final String? travelDate;
   final String? travelTime;
 
-  updateDriverPost({
+  UpdateDriverPost({
     required this.user,
+    required this.postId,
     required this.origin,
     required this.destination,
     required this.description,
@@ -68,6 +70,7 @@ class updateDriverPost extends DriverPostEvent {
   @override
   List<Object?> get props => [
     user,
+    postId,
     origin,
     destination,
     description,

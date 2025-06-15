@@ -116,60 +116,67 @@ class _ClientPostCardState extends State<ClientPostCard> {
   Widget _buildHeader() {
     return Row(
       children: [
-        Container(
-          width: 44,
-          height: 44,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(22),
-            gradient: LinearGradient(
-              colors: [AppColors.primary, AppColors.accentPink],
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
+        if (!widget.showMenuButton) ...[
+          Container(
+            width: 44,
+            height: 44,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(22),
+              gradient: LinearGradient(
+                colors: [AppColors.primary, AppColors.accentPink],
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+              ),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withOpacity(0.1),
+                  blurRadius: 6,
+                  offset: Offset(0, 3),
+                ),
+              ],
             ),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black.withOpacity(0.1),
-                blurRadius: 6,
-                offset: Offset(0, 3),
-              ),
-            ],
+            child:
+                widget.userAvatar == "" || widget.userAvatar == null
+                    ? const Icon(Icons.person, color: Colors.white, size: 24)
+                    : ClipRRect(
+                      borderRadius: BorderRadius.circular(22),
+                      child: Image.network(
+                        widget.userAvatar!,
+                        fit: BoxFit.cover,
+                      ),
+                    ),
           ),
-          child:
-              widget.userAvatar == "" || widget.userAvatar == null
-                  ? const Icon(Icons.person, color: Colors.white, size: 24)
-                  : ClipRRect(
-                    borderRadius: BorderRadius.circular(22),
-                    child: Image.network(widget.userAvatar!, fit: BoxFit.cover),
+          const SizedBox(width: 12),
+
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  widget.userName + " " + widget.userSurname,
+                  style: const TextStyle(
+                    color: AppColors.textPrimary,
+                    fontSize: 16,
+                    fontWeight: FontWeight.w600,
                   ),
-        ),
-        const SizedBox(width: 12),
-        Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                widget.userName + " " + widget.userSurname,
-                style: const TextStyle(
-                  color: AppColors.textPrimary,
-                  fontSize: 16,
-                  fontWeight: FontWeight.w600,
                 ),
-              ),
-              Text(
-                widget.phoneNumber,
-                style: TextStyle(
-                  color: AppColors.textSecondary,
-                  fontSize: 12,
-                  fontWeight: FontWeight.w400,
+                Text(
+                  widget.phoneNumber,
+                  style: TextStyle(
+                    color: AppColors.textSecondary,
+                    fontSize: 12,
+                    fontWeight: FontWeight.w400,
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
-        ),
+        ],
+        Spacer(),
         if (widget.showMenuButton) ...[
           PopupMenuButton<String>(
             icon: Icon(
-              Icons.more_vert,
+              Icons.more_horiz,
               color: AppColors.textSecondary,
               size: 20,
             ),

@@ -229,6 +229,7 @@ class _CreateDriverRideScreenState extends State<CreateDriverRideScreen>
       }
 
       if (widget.isEditing) {
+        print("🐕🐕🐕🐕🐕🐕🐕🐕🐕🐕🐕🐕🐕🐕");
         await updateDriverPost();
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
@@ -270,21 +271,21 @@ class _CreateDriverRideScreenState extends State<CreateDriverRideScreen>
   Future<void> updateDriverPost() async {
     final user = context.read<AuthenticationBloc>().state.user;
     final formattedDate = DateFormat('dd/MM/yyyy').format(_selectedDate!);
-
-    // Implementar la lógica de actualización
-    // context.read<DriverPostBloc>().add(
-    //   DriverPostUpdate(
-    //     postId: widget.postId!,
-    //     user: user,
-    //     origin: _originController.text.trim(),
-    //     destination: _destinationController.text.trim(),
-    //     description: _descriptionController.text.trim(),
-    //     passengers: _selectedPassengers,
-    //     travelDate: formattedDate,
-    //     travelTime: _selectedTime?.format(context),
-    //     suggestedAmount: double.parse(_priceController.text),
-    //   ),
-    // );
+    print("💐💐💐💐💐");
+    print(widget.postId);
+    context.read<DriverPostBloc>().add(
+      await UpdateDriverPost(
+        postId: widget.postId!,
+        user: user,
+        origin: _originController.text.trim(),
+        destination: _destinationController.text.trim(),
+        description: _descriptionController.text.trim(),
+        passengers: _selectedPassengers,
+        travelDate: formattedDate,
+        travelTime: _selectedTime?.format(context),
+        suggestedAmount: double.parse(_priceController.text),
+      ),
+    );
   }
 
   String _formatDate(DateTime date) {

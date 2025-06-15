@@ -256,87 +256,100 @@ class _DriverProfileScreenState extends State<DriverProfileScreen> {
                   },
                 ),
               ),
-              SliverToBoxAdapter(
-                child: Container(
-                  color: AppColors.scaffoldBackground,
-                  child: Column(
-                    children: [
-                      _buildProfileDetails(user),
-                      _buildSectionDivider("Mis Publicaciones"),
-                      //_buildPostsPlaceholder(),
-                      DriverPostBody(
-                        showMenuButton: true,
-                        onEditPost: (postId, post) {
-                          // AQUÍ se ejecuta cuando presionan "Modificar"
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
+              BlocListener<DriverPostBloc, DriverPostState>(
+                listener: (context, state) {
+                  if (state.status == DriverPostStatus.updated) {
+                    context.read<DriverPostBloc>().add(
+                      LoadUserDriverPosts(user: user),
+                    );
+                  }
+                },
+
+                child: SliverToBoxAdapter(
+                  child: Container(
+                    color: AppColors.scaffoldBackground,
+                    child: Column(
+                      children: [
+                        _buildProfileDetails(user),
+                        _buildSectionDivider("Mis Publicaciones"),
+
+                        //_buildPostsPlaceholder(),
+                        DriverPostBody(
+                          showMenuButton: true,
+                          onEditPost: (postId, post) {
+                            // AQUÍ se ejecuta cuando presionan "Modificar"
+                            print("🐢🐢🐢🐢🐢🐢🐢");
+                            print(postId?.toString());
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder:
+                                    (context) => CreateDriverRideScreen(
+                                      onClose: () => Navigator.pop(context),
+                                      isEditing: true,
+                                      postId: postId?.toString(),
+                                      initialOrigin: post.origin,
+                                      initialDestination: post.destination,
+                                      initialDescription: post.description,
+                                      initialPrice: post.suggestedAmount,
+                                      initialDate: _parseDate(post.travelDate),
+                                      initialTime: _parseTime(post.travelTime),
+                                      initialPassengers: post.passengers,
+                                    ),
+                              ),
+                            );
+                          },
+                          onDeletePost: (postId) {
+                            // AQUÍ se ejecuta cuando presionan "Eliminar"
+                            showDialog(
+                              context: context,
                               builder:
-                                  (context) => CreateDriverRideScreen(
-                                    onClose: () => Navigator.pop(context),
-                                    isEditing: true,
-                                    postId: postId?.toString(),
-                                    initialOrigin: post.origin,
-                                    initialDestination: post.destination,
-                                    initialDescription: post.description,
-                                    initialPrice: post.suggestedAmount,
-                                    initialDate: _parseDate(post.travelDate),
-                                    initialTime: _parseTime(post.travelTime),
-                                    initialPassengers: post.passengers,
-                                  ),
-                            ),
-                          );
-                        },
-                        onDeletePost: (postId) {
-                          // AQUÍ se ejecuta cuando presionan "Eliminar"
-                          showDialog(
-                            context: context,
-                            builder:
-                                (context) => AlertDialog(
-                                  backgroundColor: AppColors.cardBackground,
-                                  title: Text(
-                                    'Eliminar publicación',
-                                    style: TextStyle(
-                                      color: AppColors.textPrimary,
+                                  (context) => AlertDialog(
+                                    backgroundColor: AppColors.cardBackground,
+                                    title: Text(
+                                      'Eliminar publicación',
+                                      style: TextStyle(
+                                        color: AppColors.textPrimary,
+                                      ),
                                     ),
-                                  ),
-                                  content: Text(
-                                    '¿Estás seguro de que deseas eliminar esta publicación?',
-                                    style: TextStyle(
-                                      color: AppColors.textSecondary,
+                                    content: Text(
+                                      '¿Estás seguro de que deseas eliminar esta publicación?',
+                                      style: TextStyle(
+                                        color: AppColors.textSecondary,
+                                      ),
                                     ),
-                                  ),
-                                  actions: [
-                                    TextButton(
-                                      onPressed: () => Navigator.pop(context),
-                                      child: Text(
-                                        'Cancelar',
-                                        style: TextStyle(
-                                          color: AppColors.textSecondary,
+                                    actions: [
+                                      TextButton(
+                                        onPressed: () => Navigator.pop(context),
+                                        child: Text(
+                                          'Cancelar',
+                                          style: TextStyle(
+                                            color: AppColors.textSecondary,
+                                          ),
                                         ),
                                       ),
-                                    ),
-                                    TextButton(
-                                      onPressed: () {
-                                        Navigator.pop(context);
-                                        // TODO: Implementar eliminación en el BLoC
-                                        // context.read<DriverPostBloc>().add(DriverPost(postId));
-                                        print(
-                                          'Eliminando publicación con ID: $postId',
-                                        );
-                                      },
-                                      child: Text(
-                                        'Eliminar',
-                                        style: TextStyle(color: Colors.red),
+                                      TextButton(
+                                        onPressed: () {
+                                          Navigator.pop(context);
+                                          // TODO: Implementar eliminación en el BLoC
+                                          // context.read<DriverPostBloc>().add(DriverPost(postId));
+                                          print(
+                                            'Eliminando publicación con ID: $postId',
+                                          );
+                                        },
+                                        child: Text(
+                                          'Eliminar',
+                                          style: TextStyle(color: Colors.red),
+                                        ),
                                       ),
-                                    ),
-                                  ],
-                                ),
-                          );
-                        },
-                      ),
-                      SizedBox(height: 80),
-                    ],
+                                    ],
+                                  ),
+                            );
+                          },
+                        ),
+                        SizedBox(height: 80),
+                      ],
+                    ),
                   ),
                 ),
               ),
