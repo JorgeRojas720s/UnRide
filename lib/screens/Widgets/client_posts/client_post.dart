@@ -7,8 +7,8 @@ import 'package:un_ride/screens/Widgets/cards/card_client.dart';
 
 class ClientPostBody extends StatelessWidget {
   final bool showMenuButton;
-  final Function(int? postId, dynamic post)? onEditPost;
-  final Function(int? postId)? onDeletePost;
+  final Function(String? postId, dynamic post)? onEditPost;
+  final Function(String? postId)? onDeletePost;
 
   const ClientPostBody({
     super.key,
@@ -61,14 +61,14 @@ class ClientPostBody extends StatelessWidget {
                     travelDate: post.travelDate,
                     travelTime: post.travelTime,
                     showMenuButton: showMenuButton,
-                    postId: post.id,
+                    postId: post.postId,
                     onEdit:
                         showMenuButton && onEditPost != null
-                            ? () => onEditPost!(post.id, post)
+                            ? () => onEditPost!(post.postId, post)
                             : null,
                     onDelete:
                         showMenuButton && onDeletePost != null
-                            ? () => onDeletePost!(post.id)
+                            ? () => onDeletePost!(post.postId)
                             : null,
                   );
                 },

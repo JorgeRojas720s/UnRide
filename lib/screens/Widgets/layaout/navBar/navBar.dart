@@ -113,7 +113,7 @@ class _NavBarState extends State<NavBar> {
                                 Navigator.of(context).push(
                                   MaterialPageRoute(
                                     builder:
-                                        (context) => CreateRideScreen(
+                                        (context) => CreateClientRideScreen(
                                           onClose:
                                               () => Navigator.of(context).pop(),
                                         ),

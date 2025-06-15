@@ -18,7 +18,7 @@ class ClientPostCard extends StatefulWidget {
   final bool showMenuButton;
   final VoidCallback? onEdit;
   final VoidCallback? onDelete;
-  final int? postId;
+  final String? postId;
 
   const ClientPostCard({
     super.key,

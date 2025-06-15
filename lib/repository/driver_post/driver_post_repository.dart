@@ -36,7 +36,7 @@ class DriverPostRepository {
       });
     } catch (e) {
       print(e);
-      print("En repository no se registro el post del cliente ❌❌❌");
+      print("En repository no se registro el post del driver ❌❌❌");
     }
   }
 
@@ -69,7 +69,7 @@ class DriverPostRepository {
       print("Se actualizó el post  ✅✅✅");
     } catch (e) {
       print(e);
-      print("En repository no se actualizó el post de cliente ❌❌❌");
+      print("En repository no se actualizó el post de driver ❌❌❌");
     }
   }
 
@@ -82,7 +82,7 @@ class DriverPostRepository {
       print("✅ Post eliminado correctamente");
     } catch (e) {
       print(e);
-      print("En repository no se pudo eliminar el post ❌❌❌");
+      print("En repository no se pudo eliminar el post del driver ❌❌❌");
     }
   }
 
@@ -101,17 +101,13 @@ class DriverPostRepository {
       return posts;
     } catch (e) {
       print(e);
-      print("En repository no se pudo cargar los post ❌❌❌");
+      print("En repository no se pudo cargar los post de los drivers ❌❌❌");
       return const [];
     }
   }
 
   Future<List<DriverPost>> getDriverPost({required User user}) async {
     try {
-      print('koka: $user');
-      print('pepepe:');
-      print(user.id);
-
       final snapshot =
           await FirebaseFirestore.instance
               .collection('driverPosts')
@@ -131,7 +127,7 @@ class DriverPostRepository {
       return userPosts;
     } catch (e) {
       print(e);
-      print("En repository no se pudo cargar los post del client user ❌❌❌");
+      print("En repository no se pudo cargar los post del driver user ❌❌❌");
       return const [];
     }
   }

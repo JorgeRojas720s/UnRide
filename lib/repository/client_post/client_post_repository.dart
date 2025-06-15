@@ -41,6 +41,7 @@ class ClientPostRepository {
 
   Future<void> updateClientPost({
     required User user,
+    required String postId,
     required String origin,
     required String destination,
     String? description,
@@ -50,7 +51,19 @@ class ClientPostRepository {
     required String? travelTime,
   }) async {
     try {
-      //!Ocupo recibir el uid del post
+      await FirebaseFirestore.instance
+          .collection('clientPosts')
+          .doc(postId)
+          .update({
+            'userId': user.id,
+            'origin': origin,
+            'destination': destination,
+            'description': description ?? '',
+            'passengers': passengers,
+            'suggestedAmount': suggestedAmount,
+            'travelDate': travelDate ?? '',
+            'travelTime': travelTime ?? '',
+          });
 
       print("Se actualizó el post  ✅✅✅");
     } catch (e) {
@@ -59,7 +72,18 @@ class ClientPostRepository {
     }
   }
 
-  Future<void> deleteClientPost() async {}
+  Future<void> deleteClientPost({required String? postId}) async {
+    try {
+      await FirebaseFirestore.instance
+          .collection('clientPosts')
+          .doc(postId)
+          .delete();
+      print("✅ Post eliminado correctamente");
+    } catch (e) {
+      print(e);
+      print("En repository no se pudo eliminar el post del client ❌❌❌");
+    }
+  }
 
   //!De los posts
   Future<List<ClientPost>> getAllClientsPosts() async {
@@ -96,10 +120,14 @@ class ClientPostRepository {
       print("✅✅✅✅✅✅✅✅");
       print(snapshot.docs.map((doc) => doc.data()).toList());
 
-      final UserPosts =
-          snapshot.docs.map((doc) => doc.data().toClientPost()).toList();
+      final userPosts =
+          snapshot.docs.map((doc) {
+            final post = doc.data().toClientPost();
+            post.postId = doc.id;
+            return post;
+          }).toList();
 
-      return UserPosts;
+      return userPosts;
     } catch (e) {
       print(e);
       print("En repository no se pudo cargar los post del client user ❌❌❌");
@@ -113,6 +141,7 @@ extension ClientPostFromMap on Map<String, dynamic> {
   ClientPost toClientPost() {
     return ClientPost(
       userId: this['userId'] ?? null,
+      postId: this['postId'] ?? null,
       name: this['name'] ?? null,
       surname: this['surname'] ?? null,
       phoneNumber: this['phoneNumber'] ?? null,

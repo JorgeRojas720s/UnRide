@@ -5,6 +5,7 @@ import 'package:un_ride/repository/authentication/models/user.dart';
 class ClientPost extends Equatable {
   final int? id;
   final String userId;
+  String? postId;
   final String name;
   final String surname;
   final String phoneNumber;
@@ -19,9 +20,10 @@ class ClientPost extends Equatable {
   final String? travelDate;
   final String? travelTime;
 
-  const ClientPost({
+  ClientPost({
     this.id,
     required this.userId,
+    required this.postId,
     required this.name,
     required this.surname,
     required this.phoneNumber,
@@ -37,8 +39,9 @@ class ClientPost extends Equatable {
     this.travelTime,
   });
 
-  static const empty = ClientPost(
+  static final empty = ClientPost(
     userId: '',
+    postId: '',
     name: '',
     surname: '',
     phoneNumber: '',
@@ -56,6 +59,7 @@ class ClientPost extends Equatable {
   @override
   List<Object?> get props => [
     userId,
+    postId,
     name,
     surname,
     phoneNumber,
@@ -76,6 +80,7 @@ class ClientPost extends Equatable {
   Map<String, dynamic> toMap() {
     final map = <String, dynamic>{
       'userId': userId,
+      'postId': postId,
       'name': name,
       'surname': surname,
       'phoneNumber': phoneNumber,
@@ -99,6 +104,7 @@ class ClientPost extends Equatable {
     return ClientPost(
       id: map['id'] as int?,
       userId: map['userId'] as String,
+      postId: map['postId'],
       name: map['name'] as String,
       surname: map['name'] as String,
       phoneNumber: map['phoneNumber'] as String,

@@ -6,7 +6,7 @@ import 'package:un_ride/blocs/authentication/bloc/authentication_bloc.dart';
 import 'package:un_ride/blocs/client_post/bloc/client_post_bloc.dart';
 import 'package:un_ride/screens/Widgets/widgets.dart';
 
-class CreateRideScreen extends StatefulWidget {
+class CreateClientRideScreen extends StatefulWidget {
   final VoidCallback onClose;
   final bool isEditing;
   final String? postId;
@@ -18,7 +18,7 @@ class CreateRideScreen extends StatefulWidget {
   final TimeOfDay? initialTime;
   final int? initialPassengers;
 
-  const CreateRideScreen({
+  const CreateClientRideScreen({
     super.key,
     required this.onClose,
     this.isEditing = false,
@@ -32,10 +32,10 @@ class CreateRideScreen extends StatefulWidget {
     this.initialPassengers,
   });
   @override
-  State<CreateRideScreen> createState() => _CreateRideScreenState();
+  State<CreateClientRideScreen> createState() => _CreateClientRideScreenState();
 }
 
-class _CreateRideScreenState extends State<CreateRideScreen>
+class _CreateClientRideScreenState extends State<CreateClientRideScreen>
     with SingleTickerProviderStateMixin {
   late AnimationController _animationController;
   late Animation<double> _fadeAnimation;
@@ -270,20 +270,19 @@ class _CreateRideScreenState extends State<CreateRideScreen>
     final user = context.read<AuthenticationBloc>().state.user;
     final formattedDate = DateFormat('dd/MM/yyyy').format(_selectedDate!);
 
-    // Implementar la lógica de actualización
-    // context.read<ClientPostBloc>().add(
-    //   ClientPostUpdate(
-    //     postId: widget.postId!,
-    //     user: user,
-    //     origin: _originController.text.trim(),
-    //     destination: _destinationController.text.trim(),
-    //     description: _descriptionController.text.trim(),
-    //     passengers: _selectedPassengers,
-    //     travelDate: formattedDate,
-    //     travelTime: _selectedTime?.format(context),
-    //     suggestedAmount: double.parse(_priceController.text),
-    //   ),
-    // );
+    context.read<ClientPostBloc>().add(
+      UpdateClientPost(
+        postId: widget.postId!,
+        user: user,
+        origin: _originController.text.trim(),
+        destination: _destinationController.text.trim(),
+        description: _descriptionController.text.trim(),
+        passengers: _selectedPassengers,
+        travelDate: formattedDate,
+        travelTime: _selectedTime?.format(context),
+        suggestedAmount: double.parse(_priceController.text),
+      ),
+    );
   }
 
   String _formatDate(DateTime date) {

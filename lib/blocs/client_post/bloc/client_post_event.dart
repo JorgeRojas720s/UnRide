@@ -43,8 +43,9 @@ class ClientPostRegister extends ClientPostEvent {
   ];
 }
 
-class updateClientPost extends ClientPostEvent {
+class UpdateClientPost extends ClientPostEvent {
   final User user;
+  final String postId;
   final String origin;
   final String destination;
   final String description;
@@ -54,8 +55,9 @@ class updateClientPost extends ClientPostEvent {
   final String? travelDate;
   final String? travelTime;
 
-  updateClientPost({
+  UpdateClientPost({
     required this.user,
+    required this.postId,
     required this.origin,
     required this.destination,
     required this.description,
@@ -78,8 +80,11 @@ class updateClientPost extends ClientPostEvent {
   ];
 }
 
-class deleteClientPost extends ClientPostEvent {
-  //!Ocupo saber como obtengo el id del post
+class DeleteClientPost extends ClientPostEvent {
+  final String? postId;
+  DeleteClientPost({required this.postId});
+  @override
+  List<Object?> get props => [postId];
 }
 
 //!Estados de los posts

@@ -52,11 +52,12 @@ class ClientPostBloc extends Bloc<ClientPostEvent, ClientPostState> {
       }
     });
 
-    on<updateClientPost>((event, emit) async {
+    on<UpdateClientPost>((event, emit) async {
       try {
         emit(ClientPostState.loading());
         await _clientPostRepository.updateClientPost(
           user: event.user,
+          postId: event.postId,
           origin: event.origin,
           destination: event.destination,
           passengers: event.passengers,
@@ -105,6 +106,21 @@ class ClientPostBloc extends Bloc<ClientPostEvent, ClientPostState> {
         emit(ClientPostState.success(userPosts));
       } catch (e) {
         print("Desde Bloc no se pudo cargar los posts del user ❌❌❌");
+        emit(ClientPostState.error());
+      }
+    });
+
+    on<DeleteClientPost>((event, emit) async {
+      try {
+        print("🍫🍫🍫👾👾");
+        print(event.postId);
+
+        emit(ClientPostState.loading());
+        await _clientPostRepository.deleteClientPost(postId: event.postId);
+
+        emit(ClientPostState.deleted());
+      } catch (e) {
+        print("Desde Bloc no se pudo eliminar el post del user ❌❌❌");
         emit(ClientPostState.error());
       }
     });
