@@ -25,7 +25,7 @@ class _DriverHomeState extends State<DriverHome> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.scaffoldBackground,
-
+      appBar: MainAppBar(canSwitch: true, isDriverMode: true),
       body: const ClientPostBody(),
     );
   }

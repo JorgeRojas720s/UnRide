@@ -39,7 +39,6 @@ class _DriversState extends State<Drivers> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: MainAppBar(canSwitch: true, isDriverMode: true),
       body: _buildBody(),
       bottomNavigationBar: NavBar(
         onTabChanged: handleTabChange,

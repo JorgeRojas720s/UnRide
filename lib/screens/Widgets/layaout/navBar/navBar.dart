@@ -48,7 +48,7 @@ class _NavBarState extends State<NavBar> {
           (context, state) => Container(
             width: double.infinity,
             height: 90,
-            decoration: const BoxDecoration(color: Color.fromARGB(0, 0, 0, 0)),
+            decoration: const BoxDecoration(color: Colors.transparent),
             child: Stack(
               children: [
                 Column(
@@ -56,7 +56,7 @@ class _NavBarState extends State<NavBar> {
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     Material(
-                      color: AppColors.scaffoldBackground,
+                      color: Colors.transparent,
                       elevation: 0,
                       shape: const RoundedRectangleBorder(
                         borderRadius: BorderRadius.only(
