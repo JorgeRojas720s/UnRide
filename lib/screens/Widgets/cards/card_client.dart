@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:un_ride/appColors.dart';
+import 'package:un_ride/screens/Widgets/buttons/apply_for_ride.dart';
 
 class ClientPostCard extends StatefulWidget {
   final String origin;
@@ -433,31 +434,33 @@ class _ClientPostCardState extends State<ClientPostCard> {
     return Column(
       children: [
         if (!widget.showMenuButton) ...[
-          Container(
-            width: isCompact ? 100 : 120,
-            child: ElevatedButton(
-              onPressed: () {},
-              style: ElevatedButton.styleFrom(
-                backgroundColor: AppColors.primary,
-                foregroundColor: Colors.white,
-                elevation: 0,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(25),
-                ),
-                padding: EdgeInsets.symmetric(
-                  vertical: isCompact ? 12 : 14,
-                  horizontal: 16,
-                ),
-              ),
-              child: Text(
-                "Postularse",
-                style: TextStyle(
-                  fontSize: isCompact ? 12 : 14,
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-            ),
-          ),
+          ApplyForRideButton(rideId: widget.postId),
+
+          // Container(
+          //   width: isCompact ? 100 : 120,
+          //   child: ElevatedButton(
+          //     onPressed: () {},
+          //     style: ElevatedButton.styleFrom(
+          //       backgroundColor: AppColors.primary,
+          //       foregroundColor: Colors.white,
+          //       elevation: 0,
+          //       shape: RoundedRectangleBorder(
+          //         borderRadius: BorderRadius.circular(25),
+          //       ),
+          //       padding: EdgeInsets.symmetric(
+          //         vertical: isCompact ? 12 : 14,
+          //         horizontal: 16,
+          //       ),
+          //     ),
+          //     child: Text(
+          //       "Postularse",
+          //       style: TextStyle(
+          //         fontSize: isCompact ? 12 : 14,
+          //         fontWeight: FontWeight.w600,
+          //       ),
+          //     ),
+          //   ),
+          // ),
         ],
         const SizedBox(height: 12),
         _buildFeatures(isCompact),

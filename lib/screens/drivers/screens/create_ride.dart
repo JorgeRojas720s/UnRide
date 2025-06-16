@@ -241,16 +241,22 @@ class _CreateDriverRideScreenState extends State<CreateDriverRideScreen>
         await updateDriverPost();
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
-            content: Text('¡Publicación actualizada exitosamente!'),
-            backgroundColor: AppColors.primary,
+            content: Text(
+              '¡Publicación actualizada exitosamente!',
+              style: TextStyle(color: Colors.black),
+            ),
+            backgroundColor: AppColors.accentGreen, //!Colocar verde?
           ),
         );
       } else {
         await saveDriverPost();
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
-            content: Text('¡Publicación creada exitosamente!'),
-            backgroundColor: AppColors.primary,
+            content: Text(
+              '¡Publicación creada exitosamente!',
+              style: TextStyle(color: Colors.black),
+            ),
+            backgroundColor: AppColors.accentGreen,
           ),
         );
       }
@@ -629,6 +635,7 @@ class _CreateDriverRideScreenState extends State<CreateDriverRideScreen>
                               ],
                             ),
                           ),
+                          const SizedBox(height: 16),
                           // Description field
                           SignUpTextField(
                             controller: _descriptionController,

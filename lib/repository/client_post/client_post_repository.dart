@@ -102,10 +102,14 @@ class ClientPostRepository {
       print("✅✅✅✅✅✅✅✅");
       print(snapshot.docs.map((doc) => doc.data()).toList());
 
-      final posts =
-          snapshot.docs.map((doc) => doc.data().toClientPost()).toList();
+      final userPosts =
+          snapshot.docs.map((doc) {
+            final post = doc.data().toClientPost();
+            post.postId = doc.id;
+            return post;
+          }).toList();
 
-      return posts;
+      return userPosts;
     } catch (e) {
       print(e);
       print("En repository no se pudo cargar los post de clients❌❌❌");

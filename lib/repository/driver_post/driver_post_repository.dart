@@ -103,12 +103,15 @@ class DriverPostRepository {
       print("👾👾👾👾👾👾👾👾👾👾👾👾👾👾👾");
       print(snapshot.docs.map((doc) => doc.data()));
 
-      final posts =
-          snapshot.docs.map((doc) => doc.data().toDriverPost()).toList();
+      final userPosts =
+          snapshot.docs.map((doc) {
+            final post = doc.data().toDriverPost();
+            post.postId = doc.id;
+            return post;
+          }).toList();
 
-      print("✅✅✅✅✅✅✅✅");
-      print(posts);
-      return posts;
+      print(userPosts);
+      return userPosts;
     } catch (e) {
       print(e);
       print("En repository no se pudo cargar los post de los drivers ❌❌❌");

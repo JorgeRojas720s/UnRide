@@ -47,7 +47,9 @@ class ClientPostBody extends StatelessWidget {
                 itemCount: posts.length,
                 itemBuilder: (context, index) {
                   final post = posts[index];
-                  print('0000Psssssssssssss $post');
+                  print("✅✅✅✅✅✅✅✅✅✅✅✅✅✅");
+                  print(post.postId);
+
                   return ClientPostCard(
                     userName: post.name,
                     userSurname: post.surname,
