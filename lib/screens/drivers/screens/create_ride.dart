@@ -18,6 +18,8 @@ class CreateDriverRideScreen extends StatefulWidget {
   final DateTime? initialDate;
   final TimeOfDay? initialTime;
   final int? initialPassengers;
+  final bool? initialAllowPets;
+  final bool? initialAllowLuggage;
 
   const CreateDriverRideScreen({
     super.key,
@@ -31,6 +33,8 @@ class CreateDriverRideScreen extends StatefulWidget {
     this.initialDate,
     this.initialTime,
     this.initialPassengers,
+    this.initialAllowPets,
+    this.initialAllowLuggage,
   });
   @override
   State<CreateDriverRideScreen> createState() => _CreateDriverRideScreenState();
@@ -52,6 +56,8 @@ class _CreateDriverRideScreenState extends State<CreateDriverRideScreen>
   TimeOfDay? _selectedTime;
   bool _isLoading = false;
   int _selectedPassengers = 1;
+  bool _allowPets = false;
+  bool _allowLuggage = false;
 
   @override
   void initState() {
@@ -75,6 +81,8 @@ class _CreateDriverRideScreenState extends State<CreateDriverRideScreen>
       _selectedDate = widget.initialDate;
       _selectedTime = widget.initialTime;
       _selectedPassengers = widget.initialPassengers ?? 1;
+      _allowPets = widget.initialAllowPets ?? false;
+      _allowLuggage = widget.initialAllowLuggage ?? false;
     }
   }
 
@@ -264,6 +272,8 @@ class _CreateDriverRideScreenState extends State<CreateDriverRideScreen>
         travelDate: formattedDate,
         travelTime: _selectedTime?.format(context),
         suggestedAmount: double.parse(_priceController.text),
+        allowsPets: _allowPets,
+        allowsLuggage: _allowLuggage,
       ),
     );
   }
@@ -284,6 +294,8 @@ class _CreateDriverRideScreenState extends State<CreateDriverRideScreen>
         travelDate: formattedDate,
         travelTime: _selectedTime?.format(context),
         suggestedAmount: double.parse(_priceController.text),
+        allowsPets: _allowPets,
+        allowsLuggage: _allowLuggage,
       ),
     );
   }
@@ -535,6 +547,88 @@ class _CreateDriverRideScreenState extends State<CreateDriverRideScreen>
                             ),
                           ),
                           const SizedBox(height: 16),
+                          Container(
+                            padding: const EdgeInsets.all(16),
+                            decoration: BoxDecoration(
+                              color: AppColors.cardBackground,
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            child: Column(
+                              children: [
+                                Row(
+                                  children: [
+                                    const Icon(
+                                      Icons.pets,
+                                      color: AppColors.textSecondary,
+                                      size: 24,
+                                    ),
+                                    const SizedBox(width: 12),
+                                    const Expanded(
+                                      child: Text(
+                                        'Mascotas',
+                                        style: TextStyle(
+                                          color: AppColors.textPrimary,
+                                          fontSize: 16,
+                                        ),
+                                      ),
+                                    ),
+                                    Switch(
+                                      value: _allowPets,
+                                      onChanged: (bool value) {
+                                        setState(() {
+                                          _allowPets = value;
+                                        });
+                                      },
+                                      activeColor: AppColors.primary,
+                                      activeTrackColor: AppColors.primary
+                                          .withOpacity(0.3),
+                                      inactiveThumbColor:
+                                          AppColors.textSecondary,
+                                      inactiveTrackColor: AppColors
+                                          .textSecondary
+                                          .withOpacity(0.3),
+                                    ),
+                                  ],
+                                ),
+                                const SizedBox(height: 12),
+                                Row(
+                                  children: [
+                                    const Icon(
+                                      Icons.luggage,
+                                      color: AppColors.textSecondary,
+                                      size: 24,
+                                    ),
+                                    const SizedBox(width: 12),
+                                    const Expanded(
+                                      child: Text(
+                                        'Equipaje',
+                                        style: TextStyle(
+                                          color: AppColors.textPrimary,
+                                          fontSize: 16,
+                                        ),
+                                      ),
+                                    ),
+                                    Switch(
+                                      value: _allowLuggage,
+                                      onChanged: (bool value) {
+                                        setState(() {
+                                          _allowLuggage = value;
+                                        });
+                                      },
+                                      activeColor: AppColors.primary,
+                                      activeTrackColor: AppColors.primary
+                                          .withOpacity(0.3),
+                                      inactiveThumbColor:
+                                          AppColors.textSecondary,
+                                      inactiveTrackColor: AppColors
+                                          .textSecondary
+                                          .withOpacity(0.3),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ),
                           // Description field
                           SignUpTextField(
                             controller: _descriptionController,

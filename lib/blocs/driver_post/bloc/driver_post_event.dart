@@ -17,6 +17,8 @@ class DriverPostRegister extends DriverPostEvent {
   final DateTime postDate;
   final String? travelDate;
   final String? travelTime;
+  final bool allowsPets;
+  final bool allowsLuggage;
 
   DriverPostRegister({
     required this.user,
@@ -27,6 +29,8 @@ class DriverPostRegister extends DriverPostEvent {
     required this.suggestedAmount,
     required this.travelDate,
     required this.travelTime,
+    required this.allowsPets,
+    required this.allowsLuggage,
   }) : postDate = DateTime.now();
 
   @override
@@ -40,6 +44,8 @@ class DriverPostRegister extends DriverPostEvent {
     postDate,
     travelDate,
     travelTime,
+    allowsPets,
+    allowsLuggage,
   ];
 }
 
@@ -54,6 +60,8 @@ class UpdateDriverPost extends DriverPostEvent {
   // final DateTime postDate;
   final String? travelDate;
   final String? travelTime;
+  final bool allowsPets;
+  final bool allowsLuggage;
 
   UpdateDriverPost({
     required this.user,
@@ -65,6 +73,8 @@ class UpdateDriverPost extends DriverPostEvent {
     required this.suggestedAmount, //!Quitar el required
     required this.travelDate,
     required this.travelTime,
+    required this.allowsPets,
+    required this.allowsLuggage,
   });
 
   @override
@@ -78,6 +88,8 @@ class UpdateDriverPost extends DriverPostEvent {
     suggestedAmount,
     travelDate,
     travelTime,
+    allowsPets,
+    allowsLuggage,
   ];
 }
 

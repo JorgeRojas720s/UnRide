@@ -280,8 +280,8 @@ class _CreateClientRideScreenState extends State<CreateClientRideScreen>
         travelDate: formattedDate,
         travelTime: _selectedTime?.format(context),
         suggestedAmount: double.parse(_priceController.text),
-        //allowPets: _allowPets,
-        //allowLuggage: _allowLuggage,
+        allowsPets: _allowPets,
+        allowsLuggage: _allowLuggage,
       ),
     );
   }
@@ -301,8 +301,8 @@ class _CreateClientRideScreenState extends State<CreateClientRideScreen>
         travelDate: formattedDate,
         travelTime: _selectedTime?.format(context),
         suggestedAmount: double.parse(_priceController.text),
-        //allowPets: _allowPets,
-        //allowLuggage: _allowLuggage,
+        allowsPets: _allowPets,
+        allowsLuggage: _allowLuggage,
       ),
     );
   }

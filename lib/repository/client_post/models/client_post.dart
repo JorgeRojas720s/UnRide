@@ -19,6 +19,8 @@ class ClientPost extends Equatable {
   final DateTime? postDate;
   final String? travelDate;
   final String? travelTime;
+  final bool allowsPets;
+  final bool allowsLuggage;
 
   ClientPost({
     this.id,
@@ -37,6 +39,8 @@ class ClientPost extends Equatable {
     this.postDate,
     this.travelDate,
     this.travelTime,
+    required this.allowsPets,
+    required this.allowsLuggage,
   });
 
   static final empty = ClientPost(
@@ -54,6 +58,8 @@ class ClientPost extends Equatable {
     postDate: null,
     travelDate: null,
     travelTime: '',
+    allowsPets: false,
+    allowsLuggage: false,
   );
 
   @override
@@ -72,6 +78,8 @@ class ClientPost extends Equatable {
     postDate,
     travelDate,
     travelTime,
+    allowsPets,
+    allowsLuggage,
   ];
 
   @override
@@ -93,6 +101,8 @@ class ClientPost extends Equatable {
       'suggestedAmount': suggestedAmount,
       'travelDate': travelDate,
       'travelTime': travelTime,
+      'allowsPets': allowsPets,
+      'allowsLuggage': allowsLuggage,
     };
     if (id != null) {
       map['id'] = id;
@@ -117,6 +127,8 @@ class ClientPost extends Equatable {
       suggestedAmount: map['suggestedAmount'] as int,
       travelDate: map['travelDate'] as String,
       travelTime: map['travelTime'] as String,
+      allowsPets: map['allowsPets'] as bool,
+      allowsLuggage: map['allowsLuggage'] as bool,
     );
   }
 }

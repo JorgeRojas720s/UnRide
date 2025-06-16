@@ -17,6 +17,8 @@ class ClientPostRegister extends ClientPostEvent {
   final DateTime postDate;
   final String? travelDate;
   final String? travelTime;
+  final bool allowsPets;
+  final bool allowsLuggage;
 
   ClientPostRegister({
     required this.user,
@@ -27,6 +29,8 @@ class ClientPostRegister extends ClientPostEvent {
     required this.suggestedAmount,
     required this.travelDate,
     required this.travelTime,
+    required this.allowsPets,
+    required this.allowsLuggage,
   }) : postDate = DateTime.now();
 
   @override
@@ -40,6 +44,8 @@ class ClientPostRegister extends ClientPostEvent {
     postDate,
     travelDate,
     travelTime,
+    allowsPets,
+    allowsLuggage,
   ];
 }
 
@@ -54,6 +60,8 @@ class UpdateClientPost extends ClientPostEvent {
   // final DateTime postDate;
   final String? travelDate;
   final String? travelTime;
+  final bool allowsPets;
+  final bool allowsLuggage;
 
   UpdateClientPost({
     required this.user,
@@ -65,6 +73,8 @@ class UpdateClientPost extends ClientPostEvent {
     required this.suggestedAmount, //!Quitar el required
     required this.travelDate,
     required this.travelTime,
+    required this.allowsPets,
+    required this.allowsLuggage,
   });
 
   @override
@@ -77,6 +87,8 @@ class UpdateClientPost extends ClientPostEvent {
     suggestedAmount,
     travelDate,
     travelTime,
+    allowsPets,
+    allowsLuggage,
   ];
 }
 

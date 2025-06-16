@@ -24,6 +24,8 @@ class DriverPostBloc extends Bloc<DriverPostEvent, DriverPostState> {
           postDate: event.postDate,
           travelDate: event.travelDate,
           travelTime: event.travelTime,
+          allowsPets: event.allowsPets,
+          allowsLuggage: event.allowsLuggage,
         );
 
         emit(const DriverPostState.published());
@@ -46,6 +48,8 @@ class DriverPostBloc extends Bloc<DriverPostEvent, DriverPostState> {
           suggestedAmount: event.suggestedAmount,
           travelDate: event.travelDate,
           travelTime: event.travelTime,
+          allowsPets: event.allowsPets,
+          allowsLuggage: event.allowsLuggage,
         );
 
         emit(DriverPostState.updated());

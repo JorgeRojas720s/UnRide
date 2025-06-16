@@ -59,6 +59,8 @@ class DriverPostBody extends StatelessWidget {
                     travelTime: post.travelTime,
                     showMenuButton: showMenuButton,
                     postId: post.postId,
+                    allowsPets: post.allowsPets,
+                    allowsLuggage: post.allowsLuggage,
                     onEdit:
                         showMenuButton && onEditPost != null
                             ? () => onEditPost!(post.postId, post)

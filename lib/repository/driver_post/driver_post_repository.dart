@@ -16,6 +16,8 @@ class DriverPostRepository {
     required DateTime postDate,
     required String? travelDate,
     required String? travelTime,
+    required bool allowsPets,
+    required bool allowsLuggage,
   }) async {
     try {
       await FirebaseFirestore.instance.collection('driverPosts').add({
@@ -33,6 +35,8 @@ class DriverPostRepository {
         'postDate': postDate,
         'travelDate': travelDate,
         'travelTime': travelTime,
+        'allowsPets': allowsPets,
+        'allowsLuggage': allowsLuggage,
       });
     } catch (e) {
       print(e);
@@ -50,6 +54,8 @@ class DriverPostRepository {
     required double suggestedAmount,
     required String? travelDate,
     required String? travelTime,
+    required bool allowsPets,
+    required bool allowsLuggage,
   }) async {
     try {
       await FirebaseFirestore.instance
@@ -64,6 +70,8 @@ class DriverPostRepository {
             'suggestedAmount': suggestedAmount,
             'travelDate': travelDate ?? '',
             'travelTime': travelTime ?? '',
+            'allowsPets': allowsPets,
+            'allowsLuggage': allowsLuggage,
           });
 
       print("Se actualizó el post  ✅✅✅");
@@ -157,6 +165,8 @@ extension PostFromMap on Map<String, dynamic> {
               : (this['suggestedAmount'] ?? 0.0),
       travelDate: this['travelDate'] ?? null,
       travelTime: this['travelTime'] ?? null,
+      allowsPets: this['allowsPets'] ?? false,
+      allowsLuggage: this['allowsLuggage'] ?? false,
     );
   }
 }

@@ -15,6 +15,8 @@ class ClientPostRepository {
     required DateTime postDate,
     required String? travelDate,
     required String? travelTime,
+    required bool allowsPets,
+    required bool allowsLuggage,
   }) async {
     try {
       await FirebaseFirestore.instance.collection('clientPosts').add({
@@ -32,6 +34,8 @@ class ClientPostRepository {
         'postDate': postDate,
         'travelDate': travelDate,
         'travelTime': travelTime,
+        'allowsPets': allowsPets,
+        'allowsLuggage': allowsLuggage,
       });
     } catch (e) {
       print(e);
@@ -49,6 +53,8 @@ class ClientPostRepository {
     required double suggestedAmount,
     required String? travelDate,
     required String? travelTime,
+    required bool allowsPets,
+    required bool allowsLuggage,
   }) async {
     try {
       await FirebaseFirestore.instance
@@ -63,6 +69,8 @@ class ClientPostRepository {
             'suggestedAmount': suggestedAmount,
             'travelDate': travelDate ?? '',
             'travelTime': travelTime ?? '',
+            'allowsPets': allowsPets,
+            'allowsLuggage': allowsLuggage,
           });
 
       print("Se actualizó el post  ✅✅✅");
@@ -158,6 +166,8 @@ extension ClientPostFromMap on Map<String, dynamic> {
               : (this['suggestedAmount'] ?? 0),
       travelDate: this['travelDate'] ?? null,
       travelTime: this['travelTime'] ?? null,
+      allowsPets: this['allowsPets'] ?? false,
+      allowsLuggage: this['allowsLuggage'] ?? false,
     );
   }
 }

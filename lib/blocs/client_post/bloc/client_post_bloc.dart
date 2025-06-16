@@ -1,14 +1,14 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:un_ride/repository/repository.dart';
-import 'package:un_ride/sqlite/data/history/CRUD/history_dao.dart';
+// import 'package:un_ride/sqlite/data/history/CRUD/history_dao.dart';
 
 part 'client_post_event.dart';
 part 'client_post_state.dart';
 
 class ClientPostBloc extends Bloc<ClientPostEvent, ClientPostState> {
   final ClientPostRepository _clientPostRepository;
-  final HistoryDao _historyDao = HistoryDao();
+  // final HistoryDao _historyDao = HistoryDao();
 
   ClientPostBloc({required ClientPostRepository clientPostRepository})
     : _clientPostRepository = clientPostRepository,
@@ -29,6 +29,8 @@ class ClientPostBloc extends Bloc<ClientPostEvent, ClientPostState> {
           postDate: event.postDate,
           travelDate: event.travelDate,
           travelTime: event.travelTime,
+          allowsPets: event.allowsPets,
+          allowsLuggage: event.allowsLuggage,
         );
 
         //!Lo de sqlite
@@ -64,6 +66,8 @@ class ClientPostBloc extends Bloc<ClientPostEvent, ClientPostState> {
           suggestedAmount: event.suggestedAmount,
           travelDate: event.travelDate,
           travelTime: event.travelTime,
+          allowsPets: event.allowsPets,
+          allowsLuggage: event.allowsLuggage,
         );
 
         emit(ClientPostState.updated());

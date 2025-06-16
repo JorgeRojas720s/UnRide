@@ -19,6 +19,8 @@ class DriverPost extends Equatable {
   final DateTime? postDate;
   final String? travelDate;
   final String? travelTime;
+  final bool allowsPets;
+  final bool allowsLuggage;
 
   DriverPost({
     this.id,
@@ -37,6 +39,8 @@ class DriverPost extends Equatable {
     this.postDate,
     this.travelDate,
     this.travelTime,
+    required this.allowsPets,
+    required this.allowsLuggage,
   });
 
   static final empty = DriverPost(
@@ -55,6 +59,8 @@ class DriverPost extends Equatable {
     postDate: null,
     travelDate: null,
     travelTime: '',
+    allowsPets: false,
+    allowsLuggage: false,
   );
 
   @override
@@ -73,6 +79,8 @@ class DriverPost extends Equatable {
     postDate,
     travelDate,
     travelTime,
+    allowsPets,
+    allowsLuggage,
   ];
 
   @override
@@ -94,6 +102,8 @@ class DriverPost extends Equatable {
       'suggestedAmount': suggestedAmount,
       'travelDate': travelDate,
       'travelTime': travelTime,
+      'allowsPets': allowsPets,
+      'allowsLuggage': allowsLuggage,
     };
     if (id != null) {
       map['id'] = id;
@@ -118,6 +128,8 @@ class DriverPost extends Equatable {
       suggestedAmount: map['suggestedAmount'] as double,
       travelDate: map['travelDate'] as String,
       travelTime: map['travelTime'] as String,
+      allowsPets: map['allowsPets'] as bool,
+      allowsLuggage: map['allowsLuggage'] as bool,
     );
   }
 }
