@@ -40,7 +40,7 @@ class RoleSwitchButton extends StatelessWidget {
                       _buildRoleButton(
                         context,
                         icon: Icons.person_outline,
-                        label: 'Client',
+                        label: 'Cliente',
                         isActive: !isDriverMode,
                         onTap:
                             () => onChanged(
@@ -51,7 +51,7 @@ class RoleSwitchButton extends StatelessWidget {
                       _buildRoleButton(
                         context,
                         icon: Icons.directions_car,
-                        label: 'Driver',
+                        label: 'Conductor',
                         isActive: isDriverMode,
                         onTap:
                             () => onChanged(
