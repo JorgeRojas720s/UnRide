@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:un_ride/screens/Widgets/animations/no_posts.dart';
 import 'package:un_ride/screens/Widgets/layaout/appbar/appbar.dart';
 import 'package:un_ride/screens/Widgets/layaout/navbar/navbar.dart';
+import 'package:un_ride/screens/drivers/screens/chat.dart';
 import 'package:un_ride/screens/drivers/screens/home.dart';
 import 'package:un_ride/screens/drivers/screens/profile.dart';
 
@@ -26,7 +27,7 @@ class _DriversState extends State<Drivers> {
       case 0:
         return DriverHome();
       case 1:
-        return Text("La del pin");
+        return DriverChat();
       case 2:
         return NoPosts();
       case 3:
