@@ -69,13 +69,7 @@ class _NavBarState extends State<NavBar> {
                         height: 80,
                         decoration: BoxDecoration(
                           color: AppColors.scaffoldBackground,
-                          boxShadow: const [
-                            BoxShadow(
-                              blurRadius: 10,
-                              color: Color.fromARGB(30, 255, 255, 255),
-                              spreadRadius: 0.1,
-                            ),
-                          ],
+                          // Sombra removida completamente
                           borderRadius: const BorderRadius.only(
                             topLeft: Radius.circular(25),
                             topRight: Radius.circular(25),
@@ -85,80 +79,89 @@ class _NavBarState extends State<NavBar> {
                     ),
                   ],
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: [
-                    AnimatedIconButton(
-                      size: iconsButtonsSize,
-                      icon: Icons.home_rounded,
-                      isSelected: widget.currentIndex == 0,
-                      onPressed: () => onIconPressed(0),
-                    ),
-                    AnimatedIconButton(
-                      size: iconsButtonsSize,
-                      icon: Icons.chat,
-                      isSelected: widget.currentIndex == 1,
-                      onPressed: () => onIconPressed(1),
-                    ),
-                    Column(
-                      mainAxisSize: MainAxisSize.min,
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(bottom: 10),
-                          child: RawMaterialButton(
-                            onPressed: () {
-                              if (state == UserRole.client) {
-                                Navigator.of(context).push(
-                                  MaterialPageRoute(
-                                    builder:
-                                        (context) => CreateClientRideScreen(
-                                          onClose:
-                                              () => Navigator.of(context).pop(),
-                                        ),
-                                    fullscreenDialog: true,
+                // Botón centrado con mejor alineación
+                Positioned(
+                  left: 0,
+                  right: 0,
+                  bottom: 20,
+                  child: Center(
+                    child: RawMaterialButton(
+                      onPressed: () {
+                        if (state == UserRole.client) {
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder:
+                                  (context) => CreateClientRideScreen(
+                                    onClose: () => Navigator.of(context).pop(),
                                   ),
-                                );
-                              } else if (state == UserRole.driver) {
-                                Navigator.of(context).push(
-                                  MaterialPageRoute(
-                                    builder:
-                                        (context) => CreateDriverRideScreen(
-                                          onClose:
-                                              () => Navigator.of(context).pop(),
-                                        ),
-                                    fullscreenDialog: true,
-                                  ),
-                                );
-                              }
-                            },
-                            elevation: 2.0,
-                            fillColor: AppColors.iconsNavBarColor,
-                            child: const Icon(
-                              Icons.add,
-                              size: 30.0,
-                              color: Colors.white,
+                              fullscreenDialog: true,
                             ),
-                            padding: const EdgeInsets.all(15.0),
-                            shape: const CircleBorder(),
-                          ),
+                          );
+                        } else if (state == UserRole.driver) {
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder:
+                                  (context) => CreateDriverRideScreen(
+                                    onClose: () => Navigator.of(context).pop(),
+                                  ),
+                              fullscreenDialog: true,
+                            ),
+                          );
+                        }
+                      },
+                      elevation: 2.0,
+                      fillColor: AppColors.iconsNavBarColor,
+                      child: const Icon(
+                        Icons.add,
+                        size: 30.0,
+                        color: Colors.white,
+                      ),
+                      padding: const EdgeInsets.all(15.0),
+                      shape: const CircleBorder(),
+                    ),
+                  ),
+                ),
+                // Iconos de navegación sin el botón del medio
+                Positioned(
+                  left: 0,
+                  right: 0,
+                  bottom: 0,
+                  child: Container(
+                    height: 80,
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        AnimatedIconButton(
+                          size: iconsButtonsSize,
+                          icon: Icons.home_rounded,
+                          isSelected: widget.currentIndex == 0,
+                          onPressed: () => onIconPressed(0),
+                        ),
+                        AnimatedIconButton(
+                          size: iconsButtonsSize,
+                          icon: Icons.chat,
+                          isSelected: widget.currentIndex == 1,
+                          onPressed: () => onIconPressed(1),
+                        ),
+                        // Espacio vacío para el botón del medio
+                        const SizedBox(width: 60),
+                        AnimatedIconButton(
+                          size: iconsButtonsSize,
+                          icon: Icons.collections_bookmark_rounded,
+                          isSelected: widget.currentIndex == 2,
+                          onPressed: () => onIconPressed(2),
+                        ),
+                        AnimatedIconButton(
+                          size: iconsButtonsSize,
+                          icon: Icons.person,
+                          isSelected: widget.currentIndex == 3,
+                          onPressed: () => onIconPressed(3),
                         ),
                       ],
                     ),
-                    AnimatedIconButton(
-                      size: iconsButtonsSize,
-                      icon: Icons.collections_bookmark_rounded,
-                      isSelected: widget.currentIndex == 2,
-                      onPressed: () => onIconPressed(2),
-                    ),
-                    AnimatedIconButton(
-                      size: iconsButtonsSize,
-                      icon: Icons.person,
-                      isSelected: widget.currentIndex == 3,
-                      onPressed: () => onIconPressed(3),
-                    ),
-                  ],
+                  ),
                 ),
               ],
             ),
