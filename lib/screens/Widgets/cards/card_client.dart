@@ -432,31 +432,33 @@ class _ClientPostCardState extends State<ClientPostCard> {
   Widget _buildActionSection(bool isCompact) {
     return Column(
       children: [
-        Container(
-          width: isCompact ? 100 : 120,
-          child: ElevatedButton(
-            onPressed: () {},
-            style: ElevatedButton.styleFrom(
-              backgroundColor: AppColors.primary,
-              foregroundColor: Colors.white,
-              elevation: 0,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(25),
+        if (!widget.showMenuButton) ...[
+          Container(
+            width: isCompact ? 100 : 120,
+            child: ElevatedButton(
+              onPressed: () {},
+              style: ElevatedButton.styleFrom(
+                backgroundColor: AppColors.primary,
+                foregroundColor: Colors.white,
+                elevation: 0,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(25),
+                ),
+                padding: EdgeInsets.symmetric(
+                  vertical: isCompact ? 12 : 14,
+                  horizontal: 16,
+                ),
               ),
-              padding: EdgeInsets.symmetric(
-                vertical: isCompact ? 12 : 14,
-                horizontal: 16,
-              ),
-            ),
-            child: Text(
-              "Postularse",
-              style: TextStyle(
-                fontSize: isCompact ? 12 : 14,
-                fontWeight: FontWeight.w600,
+              child: Text(
+                "Postularse",
+                style: TextStyle(
+                  fontSize: isCompact ? 12 : 14,
+                  fontWeight: FontWeight.w600,
+                ),
               ),
             ),
           ),
-        ),
+        ],
         const SizedBox(height: 12),
         _buildFeatures(isCompact),
       ],
@@ -472,23 +474,28 @@ class _ClientPostCardState extends State<ClientPostCard> {
       ),
       child: Column(
         children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              _buildFeatureIcon(
-                Icons.pets_rounded,
-                widget.allowsPets,
-                "Mascotas",
-              ),
-              SizedBox(width: 16), // Espacio adicional entre iconos
-              _buildFeatureIcon(
-                Icons.luggage_rounded,
-                widget.allowsLuggage,
-                "Equipaje",
-              ),
-            ],
-          ),
-          const SizedBox(height: 8),
+          if (widget.allowsPets || widget.allowsLuggage) ...[
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                if (widget.allowsPets)
+                  _buildFeatureIcon(
+                    Icons.pets_rounded,
+                    widget.allowsPets,
+                    "Mascotas",
+                  ),
+                if (widget.allowsPets && widget.allowsLuggage)
+                  SizedBox(width: 16),
+                if (widget.allowsLuggage)
+                  _buildFeatureIcon(
+                    Icons.luggage_rounded,
+                    widget.allowsLuggage,
+                    "Equipaje",
+                  ),
+              ],
+            ),
+            const SizedBox(height: 8),
+          ],
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -520,17 +527,10 @@ class _ClientPostCardState extends State<ClientPostCard> {
       child: Container(
         padding: const EdgeInsets.all(6),
         decoration: BoxDecoration(
-          color:
-              isEnabled
-                  ? AppColors.primary.withOpacity(0.2)
-                  : AppColors.textSecondary.withOpacity(0.1),
+          color: AppColors.primary.withOpacity(0.2),
           borderRadius: BorderRadius.circular(8),
         ),
-        child: Icon(
-          icon,
-          color: isEnabled ? AppColors.primary : AppColors.textSecondary,
-          size: 16,
-        ),
+        child: Icon(icon, color: AppColors.primary, size: 16),
       ),
     );
   }

@@ -26,6 +26,15 @@ class AuthenticationUserSignIn extends AuthenticationEvent {
   List<Object> get props => [email, password];
 }
 
+class AuthenticationPasswordResetRequested extends AuthenticationEvent {
+  final String email;
+
+  const AuthenticationPasswordResetRequested({required this.email});
+
+  @override
+  List<Object> get props => [email];
+}
+
 class AuthenticationLogoutRequested extends AuthenticationEvent {}
 
 //!Registrar al user normal

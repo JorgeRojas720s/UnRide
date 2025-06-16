@@ -74,17 +74,13 @@ class _AppViewState extends State<AppView> {
       navigatorKey: _navigatorKey,
       initialRoute: '/auth',
       routes: routes,
-      // Configuración de localizaciones agregada
       locale: const Locale('es', 'ES'),
       localizationsDelegates: const [
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,
         GlobalCupertinoLocalizations.delegate,
       ],
-      supportedLocales: const [
-        Locale('es', 'ES'),
-        Locale('en', 'US'), // Inglés como respaldo
-      ],
+      supportedLocales: const [Locale('es', 'ES'), Locale('en', 'US')],
       builder: (context, child) {
         return BlocBuilder<ConnectivityBloc, ConnectivityState>(
           builder: (context, connectivityState) {

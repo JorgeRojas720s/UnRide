@@ -17,6 +17,8 @@ class CreateClientRideScreen extends StatefulWidget {
   final DateTime? initialDate;
   final TimeOfDay? initialTime;
   final int? initialPassengers;
+  final bool? initialAllowPets;
+  final bool? initialAllowLuggage;
 
   const CreateClientRideScreen({
     super.key,
@@ -30,6 +32,8 @@ class CreateClientRideScreen extends StatefulWidget {
     this.initialDate,
     this.initialTime,
     this.initialPassengers,
+    this.initialAllowPets,
+    this.initialAllowLuggage,
   });
   @override
   State<CreateClientRideScreen> createState() => _CreateClientRideScreenState();
@@ -51,6 +55,8 @@ class _CreateClientRideScreenState extends State<CreateClientRideScreen>
   TimeOfDay? _selectedTime;
   bool _isLoading = false;
   int _selectedPassengers = 1;
+  bool _allowPets = false;
+  bool _allowLuggage = false;
 
   @override
   void initState() {
@@ -74,6 +80,8 @@ class _CreateClientRideScreenState extends State<CreateClientRideScreen>
       _selectedDate = widget.initialDate;
       _selectedTime = widget.initialTime;
       _selectedPassengers = widget.initialPassengers ?? 1;
+      _allowPets = widget.initialAllowPets ?? false;
+      _allowLuggage = widget.initialAllowLuggage ?? false;
     }
   }
 
@@ -151,60 +159,64 @@ class _CreateClientRideScreenState extends State<CreateClientRideScreen>
       hourLabelText: 'Hora',
       minuteLabelText: 'Minuto',
       builder: (context, child) {
-        return Theme(
-          data: Theme.of(context).copyWith(
-            colorScheme: const ColorScheme.dark(
-              primary: AppColors.primary,
-              onPrimary: AppColors.textPrimary,
-              surface: AppColors.cardBackground,
-              onSurface: AppColors.textPrimary,
-              background: AppColors.cardBackground,
-              onBackground: AppColors.textPrimary,
-              secondary: AppColors.primary,
-              onSecondary: AppColors.textPrimary,
-            ),
-            dialogTheme: DialogTheme(
-              backgroundColor: AppColors.cardBackground,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(20),
+        return MediaQuery(
+          data: MediaQuery.of(context).copyWith(
+            alwaysUse24HourFormat: false, // Esta línea fuerza formato 12 horas
+          ),
+          child: Theme(
+            data: Theme.of(context).copyWith(
+              colorScheme: const ColorScheme.dark(
+                primary: AppColors.primary,
+                onPrimary: AppColors.textPrimary,
+                surface: AppColors.cardBackground,
+                onSurface: AppColors.textPrimary,
+                background: AppColors.cardBackground,
+                onBackground: AppColors.textPrimary,
+                secondary: AppColors.primary,
+                onSecondary: AppColors.textPrimary,
               ),
-              elevation: 20,
-            ),
-            textTheme: Theme.of(context).textTheme.copyWith(
-              bodyLarge: const TextStyle(color: Colors.white),
-              bodyMedium: const TextStyle(color: Colors.white),
-              headlineMedium: const TextStyle(
-                color: AppColors.primaryLight,
-                fontWeight: FontWeight.bold,
-              ),
-              headlineSmall: const TextStyle(
-                color: AppColors.primaryLight,
-                fontWeight: FontWeight.bold,
-              ),
-              labelLarge: const TextStyle(
-                color: AppColors.primaryLight,
-                fontWeight: FontWeight.w600,
-              ),
-              displayMedium: const TextStyle(
-                color: AppColors.primaryLight,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-
-            segmentedButtonTheme: SegmentedButtonThemeData(
-              style: SegmentedButton.styleFrom(
-                backgroundColor: Colors.transparent,
-                selectedBackgroundColor: AppColors.primary,
-                selectedForegroundColor: AppColors.textPrimary,
-                foregroundColor: AppColors.textSecondary,
-                side: const BorderSide(color: AppColors.primary, width: 1),
+              dialogTheme: DialogTheme(
+                backgroundColor: AppColors.cardBackground,
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12),
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                elevation: 20,
+              ),
+              textTheme: Theme.of(context).textTheme.copyWith(
+                bodyLarge: const TextStyle(color: Colors.white),
+                bodyMedium: const TextStyle(color: Colors.white),
+                headlineMedium: const TextStyle(
+                  color: AppColors.primaryLight,
+                  fontWeight: FontWeight.bold,
+                ),
+                headlineSmall: const TextStyle(
+                  color: AppColors.primaryLight,
+                  fontWeight: FontWeight.bold,
+                ),
+                labelLarge: const TextStyle(
+                  color: AppColors.primaryLight,
+                  fontWeight: FontWeight.w600,
+                ),
+                displayMedium: const TextStyle(
+                  color: AppColors.primaryLight,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              segmentedButtonTheme: SegmentedButtonThemeData(
+                style: SegmentedButton.styleFrom(
+                  backgroundColor: Colors.transparent,
+                  selectedBackgroundColor: AppColors.primary,
+                  selectedForegroundColor: AppColors.textPrimary,
+                  foregroundColor: AppColors.textSecondary,
+                  side: const BorderSide(color: AppColors.primary, width: 1),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
                 ),
               ),
             ),
+            child: child!,
           ),
-          child: child!,
         );
       },
     );
@@ -268,6 +280,8 @@ class _CreateClientRideScreenState extends State<CreateClientRideScreen>
         travelDate: formattedDate,
         travelTime: _selectedTime?.format(context),
         suggestedAmount: double.parse(_priceController.text),
+        //allowPets: _allowPets,
+        //allowLuggage: _allowLuggage,
       ),
     );
   }
@@ -287,6 +301,8 @@ class _CreateClientRideScreenState extends State<CreateClientRideScreen>
         travelDate: formattedDate,
         travelTime: _selectedTime?.format(context),
         suggestedAmount: double.parse(_priceController.text),
+        //allowPets: _allowPets,
+        //allowLuggage: _allowLuggage,
       ),
     );
   }
@@ -296,13 +312,16 @@ class _CreateClientRideScreenState extends State<CreateClientRideScreen>
   }
 
   String _formatTime(TimeOfDay time) {
-    return '${time.hour.toString().padLeft(2, '0')}:${time.minute.toString().padLeft(2, '0')}';
+    final period = time.period == DayPeriod.am ? 'AM' : 'PM';
+    final hour = time.hourOfPeriod == 0 ? 12 : time.hourOfPeriod;
+    final minute = time.minute.toString().padLeft(2, '0');
+    return '$hour:$minute $period';
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.scaffoldBackground, // Pure black background
+      backgroundColor: AppColors.scaffoldBackground,
       body: AnimatedBuilder(
         animation: _animationController,
         builder: (context, child) {
@@ -311,7 +330,7 @@ class _CreateClientRideScreenState extends State<CreateClientRideScreen>
             child: Column(
               children: [
                 AppBar(
-                  backgroundColor: AppColors.primaryDark, // Dark gray AppBar
+                  backgroundColor: AppColors.primaryDark,
                   elevation: 0,
                   leading: IconButton(
                     icon: const Icon(Icons.close, color: AppColors.textPrimary),
@@ -384,9 +403,7 @@ class _CreateClientRideScreenState extends State<CreateClientRideScreen>
                                       horizontal: 12,
                                     ),
                                     decoration: BoxDecoration(
-                                      color:
-                                          AppColors
-                                              .cardBackground, // Card background color
+                                      color: AppColors.cardBackground,
                                       borderRadius: BorderRadius.circular(10),
                                     ),
                                     child: Row(
@@ -423,9 +440,7 @@ class _CreateClientRideScreenState extends State<CreateClientRideScreen>
                                       horizontal: 12,
                                     ),
                                     decoration: BoxDecoration(
-                                      color:
-                                          AppColors
-                                              .cardBackground, // Card background color
+                                      color: AppColors.cardBackground,
                                       borderRadius: BorderRadius.circular(10),
                                     ),
                                     child: Row(
@@ -478,7 +493,6 @@ class _CreateClientRideScreenState extends State<CreateClientRideScreen>
                             },
                           ),
                           const SizedBox(height: 16),
-                          // Passengers dropdown selector
                           Container(
                             padding: const EdgeInsets.symmetric(
                               vertical: 4,
@@ -535,6 +549,90 @@ class _CreateClientRideScreenState extends State<CreateClientRideScreen>
                                 }
                                 return null;
                               },
+                            ),
+                          ),
+                          const SizedBox(height: 16),
+                          // Mascotas y Equipaje
+                          Container(
+                            padding: const EdgeInsets.all(16),
+                            decoration: BoxDecoration(
+                              color: AppColors.cardBackground,
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            child: Column(
+                              children: [
+                                Row(
+                                  children: [
+                                    const Icon(
+                                      Icons.pets,
+                                      color: AppColors.textSecondary,
+                                      size: 24,
+                                    ),
+                                    const SizedBox(width: 12),
+                                    const Expanded(
+                                      child: Text(
+                                        'Mascotas',
+                                        style: TextStyle(
+                                          color: AppColors.textPrimary,
+                                          fontSize: 16,
+                                        ),
+                                      ),
+                                    ),
+                                    Switch(
+                                      value: _allowPets,
+                                      onChanged: (bool value) {
+                                        setState(() {
+                                          _allowPets = value;
+                                        });
+                                      },
+                                      activeColor: AppColors.primary,
+                                      activeTrackColor: AppColors.primary
+                                          .withOpacity(0.3),
+                                      inactiveThumbColor:
+                                          AppColors.textSecondary,
+                                      inactiveTrackColor: AppColors
+                                          .textSecondary
+                                          .withOpacity(0.3),
+                                    ),
+                                  ],
+                                ),
+                                const SizedBox(height: 12),
+                                Row(
+                                  children: [
+                                    const Icon(
+                                      Icons.luggage,
+                                      color: AppColors.textSecondary,
+                                      size: 24,
+                                    ),
+                                    const SizedBox(width: 12),
+                                    const Expanded(
+                                      child: Text(
+                                        'Equipaje',
+                                        style: TextStyle(
+                                          color: AppColors.textPrimary,
+                                          fontSize: 16,
+                                        ),
+                                      ),
+                                    ),
+                                    Switch(
+                                      value: _allowLuggage,
+                                      onChanged: (bool value) {
+                                        setState(() {
+                                          _allowLuggage = value;
+                                        });
+                                      },
+                                      activeColor: AppColors.primary,
+                                      activeTrackColor: AppColors.primary
+                                          .withOpacity(0.3),
+                                      inactiveThumbColor:
+                                          AppColors.textSecondary,
+                                      inactiveTrackColor: AppColors
+                                          .textSecondary
+                                          .withOpacity(0.3),
+                                    ),
+                                  ],
+                                ),
+                              ],
                             ),
                           ),
                           const SizedBox(height: 16),

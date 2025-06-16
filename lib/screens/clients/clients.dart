@@ -24,7 +24,7 @@ class _ClientsState extends State<Clients> {
   Widget _buildBody() {
     switch (selectedIndex) {
       case 0:
-        return const ClientsHome(); // pantalla para clientes
+        return const ClientsHome();
       case 1:
         return ChatScreen();
       case 2:

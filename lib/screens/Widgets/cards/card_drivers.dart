@@ -119,60 +119,67 @@ class _DriverPostCardState extends State<DriverPostCard> {
   Widget _buildHeader() {
     return Row(
       children: [
-        Container(
-          width: 44,
-          height: 44,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(22),
-            gradient: LinearGradient(
-              colors: [AppColors.primary, AppColors.accentPink],
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
+        if (!widget.showMenuButton) ...[
+          Container(
+            width: 44,
+            height: 44,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(22),
+              gradient: LinearGradient(
+                colors: [AppColors.primary, AppColors.accentPink],
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+              ),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withOpacity(0.1),
+                  blurRadius: 6,
+                  offset: Offset(0, 3),
+                ),
+              ],
             ),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black.withOpacity(0.1),
-                blurRadius: 6,
-                offset: Offset(0, 3),
-              ),
-            ],
+            child:
+                widget.userAvatar == "" || widget.userAvatar == null
+                    ? const Icon(Icons.person, color: Colors.white, size: 24)
+                    : ClipRRect(
+                      borderRadius: BorderRadius.circular(22),
+                      child: Image.network(
+                        widget.userAvatar!,
+                        fit: BoxFit.cover,
+                      ),
+                    ),
           ),
-          child:
-              widget.userAvatar == "" || widget.userAvatar == null
-                  ? const Icon(Icons.person, color: Colors.white, size: 24)
-                  : ClipRRect(
-                    borderRadius: BorderRadius.circular(22),
-                    child: Image.network(widget.userAvatar!, fit: BoxFit.cover),
+          const SizedBox(width: 12),
+
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  widget.userName + " " + widget.userSurname,
+                  style: const TextStyle(
+                    color: AppColors.textPrimary,
+                    fontSize: 16,
+                    fontWeight: FontWeight.w600,
                   ),
-        ),
-        const SizedBox(width: 12),
-        Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                widget.userName + " " + widget.userSurname,
-                style: const TextStyle(
-                  color: AppColors.textPrimary,
-                  fontSize: 16,
-                  fontWeight: FontWeight.w600,
                 ),
-              ),
-              Text(
-                widget.phoneNumber,
-                style: TextStyle(
-                  color: AppColors.textSecondary,
-                  fontSize: 12,
-                  fontWeight: FontWeight.w400,
+                Text(
+                  widget.phoneNumber,
+                  style: TextStyle(
+                    color: AppColors.textSecondary,
+                    fontSize: 12,
+                    fontWeight: FontWeight.w400,
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
-        ),
+        ],
+        Spacer(),
         if (widget.showMenuButton) ...[
           PopupMenuButton<String>(
             icon: Icon(
-              Icons.more_vert,
+              Icons.more_horiz,
               color: AppColors.textSecondary,
               size: 20,
             ),
@@ -428,31 +435,33 @@ class _DriverPostCardState extends State<DriverPostCard> {
   Widget _buildActionSection(bool isCompact) {
     return Column(
       children: [
-        Container(
-          width: isCompact ? 100 : 120,
-          child: ElevatedButton(
-            onPressed: () {},
-            style: ElevatedButton.styleFrom(
-              backgroundColor: AppColors.primary,
-              foregroundColor: Colors.white,
-              elevation: 0,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(25),
+        if (!widget.showMenuButton) ...[
+          Container(
+            width: isCompact ? 100 : 120,
+            child: ElevatedButton(
+              onPressed: () {},
+              style: ElevatedButton.styleFrom(
+                backgroundColor: AppColors.primary,
+                foregroundColor: Colors.white,
+                elevation: 0,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(25),
+                ),
+                padding: EdgeInsets.symmetric(
+                  vertical: isCompact ? 12 : 14,
+                  horizontal: 16,
+                ),
               ),
-              padding: EdgeInsets.symmetric(
-                vertical: isCompact ? 12 : 14,
-                horizontal: 16,
-              ),
-            ),
-            child: Text(
-              "Postularse",
-              style: TextStyle(
-                fontSize: isCompact ? 12 : 14,
-                fontWeight: FontWeight.w600,
+              child: Text(
+                "Postularse",
+                style: TextStyle(
+                  fontSize: isCompact ? 12 : 14,
+                  fontWeight: FontWeight.w600,
+                ),
               ),
             ),
           ),
-        ),
+        ],
         const SizedBox(height: 12),
         _buildFeatures(isCompact),
       ],
@@ -468,23 +477,28 @@ class _DriverPostCardState extends State<DriverPostCard> {
       ),
       child: Column(
         children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              _buildFeatureIcon(
-                Icons.pets_rounded,
-                widget.allowsPets,
-                "Mascotas",
-              ),
-              SizedBox(width: 16), // Espacio adicional entre iconos
-              _buildFeatureIcon(
-                Icons.luggage_rounded,
-                widget.allowsLuggage,
-                "Equipaje",
-              ),
-            ],
-          ),
-          const SizedBox(height: 8),
+          if (widget.allowsPets || widget.allowsLuggage) ...[
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                if (widget.allowsPets)
+                  _buildFeatureIcon(
+                    Icons.pets_rounded,
+                    widget.allowsPets,
+                    "Mascotas",
+                  ),
+                if (widget.allowsPets && widget.allowsLuggage)
+                  SizedBox(width: 16),
+                if (widget.allowsLuggage)
+                  _buildFeatureIcon(
+                    Icons.luggage_rounded,
+                    widget.allowsLuggage,
+                    "Equipaje",
+                  ),
+              ],
+            ),
+            const SizedBox(height: 8),
+          ],
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -516,17 +530,10 @@ class _DriverPostCardState extends State<DriverPostCard> {
       child: Container(
         padding: const EdgeInsets.all(6),
         decoration: BoxDecoration(
-          color:
-              isEnabled
-                  ? AppColors.primary.withOpacity(0.2)
-                  : AppColors.textSecondary.withOpacity(0.1),
+          color: AppColors.primary.withOpacity(0.2),
           borderRadius: BorderRadius.circular(8),
         ),
-        child: Icon(
-          icon,
-          color: isEnabled ? AppColors.primary : AppColors.textSecondary,
-          size: 16,
-        ),
+        child: Icon(icon, color: AppColors.primary, size: 16),
       ),
     );
   }

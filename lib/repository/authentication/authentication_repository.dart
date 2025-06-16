@@ -13,6 +13,11 @@ class LogInWithGoogleFailure implements Exception {}
 
 class LogOutFailure implements Exception {}
 
+class PasswordResetFailure implements Exception {
+  final String message;
+  PasswordResetFailure(this.message);
+}
+
 class AuthenticationRepository {
   final firebase_auth.FirebaseAuth _firebaseAuth;
   final GoogleSignIn _googleSignIn;
@@ -93,6 +98,35 @@ class AuthenticationRepository {
     } on Exception {
       print("No sirvio el logout: ❌❌❌❌❌");
       throw LogOutFailure();
+    }
+  }
+
+  Future<void> resetPassword({required String email}) async {
+    try {
+      await _firebaseAuth.sendPasswordResetEmail(email: email);
+      print("✅ Correo de recuperación enviado a: $email");
+    } on firebase_auth.FirebaseAuthException catch (e) {
+      print("❌ Error al enviar correo de recuperación: ${e.code}");
+
+      String errorMessage;
+      switch (e.code) {
+        case 'user-not-found':
+          errorMessage = 'No existe una cuenta con este correo electrónico.';
+          break;
+        case 'invalid-email':
+          errorMessage = 'El formato del correo electrónico no es válido.';
+          break;
+        case 'too-many-requests':
+          errorMessage = 'Demasiados intentos. Intenta de nuevo más tarde.';
+          break;
+        default:
+          errorMessage = 'Error al enviar el correo de recuperación.';
+      }
+
+      throw PasswordResetFailure(errorMessage);
+    } catch (e) {
+      print("❌ Error inesperado: $e");
+      throw PasswordResetFailure('Error inesperado al procesar la solicitud.');
     }
   }
 

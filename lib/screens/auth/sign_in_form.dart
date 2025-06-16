@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:un_ride/blocs/authentication/authentication.dart';
 import 'package:un_ride/screens/Widgets/buttons/sign_in_submit.dart';
 import 'package:un_ride/screens/Widgets/inputs/sign_in_text_field.dart';
+import 'package:un_ride/screens/auth/screens/forgot_password.dart';
 
 class SignInForm extends StatefulWidget {
   const SignInForm({Key? key}) : super(key: key);
@@ -164,7 +165,10 @@ class _SignInFormState extends State<SignInForm>
               opacity: _itemAnimations[1],
               child: TextButton(
                 onPressed: () {
-                  // Logica de boton olvidar contra
+                  showDialog(
+                    context: context,
+                    builder: (context) => const ForgotPasswordDialog(),
+                  );
                 },
                 style: TextButton.styleFrom(
                   foregroundColor: Colors.white.withOpacity(0.7),

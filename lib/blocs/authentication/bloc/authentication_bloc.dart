@@ -21,6 +21,14 @@ class AuthenticationBloc
       (user) => add(AuthenticationUserChanged(user)),
     );
 
+    on<AuthenticationPasswordResetRequested>((event, emit) async {
+      try {
+        await _authenticationRepository.resetPassword(email: event.email);
+      } catch (e) {
+        print('Error en password reset: $e');
+      }
+    });
+
     on<AuthenticationUserChanged>((event, emit) async {
       // await Future.delayed(
       //   const Duration(seconds: 5),
