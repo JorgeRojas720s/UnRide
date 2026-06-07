@@ -1,0 +1,119 @@
+part of 'driver_post_bloc.dart';
+
+abstract class DriverPostEvent extends Equatable {
+  const DriverPostEvent();
+
+  @override
+  List<Object?> get props => [];
+}
+
+class DriverPostRegister extends DriverPostEvent {
+  final User user;
+  final String origin;
+  final String destination;
+  final String description;
+  final int passengers;
+  final double suggestedAmount;
+  final DateTime postDate;
+  final String? travelDate;
+  final String? travelTime;
+  final bool allowsPets;
+  final bool allowsLuggage;
+
+  DriverPostRegister({
+    required this.user,
+    required this.origin,
+    required this.destination,
+    required this.description,
+    required this.passengers,
+    required this.suggestedAmount,
+    required this.travelDate,
+    required this.travelTime,
+    required this.allowsPets,
+    required this.allowsLuggage,
+  }) : postDate = DateTime.now();
+
+  @override
+  List<Object?> get props => [
+    user,
+    origin,
+    destination,
+    description,
+    passengers,
+    suggestedAmount,
+    postDate,
+    travelDate,
+    travelTime,
+    allowsPets,
+    allowsLuggage,
+  ];
+}
+
+class UpdateDriverPost extends DriverPostEvent {
+  final User user;
+  final String postId;
+  final String origin;
+  final String destination;
+  final String description;
+  final int passengers;
+  final double suggestedAmount;
+  // final DateTime postDate;
+  final String? travelDate;
+  final String? travelTime;
+  final bool allowsPets;
+  final bool allowsLuggage;
+
+  UpdateDriverPost({
+    required this.user,
+    required this.postId,
+    required this.origin,
+    required this.destination,
+    required this.description,
+    required this.passengers,
+    required this.suggestedAmount, //!Quitar el required
+    required this.travelDate,
+    required this.travelTime,
+    required this.allowsPets,
+    required this.allowsLuggage,
+  });
+
+  @override
+  List<Object?> get props => [
+    user,
+    postId,
+    origin,
+    destination,
+    description,
+    passengers,
+    suggestedAmount,
+    travelDate,
+    travelTime,
+    allowsPets,
+    allowsLuggage,
+  ];
+}
+
+class DeleteDriverPost extends DriverPostEvent {
+  final String? postId;
+  DeleteDriverPost({required this.postId});
+  @override
+  List<Object?> get props => [postId];
+}
+
+//!Estados de los posts
+
+class LoadDriversPosts extends DriverPostEvent {
+  LoadDriversPosts();
+
+  @override
+  List<Object?> get props => [];
+}
+
+class LoadUserDriverPosts extends DriverPostEvent {
+  final User user;
+
+  LoadUserDriverPosts({required this.user});
+
+  @override
+  List<Object?> get props => [user];
+}
